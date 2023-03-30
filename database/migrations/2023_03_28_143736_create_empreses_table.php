@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('web');
             $table->string('email');
 
-            $table->unsignedBigInteger('contacte_id');
+            $table->unsignedBigInteger('contacte_id')->nullable();
             $table->foreign('contacte_id')->references('id')->on('contactes');
 
             $table->unsignedBigInteger('poblacio_id');
