@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Provincia extends Model
 {
     use HasFactory;
-
+    // property that refers to the class name
     protected $table = 'provincies';
+
+   
 }
