@@ -1,10 +1,9 @@
 <!-- Navigation -->
 <nav>
-    <a href="{{ route('home') }}">Inici</a>
+    <a href="{{ route('dashboard') }}">Inici</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="{{ route('autor_list') }}">Autors</a>
+    <a href="{{ route('empresa.index') }}">Llistat</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="{{ route('llibre_list') }}">Llibres</a>
+    <a href="{{ route('empresa.create') }}">Nova Empresa</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="{{ route('biblioteca_list') }}">Biblioteques</a>
 </nav>
