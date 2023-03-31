@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('web');
             $table->string('email');
 
-            $table->unsignedBigInteger('contacte_id');
+            $table->unsignedBigInteger('contacte_id')->nullable();
             $table->foreign('contacte_id')->references('id')->on('contactes');
 
             $table->unsignedBigInteger('poblacio_id');
@@ -26,6 +26,9 @@ return new class extends Migration
 
             $table->unsignedBigInteger('categoria_id');
             $table->foreign('categoria_id')->references('id')->on('categories');
+
+            $table->unsignedBigInteger('sector_id')->nullable();
+            $table->foreign('sector_id')->references('id')->on('sectors');
 
             $table->timestamps();
         });

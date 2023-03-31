@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('cicle_id')->nullable();
+            $table->unsignedBigInteger('cicle_id')->nullable()->before('created_at');
             $table->foreign('cicle_id')->references('id')->on('cicles');
 
-            $table->unsignedBigInteger('rol_id')->nullable();
+            $table->unsignedBigInteger('rol_id')->nullable()->before('created_at');
             $table->foreign('rol_id')->references('id')->on('rols');
         });
     }
