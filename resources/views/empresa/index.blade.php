@@ -8,7 +8,7 @@
 
 @section('content')
 <h1>Llistat d'Empreses</h1>
-<a href="{{ route('empresa.create') }}">+ Nova Empresa</a>
+<a href="{{ route('empresa_create') }}">+ Nova Empresa</a>
 
 @if (session('status'))
 <div>
@@ -23,7 +23,6 @@
             <th>Telefón</th>
             <th>Web</th>
             <th>E-mail</th>
-            <th>Contacte</th>
             <th>Poblacio</th>
             <th>Categoria</th>
             <th>Sector</th>
@@ -39,11 +38,12 @@
             <td>{{ $empresa->poblacio->nom }}</td>
             <td>{{ $empresa->categoria->nom }}</td>@if($empresa->sector_id)<td>{{ $empresa->sector->nom }}</td>@endif
             <td>
-                <a href="{{ route('empresa.edit', ['empresa' => $empresa->id]) }}">Editar</a>
-                <form method="POST" action="{{ route('empresa.destroy', ['empresa' => $empresa->id]) }}">
+                <a href="{{ route('empresa_show', ['id' => $empresa->id]) }}">+ Info</a>
+                <a href="{{ route('empresa_edit', ['id' => $empresa->id]) }}">Editar</a>
+                <form method="POST" action="{{ route('empresa_delete', ['id' => $empresa->id]) }}">
                     @csrf
-                    @method('DELETE')
-                    <input type="submit" value="Eliminar">
+                    @method('delete')
+                    <input type="submit" id="delete" value="Eliminar">
                 </form>
             </td>
         </tr>

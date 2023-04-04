@@ -8,9 +8,9 @@
 
 @section('content')
     <h1>Editar Empresa</h1>
-    <a href="{{ route('empresa.index') }}">&laquo; Torna</a>
+    <a href="{{ route('empresa_index') }}">&laquo; Torna</a>
 	<div style="margin-top: 20px">
-        <form method="POST" action="{{ route('empresa.update', ['empresa' => $empresa->id]) }}">
+        <form method="POST" action="{{ route('empresa_update', ['id' => $empresa->id]) }}">
             @csrf
             @method('PUT')
             <div>
