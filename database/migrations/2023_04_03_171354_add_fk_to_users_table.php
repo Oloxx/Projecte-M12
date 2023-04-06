@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('cicle_id')->nullable()->before('created_at');
+            $table->unsignedBigInteger('cicle_id')->nullable()->after('password');
             $table->foreign('cicle_id')->references('id')->on('cicles');
 
-            $table->unsignedBigInteger('rol_id')->nullable()->before('created_at');
+            $table->unsignedBigInteger('rol_id')->nullable()->after('password');
             $table->foreign('rol_id')->references('id')->on('rols');
         });
     }
@@ -26,10 +26,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['cicle_id']);
-            $table->dropColumn('cicle_id');
-            $table->dropForeign(['rol_id']);
-            $table->dropColumn('rol_id');
+            //
         });
     }
 };

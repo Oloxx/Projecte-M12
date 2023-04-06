@@ -8,4 +8,6 @@
     &nbsp;&nbsp;&nbsp;
     <a href="{{ route('contacte_index') }}">Veure contactes</a>
     &nbsp;&nbsp;&nbsp;
+    <a href="{{ route('collaboracio_index') }}">Veure col·laboracions</a>
+    &nbsp;&nbsp;&nbsp;
 </nav>

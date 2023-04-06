@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContacteController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\CollaboracioController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,15 @@ Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name
 
 Route::DELETE('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte_delete');
 
+// COL·LABORACIÓ CONTROLLER
+
+Route::get('/collaboracio/index', [CollaboracioController::class, 'index'])->name('collaboracio_index');
+
+Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->name('collaboracio_create');
+
+Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio_getcontactes');
+
+Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio_store');
 
 
 
