@@ -19,7 +19,7 @@
 <table style="margin-top: 20px;margin-bottom: 10px;">
     <thead>
         <tr>
-            <th>ID Col·laboració</th>
+            <th>ID</th>
             <th>Empresa</th>
             <th>Contacte</th>
             <th>Cicle</th>
@@ -31,15 +31,14 @@
         @foreach ($collaboracions as $collaboracio)
         <tr>
             <td>{{ $collaboracio->id }}</td>
-            <td>{{ $collaboracio->empresa()->nom }}</td>
-            <td>{{ $collaboracio->contacte()->nom }}</td>
-            <td>{{ $collaboracio->cicle()->codi }}</td>
-            <td>{{ $collaboracio->curs()->nom }}</td>
-            <td>{{ $collaboracio->user()->name }}</td>
+            <td>{{ $collaboracio->empresa->nom }}</td>
+            <td>{{ $collaboracio->contacte->nom }}</td>
+            <td>{{ $collaboracio->cicle->codi }}</td>
+            <td>{{ $collaboracio->any }}</td>
+            <td>{{ $collaboracio->user->name }}</td>
             <td>
-                <a href="{{ route('empresa_show', ['id' => $empresa->id]) }}">+ Info</a>
-                <a href="{{ route('empresa_edit', ['id' => $empresa->id]) }}">Editar</a>
-                <form method="POST" action="{{ route('empresa_delete', ['id' => $empresa->id]) }}">
+                <a href="{{ route('collaboracio_edit', ['id' => $collaboracio->id]) }}">Editar</a>
+                <form method="POST" action="{{ route('collaboracio_delete', ['id' => $collaboracio->id]) }}">
                     @csrf
                     @method('delete')
                     <input type="submit" id="delete" value="Eliminar">

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Nova estada')
+@section('title', 'Editar Contacte')
 @section('ajax')
 
 @section('stylesheets')
@@ -8,50 +8,55 @@
 @endsection
 
 @section('content')
-<h1>Nova estada</h1>
+<h1>Editar Contacte</h1>
 <a href="{{ route('collaboracio_index') }}">&laquo; Torna</a>
 <div style="margin-top: 20px">
-    <form method="POST" action="{{ route('collaboracio_store') }}">
+    <form method="POST" action="{{ route('collaboracio_update', ['id' => $collaboracio->id]) }}">
         @csrf
+        @method('PUT')
         <div>
             <label for="empresa">Empresa</label>
             <select name="empresa" id='empresa_id'>
                 <option value="">-- selecciona una empresa --</option>
                 @foreach ($empreses as $empresa)
-                <option value="{{ $empresa->id }}">{{ $empresa->nom}}</option>
+                <option value="{{ $empresa->id }}" @selected($collaboracio->empresa_id == $empresa->id)>{{ $empresa->nom}}</option>
                 @endforeach
             </select>
         </div>
         <div>
             <label for="contacte">Contacte</label>
             <select name="contacte" id='contacte_id'>
-                <option value="">Selecciona un valor rere seleccionar una empresa</option>
+                <option value="">-- selecciona una contacte --</option>
+                @if($contactes)
+                @foreach ($contactes as $contacte)
+                <option value="{{ $contacte->id }}" @selected($collaboracio->contacte_id == $contacte->id)>{{ $contacte->nom}} {{ $contacte->cognoms}}</option>
+                @endforeach
+                @endif
             </select>
         </div>
         <div>
             <label for="cicle">Cicle</label>
-            <select name="cicle">
-                <option value="">-- selecciona un cicle --</option>
+            <select name="cicle" id="contacte">
+                <option value="">Selecciona un cicle</option>
                 @foreach ($cicles as $cicle)
-                <option value="{{ $cicle->id }}">{{ $cicle->codi}}</option>
+                <option value="{{$cicle->id}}" @selected($collaboracio->cicle_id == $cicle->id)>{{$cicle->codi}}</option>
                 @endforeach
             </select>
         </div>
         <div>
             <label for="year">Any</label>
             <select name="year">
-                <option value="">-- selecciona un l'any --</option>
-                @for ($i = 1970; $i < $year; $i++)
-                <option value="{{ $i }}">{{ $i}}</option>
+                <option value="">selecciona l'any</option>
+                @for($i = ($year-30); $i < $year; $i++) 
+                    <option value="{{ $i }}" @selected($collaboracio->any == $i)>{{$i}}</option>
                 @endfor
             </select>
         </div>
-        <input type="text" name="user" value={{$user}} hidden>
         <div>
             <label for="comentaris">Comentari</label>
-            <textarea name="comentaris" cols="30" rows="10"></textarea>
+            <textarea name="comentaris" cols="30" rows="10">{{$collaboracio->comentaris}}</textarea>
         </div>
-        <button type="submit">Crear Col·laboració</button>
+        <button type="submit">Desar</button>
     </form>
 </div>
 @endsection
@@ -82,7 +87,7 @@
                 if (dades.length > 0) {
                     contactes.innerHTML = `<option value="">Selecciona un contacte </option>`
                     for (var i = 0; i < dades.length; i++) {
-                        contactes.innerHTML += `<option value="${dades[i].id}"> ${dades[i].nom} ${dades[i].cognoms}</option>`
+                        contactes.innerHTML += `<option value="${dades[i].id}" @selected($collaboracio->contacte_id == $contacte->id)> ${dades[i].nom} ${dades[i].cognoms}</option>`
                     }
                 } else {
                     contactes.innerHTML = '<option value="">Aquesta empresa no té contactes associats</option>'

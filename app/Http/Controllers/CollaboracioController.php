@@ -65,20 +65,22 @@ class CollaboracioController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $user)
+    public function store(Request $request)
     {
         $collaboracio = new Collaboracio;
-        $collaboracio->empresa_id = $request->empresa_id;
-        $collaboracio->contacte_id = $request->contacte_id;
-        $collaboracio->cicle_id = $request->cicle_id;
-        $collaboracio->curs_id = $request->curs_id;
-        $collaboracio->comentari = $request->comentari;
-        $collaboracio->user_id = $user;
+        $collaboracio->empresa_id = $request->empresa;
+        $collaboracio->contacte_id = $request->contacte;
+        $collaboracio->cicle_id = $request->cicle;
+        $collaboracio->any = $request->year;
+        $collaboracio->comentaris = $request->comentaris;
+        $collaboracio->user_id = $request->user;
 
 
         $collaboracio->save();
 
-        return view('collaboracio.index');
+        $collaboracions = Collaboracio::all();
+
+        return view('collaboracio.index', ['collaboracions' => $collaboracions]);
     }
 
     /**
@@ -86,9 +88,14 @@ class CollaboracioController extends BaseController
      */
     public function edit($id)
     {
-        $contacte = Contacte::find($id);
+        $collaboracio = Collaboracio::find($id);
+        $contactes = Contacte::all();
         $empreses = Empresa::all();
-        return view('contacte.edit', ['contacte' => $contacte, 'empreses' => $empreses]);
+        $cicles = Cicle::all();
+        $user = Auth::user();
+        $year = date("Y") + 1;
+
+        return view('collaboracio.edit', [ 'collaboracio' => $collaboracio,'empreses' => $empreses, 'contactes' => $contactes ,'cicles' => $cicles, 'user' => $user, 'year' => $year]);
     }
 
     /**
@@ -96,19 +103,18 @@ class CollaboracioController extends BaseController
      */
     public function update(Request $request, string $id)
     {
-        $contacte = Contacte::find($id);
-        $contacte->nom = $request->nom;
-        $contacte->cognoms = $request->cognoms;
-        $contacte->movil = $request->movil;
-        $contacte->email = $request->email;
-        $contacte->empresa_id = $request->empresa;
+        $collaboracio = Collaboracio::find($id);
+        $collaboracio->any = $request->year;
+        $collaboracio->empresa_id = $request->empresa;
+        $collaboracio->contacte_id = $request->contacte;
+        $collaboracio->cicle_id = $request->cicle;
+        $collaboracio->comentaris = $request->comentaris;
 
-        $contacte->save();
+        $collaboracio->save();
 
-        $empresa = Empresa::find($contacte->empresa_id);
-        $contactes = Empresa::find(1)->contactes;
+        $collaboracions = Collaboracio::all();
 
-        return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
+        return view('collaboracio.index', ['collaboracions' => $collaboracions]);
     }
 
     /**
@@ -116,11 +122,9 @@ class CollaboracioController extends BaseController
      */
     public function delete($id)
     {
-        $contacte = Contacte::find($id);
-        $contacte->delete();
+        $collaboracio = Collaboracio::find($id);
+        $collaboracio->delete();
 
-        $idEmpresa = $contacte->empresa_id;
-
-        return redirect()->route('empresa_show', ['id' => $idEmpresa])->with('status', 'Contacte ' . $contacte->nom . ' eliminat!');
+        return redirect()->route('collaboracio_index')->with('status', 'Col·laboració ' . $collaboracio->id . ' eliminada!');
     }
 }

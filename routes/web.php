@@ -66,6 +66,8 @@ Route::get('/contacte/create/{id}', [ContacteController::class, 'create'])->name
 
 Route::get('/contacte/create', [ContacteController::class, 'createWithoutId'])->name('contacte_createWithoutId');
 
+Route::post('/contacte/store', [ContacteController::class, 'store'])->name('contacte_store');
+
 Route::get('/contacte/show/{id}', [ContacteController::class, 'show'])->name('contacte_show');
 
 Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte_edit');
@@ -73,6 +75,7 @@ Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('co
 Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte_update');
 
 Route::DELETE('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte_delete');
+
 
 // COL·LABORACIÓ CONTROLLER
 
@@ -83,6 +86,12 @@ Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->n
 Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio_getcontactes');
 
 Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio_store');
+
+Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio_edit');
+
+Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio_update');
+
+Route::DELETE('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio_delete');
 
 
 
