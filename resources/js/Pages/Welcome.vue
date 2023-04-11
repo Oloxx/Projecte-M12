@@ -17,6 +17,8 @@ defineProps({
         required: true,
     },
 });
+
+
 </script>
 
 <template>
@@ -44,9 +46,11 @@ defineProps({
                                 class="font-semibold hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
                             Log in</Link>
                         </a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-light px-2"><Link v-if="canRegister" :href="route('register')"
-                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                Sign in</Link></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-light px-2">
+                            <Link v-if="canRegister" :href="route('register')"
+                                class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                            Sign in</Link>
+                        </a></li>
                 </ul>
             </div>
         </div>
@@ -124,13 +128,12 @@ defineProps({
             <div class="section-div-video"><video src="../../video/seguimiento.mp4" autoplay loop muted></video></div>
         </section>
     </section>
-
     <section class="adaptabilitat-compromis-mvl">
         <div class=" container-fluid d-flex flex-wrap tittle-container">
-            <h2 id="serveis">API ADAPTABLE</h2>
+            <h2 id="adaptabilitat2">API ADAPTABLE</h2>
         </div>
         <div class="container-fluid d-flex flex-wrap tittle-container-h2 bg-primary">
-            <h2 id="serveis">Una base de dades relacional adaptable a les necessitats de cada centre</h2>
+            <h2>Una base de dades relacional adaptable a les necessitats de cada centre</h2>
         </div>
         <div class="container-fluid d-flex flex-wrap container-text">
             <p>
@@ -143,10 +146,10 @@ defineProps({
             <img src="../../img/adaptable.jpg" class="imgdisco" alt="Imagen de disco">
         </div>
         <div class=" container-fluid d-flex flex-wrap tittle-container">
-            <h2 id="serveis">TOT SOTA CONTROL</h2>
+            <h2 id="control2">TOT SOTA CONTROL</h2>
         </div>
         <div class="container-fluid d-flex flex-wrap tittle-container-h2 bg-primary">
-            <h2 id="serveis">Permet fer seguiment de les relacions entre alumnes i empreses</h2>
+            <h2>Permet fer seguiment de les relacions entre alumnes i empreses</h2>
         </div>
         <div class="container-fluid d-flex flex-wrap container-text">
             <p>
@@ -158,7 +161,6 @@ defineProps({
             </p>
         </div>
         <div class="div-video"><video src="../../video/seguimiento.mp4" autoplay loop muted></video></div>
-
     </section>
 
     <!--Serveis-->
@@ -281,11 +283,14 @@ defineProps({
 </template>
 
 <script>
+
 window.onload = function () {
     document.addEventListener('scroll', logoAppear);
-    document.getElementById('linkLogo').addEventListener('click', play);
 }
 
+window.addEventListener('resize', interpolarIdControlAdaptabilitat);
+
+// Makes logo Labora appear when the user scrolls
 function logoAppear() {
 
     let scrollY = window.scrollY;
@@ -299,7 +304,23 @@ function logoAppear() {
     }
 }
 
-function play() {
-    document.getElementById('audio').play();
+// Change id of Adaptabilitat section and Control section 
+function interpolarIdControlAdaptabilitat() {
+    let width = window.innerWidth;
+    let elemAdaptabilitat = document.getElementById('adaptabilitat');
+    let elemControl = document.getElementById('control');
+    let elemAdaptabilitat2 = document.getElementById('adaptabilitat2');
+    let elemControl2 = document.getElementById('control2');
+    if (width <= 966) {
+        elemAdaptabilitat.setAttribute('id', 'adaptabilitat2');
+        elemControl.setAttribute('id', 'control2');
+        elemAdaptabilitat2.setAttribute('id', 'adaptabilitat');
+        elemControl2.setAttribute('id', 'control');
+    } else {
+        elemAdaptabilitat.setAttribute('id', 'adaptabilitat');
+        elemControl.setAttribute('id', 'control');
+        elemAdaptabilitat2.setAttribute('id', 'adaptabilitat2');
+        elemControl2.setAttribute('id', 'control2');
+    }
 }
 </script>
