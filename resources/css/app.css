@@ -1,0 +1,264 @@
+@charset "UTF-8";
+body {
+  color: rgb(70, 70, 70);
+}
+
+.container-fluid {
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+}
+
+/*Nav*/
+.colorbg {
+  background-color: rgb(39, 58, 129) !important;
+}
+
+.linkLogo {
+  transition-property: display;
+  transition-duration: 3s;
+}
+
+/*Imatge principal*/
+.containerimgdisco {
+  width: 100%;
+}
+.containerimgdisco .imgdisco {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Titulars h1*/
+.tittle-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: rgb(39, 58, 129);
+  width: 100% !important;
+  padding-left: 16.3%;
+  color: whitesmoke;
+}
+
+/*Div text*/
+.container-text {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.container-text p {
+  text-align: justify;
+}
+
+/* Adaptabilitat i compromís*/
+.section-activity {
+  display: flex;
+  max-height: 500px;
+  overflow: hidden;
+}
+.section-activity .subsection-img {
+  width: 50%;
+}
+.section-activity .subsection-img img {
+  height: auto;
+  object-fit: fill;
+}
+.section-activity .subsection-text {
+  width: 50%;
+  background-color: rgb(233, 233, 233);
+  animation: changeColor 6s ease;
+}
+.section-activity .subsection-text .section-div-text-margins {
+  margin: 40px;
+  margin-right: 30%;
+}
+.section-activity .subsection-text .section-div-text-margins h1 {
+  color: rgb(39, 58, 129);
+}
+.section-activity .subsection-text .section-div-text-margins h2 {
+  color: rgb(70, 70, 70);
+}
+
+.subbutton-section {
+  background-color: transparent;
+  color: rgb(11, 125, 214);
+  border: none;
+  border-bottom: 2px solid rgb(11, 125, 214);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  padding-left: 0;
+  font-weight: bold;
+  font-size: large;
+  text-align: left;
+}
+
+.adaptabilitat-compromis-mvl {
+  display: none;
+}
+
+/* Compromís */
+.section-div-video {
+  width: 50%;
+  height: auto;
+}
+.section-div-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+@keyframes changeColor {
+  0% {
+    background-color: rgb(233, 233, 233);
+  }
+  25% {
+    background-color: white;
+  }
+  50% {
+    background-color: rgb(221, 221, 221);
+  }
+  100% {
+    background-color: rgb(233, 233, 233);
+  }
+}
+/* Serveis */
+.serv-container {
+  margin-top: 20px;
+}
+.serv-container .row {
+  display: flex;
+  justify-content: center;
+}
+.serv-container .row .serv .servicio {
+  width: 100%;
+  margin-top: 20px;
+}
+.serv-container .row .serv .servicio img {
+  width: 100%;
+  min-height: 195px;
+  max-height: 195px;
+  object-fit: cover;
+}
+.serv-container .row .serv .servicio .titulo-serv {
+  text-align: center;
+  text-overflow: ellipsis;
+}
+.serv-container .row .serv .servicio .description-prod {
+  text-align: center;
+  min-height: 200px;
+  text-overflow: ellipsis;
+}
+
+.margin-serveis {
+  margin-bottom: 40px;
+}
+
+/* Form */
+.form-section {
+  background-color: rgb(39, 58, 129);
+  width: 100%;
+  margin: auto;
+}
+.form-section .div-form-section {
+  width: 100%;
+}
+.form-section .div-form-section h1 {
+  padding-top: 40px;
+  color: whitesmoke;
+}
+.form-section .div-form-section hr {
+  color: whitesmoke;
+  border: 3px solid whitesmoke;
+}
+.form-section .div-form-section form label,
+.form-section .div-form-section form input,
+.form-section .div-form-section form textarea {
+  width: 100%;
+}
+.form-section .div-form-section form label {
+  font-weight: bold;
+  color: whitesmoke;
+}
+.form-section .div-form-section form div {
+  margin-bottom: 20px;
+}
+.form-section .div-form-section form .colorbutton {
+  background-color: rgb(11, 125, 214);
+  color: whitesmoke;
+}
+.form-section .div-form-section form button:hover {
+  color: rgb(39, 58, 129);
+}
+.form-section .div-form-section .textlegal {
+  color: whitesmoke;
+  width: 100%;
+  font-weight: 100;
+}
+
+.footer {
+  background-color: rgb(11, 125, 214);
+}
+.footer span {
+  color: whitesmoke;
+}
+
+button:hover {
+  color: rgb(39, 58, 129);
+}
+
+@media screen and (max-width: 1262px) {
+  /* Adaptabilitat i control */
+  .section-activity {
+    max-height: 600px;
+  }
+}
+@media screen and (max-width: 1155px) {
+  /* Adaptabilitat i control */
+  .section-activity {
+    max-height: 700px;
+  }
+}
+@media screen and (max-width: 966px) {
+  /* Adaptabilitat i control */
+
+  .nav-link:first{
+    padding-top:20px;
+  }
+
+  .adaptabilitat-compromis {
+    display: none;
+  }
+  .adaptabilitat-compromis-mvl {
+    display: contents;
+  }
+  .adaptabilitat-compromis-mvl .tittle-container-h2 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(11, 125, 214);
+    width: 100% !important;
+    padding-left: 16.3%;
+    color: whitesmoke;
+  }
+  .adaptabilitat-compromis-mvl .div-video {
+    width: 100%;
+    max-height: 500px;
+    overflow: hidden;
+  }
+  .adaptabilitat-compromis-mvl .div-video video {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+@media screen and (max-width: 965px) {
+  /*Serveis*/
+  .serv-container {
+    margin-top: 20px;
+  }
+  .serv-container .row .serv .servicio .description-prod {
+    min-height: 80px;
+  }
+  /*Form*/
+  .form-section .div-form-section .textlegal {
+    font-size: smaller;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
