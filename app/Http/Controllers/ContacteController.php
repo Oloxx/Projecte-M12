@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
 use App\Models\Empresa;
 use App\Models\Contacte;
 
-class ContacteController extends BaseController
+class ContacteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +21,7 @@ class ContacteController extends BaseController
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id)
+    public function create(int $id)
     {
         $empreses = Empresa::all();
 
@@ -36,7 +33,7 @@ class ContacteController extends BaseController
     public function createWithoutId()
     {
         $empreses = Empresa::all();
-        
+
         return view('contacte.createWithoutId', ['empreses' => $empreses]);
     }
 
@@ -54,16 +51,13 @@ class ContacteController extends BaseController
 
         $contacte->save();
 
-        $empresa = Empresa::find($contacte->empresa_id);
-        $contactes = Empresa::find(1)->contactes;
-
-        return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
+        return redirect()->route('empresa_show', ['id' => $contacte->empresa_id])->with('status', 'Contacte ' . $contacte->nom . ' creat!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $contacte = Contacte::find($id);
         $empreses = Empresa::all();
@@ -73,7 +67,7 @@ class ContacteController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         $contacte = Contacte::find($id);
         $contacte->nom = $request->nom;
@@ -84,16 +78,13 @@ class ContacteController extends BaseController
 
         $contacte->save();
 
-        $empresa = Empresa::find($contacte->empresa_id);
-        $contactes = Empresa::find(1)->contactes;
-
-        return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
+        return redirect()->route('empresa_show', ['id' => $contacte->empresa_id])->with('status', 'Contacte ' . $contacte->nom . ' modificat!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         $contacte = Contacte::find($id);
         $contacte->delete();

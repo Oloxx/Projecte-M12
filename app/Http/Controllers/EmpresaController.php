@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
 use App\Models\Categoria;
@@ -12,7 +9,7 @@ use App\Models\Empresa;
 use App\Models\Poblacio;
 use App\Models\Sector;
 
-class EmpresaController extends BaseController
+class EmpresaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -44,7 +41,6 @@ class EmpresaController extends BaseController
      */
     public function store(Request $request)
     {
-        //
         $empresa = new Empresa;
         $empresa->nom = $request->nom;
         $empresa->telefon = $request->telefon;
@@ -56,19 +52,16 @@ class EmpresaController extends BaseController
 
         $empresa->save();
 
-        $id = $empresa->id;
-
-
-        return redirect()->route('empresa_show', ['id' => $id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
+        return redirect()->route('empresa_show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(int $id)
     {
         $empresa = Empresa::find($id);
-        $contactes = Empresa::find(1)->contactes;
+        $contactes = $empresa->contactes;
 
         return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
     }
@@ -76,19 +69,20 @@ class EmpresaController extends BaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $empresa = Empresa::find($id);
         $poblacions = Poblacio::all();
         $categories = Categoria::all();
         $sectors = Sector::all();
+
         return view('empresa.edit', ['empresa' => $empresa, 'poblacions' => $poblacions, 'categories' => $categories, 'sectors' => $sectors]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         $empresa = Empresa::find($id);
         $empresa->nom = $request->nom;
@@ -107,7 +101,7 @@ class EmpresaController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         $empresa = Empresa::find($id);
         $empresa->delete();

@@ -18,7 +18,7 @@
             <select name="empresa" id='empresa_id'>
                 <option value="">-- selecciona una empresa --</option>
                 @foreach ($empreses as $empresa)
-                <option value="{{ $empresa->id }}">{{ $empresa->nom}}</option>
+                    <option value="{{ $empresa->id }}">{{ $empresa->nom}}</option>
                 @endforeach
             </select>
         </div>
@@ -33,7 +33,7 @@
             <select name="cicle">
                 <option value="">-- selecciona un cicle --</option>
                 @foreach ($cicles as $cicle)
-                <option value="{{ $cicle->id }}">{{ $cicle->codi}}</option>
+                    <option value="{{ $cicle->id }}">{{ $cicle->codi}}</option>
                 @endforeach
             </select>
         </div>
@@ -42,7 +42,7 @@
             <select name="year">
                 <option value="">-- selecciona un l'any --</option>
                 @for ($i = 1970; $i < $year; $i++)
-                <option value="{{ $i }}">{{ $i}}</option>
+                    <option value="{{ $i }}">{{ $i}}</option>
                 @endfor
             </select>
         </div>
@@ -60,7 +60,6 @@
     window.onload = function() {
         var empresa = document.getElementById('empresa_id');
         var contactes = document.querySelector('select[name=contacte]');
-
 
         empresa.addEventListener('change', function(e) {
 
