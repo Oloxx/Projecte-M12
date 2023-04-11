@@ -49,7 +49,7 @@ class EmpresaController extends Controller
         $empresa->poblacio_id = $request->poblacio_id;
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
-
+        // TODO: FORM VALIDATIONS
         $empresa->save();
 
         return redirect()->route('empresa_show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
@@ -62,6 +62,7 @@ class EmpresaController extends Controller
     {
         $empresa = Empresa::find($id);
         $contactes = $empresa->contactes;
+
 
         return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
     }
