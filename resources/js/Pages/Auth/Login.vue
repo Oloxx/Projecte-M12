@@ -1,11 +1,11 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import Checkbox from "@/Components/Checkbox.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 
 defineProps({
     canResetPassword: {
@@ -17,14 +17,14 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
-    password: '',
-    remember: false,
+    email: "",
+    password: "",
+    remember: true,
 });
 
 const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+    form.post(route("login"), {
+        onFinish: () => form.reset("password"),
     });
 };
 </script>
@@ -37,58 +37,101 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
+        <body class="d-flex flex-column m-0">
+            <main class="d-flex align-items-center justify-content-center">
+                <div class="container rounded-4">
+                    <h1 class="text-center m-4">Inicia la sessió</h1>
+                    <form
+                        @submit.prevent="submit"
+                        class="d-flex flex-column justify-content-center m-auto"
+                    >
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <InputLabel
+                                for="email"
+                                class="form-label"
+                                value="Email"
+                            />
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+                            <TextInput
+                                id="email"
+                                type="email"
+                                class="form-control"
+                                v-model="form.email"
+                                placeholder="exemple@iescarlesvallbona.cat"
+                                required
+                                autofocus
+                                autocomplete="username"
+                            />
+                            <div>
+                                <InputError
+                                    class="mt-2"
+                                    :message="form.errors.email"
+                                />
+                            </div>
+                        </div>
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <InputLabel
+                                for="password"
+                                class="form-label"
+                                value="Password"
+                            />
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                            <TextInput
+                                id="password"
+                                type="password"
+                                class="form-control"
+                                v-model="form.password"
+                                required
+                                autocomplete="current-password"
+                            />
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.password"
+                            />
+                        </div>
 
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+                        <!-- Checkbox -->
+                        <div class="form-check mb-4">
+                            <Checkbox
+                                class="form-check-input"
+                                name="remember"
+                                v-model:checked="form.remember"
+                            />
+                            <label class="form-check-label" for="rememberMe">
+                                Recorda el nom d'usuari</label
+                            >
+                        </div>
 
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
+                        <!-- Submit button -->
 
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Forgot your password?
-                </Link>
+                        <PrimaryButton
+                            class="btn btn-primary btn-block mb-4"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            >Inicia la sessió</PrimaryButton
+                        >
+                    </form>
 
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
+                    <!-- Simple link -->
+                    <div class="text-center mt-2">
+                        Heu oblidat el nom d'usuari o la contrasenya?
+                        <Link
+                            v-if="canResetPassword"
+                            :href="route('password.request')"
+                            class="link-primary"
+                        >
+                            Fes click aquí
+                        </Link>
+                    </div>
+                </div>
+            </main>
+        </body>
+        <footer class="text-center text-light col fixed-bottom bg-primary p-3 ">
+                Copyright © 2023 IES Carles Vallbona. Tots els drets reservats.
+        </footer>
     </GuestLayout>
 </template>
