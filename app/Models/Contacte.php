@@ -13,8 +13,9 @@ class Contacte extends Model
     /**
      * Get the post that owns the comment.
      */
-    public function post(): BelongsTo
+    public function empresa() : BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Empresa::class);
     }
+    
 }

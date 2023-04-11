@@ -2,8 +2,12 @@
 <nav>
     <a href="{{ route('dashboard') }}">Inici</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="{{ route('empresa.index') }}">Llistat</a>
+    <a href="{{ route('empresa_index') }}">Llistat</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="{{ route('empresa.create') }}">Nova Empresa</a>
+    <a href="{{ route('empresa_create') }}">Nova Empresa</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="{{ route('contacte_index') }}">Veure contactes</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="{{ route('collaboracio_index') }}">Veure col·laboracions</a>
     &nbsp;&nbsp;&nbsp;
 </nav>

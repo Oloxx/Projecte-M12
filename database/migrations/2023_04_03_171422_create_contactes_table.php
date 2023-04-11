@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('movil');
             $table->string('email');
 
+            $table->unsignedBigInteger('empresa_id')->nullable();
+            $table->foreign('empresa_id')->references('id')->on('empreses');
+            
             $table->timestamps();
         });
     }

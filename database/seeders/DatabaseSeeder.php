@@ -5,6 +5,10 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +23,26 @@ class DatabaseSeeder extends Seeder
         $this->call(TipologiaSeeder::class);
         $this->call(CicleSeeder::class);
         $this->call(RolSeeder::class);
+
+        DB::table('users')->insert([
+            'name' => 'Random',
+            'Cognoms' => 'Random',
+            'email' => 'random@gmail.com',
+            'email_verified_at' => NULL,
+            'password' => '12345678',
+            'rol_id' => 1,
+            'cicle_id' => 5,
+            'remember_token' => NULL,
+            'created_at' => NULL,
+            'updated_at' => NULL
+
+        ]);
+
         $this->call(CategoriaSeeder::class);
         $this->call(SectorSeeder::class);
+        $this->call(EmpresaSeeder::class);
+        $this->call(ContacteSeeder::class);
+        $this->call(CollaboracioSeeder::class);
     }
+
 }

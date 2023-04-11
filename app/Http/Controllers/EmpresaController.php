@@ -17,14 +17,13 @@ class EmpresaController extends Controller
     public function index()
     {
         $empreses = Empresa::all();
-
         return view('empresa.index', ['empreses' => $empreses]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
         $poblacions = Poblacio::all();
         $categories = Categoria::all();
@@ -53,18 +52,17 @@ class EmpresaController extends Controller
         // TODO: FORM VALIDATIONS
         $empresa->save();
 
-        $empresa = $empresa;
-
-        return redirect()->route('empresa.show', ['empresa' => $empresa])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
+        return redirect()->route('empresa_show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(int $id)
     {
         $empresa = Empresa::find($id);
-        $contactes = $empresa->contactes();
+        $contactes = $empresa->contactes;
+
 
         return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
     }
@@ -72,19 +70,20 @@ class EmpresaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $empresa = Empresa::find($id);
         $poblacions = Poblacio::all();
         $categories = Categoria::all();
         $sectors = Sector::all();
+
         return view('empresa.edit', ['empresa' => $empresa, 'poblacions' => $poblacions, 'categories' => $categories, 'sectors' => $sectors]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         $empresa = Empresa::find($id);
         $empresa->nom = $request->nom;
@@ -97,17 +96,17 @@ class EmpresaController extends Controller
 
         $empresa->save();
 
-        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
+        return redirect()->route('empresa_index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function delete(int $id)
     {
         $empresa = Empresa::find($id);
         $empresa->delete();
 
-        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
+        return redirect()->route('empresa_index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
     }
 }

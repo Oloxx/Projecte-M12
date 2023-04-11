@@ -7,10 +7,10 @@
 @endsection
 
 @section('content')
-    <h1>Nova Empresa</h1>
-    <a href="{{ route('empresa.index') }}">&laquo; Torna</a>
+    <h1>Nova empresa</h1>
+    <a href="{{ route('empresa_index') }}">&laquo; Torna</a>
 	<div style="margin-top: 20px">
-        <form method="POST" action="{{ route('empresa.store') }}">
+        <form method="POST" action="{{ route('empresa_store' ) }}">
             @csrf
             <div>
                 <label for="nom">Nom</label>
