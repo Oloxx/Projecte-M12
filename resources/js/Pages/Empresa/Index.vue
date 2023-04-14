@@ -1,14 +1,23 @@
+<script lang="ts">
+export default {
+    name: 'EmpresesIndex',
+}
+</script>
+
 <script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Footer from "@/Components/Footer.vue";
 import { Head } from "@inertiajs/vue3";
-import "../../css/app.css";
+import "../../../css/app.css";
 
-const props = defineProps(['empreses']);
+defineProps({
+    empreses: {
+        type: Object,
+        required: true,
+    }
+})
 
 </script>
-
-
 
 <template>
     <Head title="Dashboard" />
@@ -46,10 +55,10 @@ const props = defineProps(['empreses']);
                     <td align="left">{{ empresa.telefon }}</td>
                     <td align="left">{{ empresa.web }}</td>
                     <td align="left">{{ empresa.email }}</td>
-                    <td align="left">{{ empresa.poblacio }}</td>
-                    <td align="left">{{ empresa.categoria }}</td>
+                    <td align="left" >{{ empresa.poblacio.nom }}</td>
+                    <td align="left">{{ empresa.categoria.nom }}</td>
                     <td align="left" v-if="empresa.sector_id">
-                        {{ empresa.sector }}
+                        {{ empresa.sector.nom }}
                     </td>
                     <td align="center">
                         <a :href="`/empresa_show/${empresa.id}`">+ Info</a>
@@ -58,13 +67,13 @@ const props = defineProps(['empreses']);
                         <a :href="`/empresa_edit/${empresa.id}`">Editar</a>
                     </td>
                     <td align="center">
-                        <!-- <form
+                         <form
                             method="POST"
                             :action="`/empresa_delete/${empresa.id}`"
                         >
                             @csrf @method('delete')
                             <input type="submit" id="delete" value="Eliminar" />
-                        </form> -->
+                        </form> 
                     </td>
                 </tr>
             </tbody>
