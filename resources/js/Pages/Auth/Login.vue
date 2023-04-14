@@ -44,6 +44,7 @@ const submit = () => {
                     <form
                         @submit.prevent="submit"
                         class="d-flex flex-column justify-content-center m-auto"
+                        style="max-width:650px"
                     >
                         <!-- Email input -->
                         <div class="form-outline mb-4">
@@ -109,7 +110,7 @@ const submit = () => {
                         <!-- Submit button -->
 
                         <PrimaryButton
-                            class="btn btn-primary btn-block mb-4"
+                            class="btn btnlogin btn-block mb-4"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                             >Inicia la sessió</PrimaryButton
@@ -130,8 +131,5 @@ const submit = () => {
                 </div>
             </main>
         </body>
-        <footer class="text-center text-light col fixed-bottom bg-primary p-3 ">
-                Copyright © 2023 IES Carles Vallbona. Tots els drets reservats.
-        </footer>
     </GuestLayout>
 </template>

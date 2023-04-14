@@ -1,6 +1,6 @@
 <template>
     <button
-        class="btn btn-primary"
+        class="btn colorvb"
     >
         <slot />
     </button>
