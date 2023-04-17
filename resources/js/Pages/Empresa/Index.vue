@@ -17,9 +17,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Dashboard" />
-    <AuthenticatedLayout>    </AuthenticatedLayout>
-
+    <Head title="Llistat d'Empreses" />
+    <AuthenticatedLayout></AuthenticatedLayout>
         <section class="section-list-companies">
             <div class="container-flex div-btn-create-new">
                 <a class="btn btn-secondary" :href="`/empresa/create`" role="button">+ Nova Empresa</a>
