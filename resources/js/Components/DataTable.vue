@@ -43,8 +43,8 @@ const fieldValue = (row, column) => {
                 {{ fieldValue(row, column) }}
                 </Link>
                 <td>
-                    <EditButton />
-                    <DeleteButton />
+                    <EditButton :url="route('empresa.edit', row.id)" />
+                    <DeleteButton :url="route('empresa.delete', row.id)" />
                 </td>
 
             </tr>
