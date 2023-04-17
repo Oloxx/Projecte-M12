@@ -39,13 +39,13 @@ Route::middleware('auth')->group(function () {
 
     // PATHS FOR ADDED CONTROLLERS
     // EMPRESA CONTROLLER
-    Route::get('/empresa/index', [EmpresaController::class, 'index'])->name('empresa.index');
-    Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa_create');
-    Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa_store');
-    Route::get('/empresa/show/{id}', [EmpresaController::class, 'show'])->name('empresa_show');
-    Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa_edit');
-    Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa_update');
-    Route::DELETE('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa_delete');
+    Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
+    Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa.create');
+    Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa.store');
+    Route::get('/empresa/show/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
+    Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa.edit');
+    Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
+    Route::DELETE('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
 });
 
 require __DIR__ . '/auth.php';

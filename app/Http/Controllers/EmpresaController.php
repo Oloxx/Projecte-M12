@@ -19,9 +19,19 @@ class EmpresaController extends Controller
     public function index()
     {
         $empreses = Empresa::with('poblacio', 'categoria', 'sector')->get();
-        
+        $columns = [
+            ["label" => "Nom", "field" => "nom"],
+            ["label" => "Telèfon", "field" => "telefon"],
+            ["label" => "Web", "field" => "web"],
+            ["label" => "E-mail", "field" => "email"],
+            ["label" => "Població", "field" => "poblacio.nom"],
+            ["label" => "Categoria", "field" => "categoria.nom"],
+            ["label" => "Sector", "field" => "sector.nom"]
+        ];
+
         return Inertia::render('Empresa/Index', [
-            'empreses' => $empreses
+            'empreses' => $empreses,
+            'columns' => $columns
         ]);
     }
 

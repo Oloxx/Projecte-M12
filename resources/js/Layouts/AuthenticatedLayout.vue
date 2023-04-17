@@ -6,6 +6,7 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
+import Footer from "@/Components/Footer.vue";
 </script>
 
 <template>
@@ -55,8 +56,5 @@ import { Link } from "@inertiajs/vue3";
             </div>
         </div>
     </header>
-    
-    <footer class="text-center text-light col fixed-bottom colorvb p-3 ">
-        Copyright © 2023 IES Carles Vallbona. Tots els drets reservats.
-    </footer>
+    <Footer />
 </template>
