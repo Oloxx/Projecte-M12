@@ -28,53 +28,27 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // PATHS FOR ADDED CONTROLLERS
+    // EMPRESA CONTROLLER
+    Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
+    Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa.create');
+    Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa.store');
+    Route::get('/empresa/show/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
+    Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa.edit');
+    Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
+    Route::DELETE('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-// PATHS FOR ADDED CONTROLLERS
 
-// EMPRESA CONTROLLER
 
-Route::get('/empresa/index', [EmpresaController::class, 'index'])->name('empresa_index');
 
-Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa_create');
-
-Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa_store');
-
-Route::get('/empresa/show/{id}', [EmpresaController::class, 'show'])->name('empresa_show');
-
-Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa_edit');
-
-Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa_update');
-
-Route::DELETE('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa_delete');
-
-// CONTACTE CONTROLLER
-
-Route::get('/contacte/index', [ContacteController::class, 'index'])->name('contacte_index');
-
-Route::get('/contacte/create/{id}', [ContacteController::class, 'create'])->name('contacte_create');
-
-Route::get('/contacte/create', [ContacteController::class, 'createWithoutId'])->name('contacte_createWithoutId');
-
-Route::post('/contacte/store', [ContacteController::class, 'store'])->name('contacte_store');
-
-Route::get('/contacte/show/{id}', [ContacteController::class, 'show'])->name('contacte_show');
-
-Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte_edit');
-
-Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte_update');
-
-Route::DELETE('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte_delete');
 
 
 // COL·LABORACIÓ CONTROLLER
@@ -92,9 +66,3 @@ Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->
 Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio_update');
 
 Route::DELETE('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio_delete');
-
-
-
-
-
-

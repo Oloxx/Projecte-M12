@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+
 
 use App\Models\Categoria;
 use App\Models\Empresa;
@@ -16,8 +18,21 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empreses = Empresa::all();
-        return view('empresa.index', ['empreses' => $empreses]);
+        $empreses = Empresa::with('poblacio', 'categoria', 'sector')->get();
+        $columns = [
+            ["label" => "Nom", "field" => "nom"],
+            ["label" => "Telèfon", "field" => "telefon"],
+            ["label" => "Web", "field" => "web"],
+            ["label" => "E-mail", "field" => "email"],
+            ["label" => "Població", "field" => "poblacio.nom"],
+            ["label" => "Categoria", "field" => "categoria.nom"],
+            ["label" => "Sector", "field" => "sector.nom"]
+        ];
+
+        return Inertia::render('Empresa/Index', [
+            'empreses' => $empreses,
+            'columns' => $columns
+        ]);
     }
 
     /**

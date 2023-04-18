@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
+        <link rel="shortcut icon" href="https://agora.xtec.cat/ies-carles-vallbona/wp-content/uploads/usu2364/2023/01/icon-iescv.png">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
