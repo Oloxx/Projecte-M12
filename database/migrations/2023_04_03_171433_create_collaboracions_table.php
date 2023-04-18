@@ -17,11 +17,11 @@ return new class extends Migration
             $table->year('any');
 
             $table->unsignedBigInteger('empresa_id');
-            $table->foreign('empresa_id')->references('id')->on('empreses');
+            $table->foreign('empresa_id')->references('id')->on('empreses')->onDelete('cascade');
 
             $table->unsignedBigInteger('contacte_id');
-            $table->foreign('contacte_id')->references('id')->on('contactes');
-            
+            $table->foreign('contacte_id')->references('id')->on('contactes')->onDelete('cascade');;
+
             $table->unsignedBigInteger('cicle_id');
             $table->foreign('cicle_id')->references('id')->on('cicles');
 
