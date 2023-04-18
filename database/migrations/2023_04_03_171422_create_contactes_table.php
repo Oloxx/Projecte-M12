@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email');
 
             $table->unsignedBigInteger('empresa_id')->nullable();
-            $table->foreign('empresa_id')->references('id')->on('empreses');
+            $table->foreign('empresa_id')->references('id')->on('empreses')->onDelete('cascade');
             
             $table->timestamps();
         });
