@@ -1,7 +1,11 @@
 <script setup>
-import DeleteButton from "@/Components/DeleteButton.vue"
-import EditButton from "@/Components/EditButton.vue"
+import DeleteButton from "@/Components/DeleteButton.vue";
+import EditButton from "@/Components/EditButton.vue";
+import Pagination from "@/Components/Pagination.vue";
+import "../../css/app.css";
+
 import { Link } from "@inertiajs/vue3";
+
 
 const props = defineProps({
     columns: {
@@ -10,22 +14,22 @@ const props = defineProps({
     },
     rows: {
         type: Array,
-        required: true
+        required: true,
     },
     options: {
         type: Boolean,
-        default: false
-    }
-})
+        default: false,
+    },
+});
 
 const fieldValue = (row, column) => {
-    if (column.field.includes('.')) {
-        const [objectKey, propertyKey] = column.field.split('.');
+    if (column.field.includes(".")) {
+        const [objectKey, propertyKey] = column.field.split(".");
         return row[objectKey][propertyKey];
     } else {
         return row[column.field];
     }
-}
+};
 
 </script>
 
@@ -38,7 +42,7 @@ const fieldValue = (row, column) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="row in rows" :key="row.id">
+            <tr v-for="row in rows.data" :key="row.id">
                 <Link :href="route('empresa.show', row.id)" as="td" v-for="column in columns">
                 {{ fieldValue(row, column) }}
                 </Link>
@@ -46,8 +50,8 @@ const fieldValue = (row, column) => {
                     <EditButton :url="route('empresa.edit', row.id)" />
                     <DeleteButton :url="route('empresa.delete', row.id)" />
                 </td>
-
             </tr>
         </tbody>
     </table>
+    <Pagination :data="rows"/>
 </template>

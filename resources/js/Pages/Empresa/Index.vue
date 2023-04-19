@@ -3,6 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/DataTable.vue";
 import { Head } from "@inertiajs/vue3";
 
+
 const props = defineProps({
     columns: {
         type: Array,
@@ -15,6 +16,11 @@ const props = defineProps({
 })
 
 </script>
+
+
+
+
+  
 
 <template>
     <Head title="Llistat d'Empreses" />

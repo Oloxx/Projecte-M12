@@ -18,7 +18,8 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empreses = Empresa::with('poblacio', 'categoria', 'sector')->get();
+        $empreses = Empresa::with('poblacio', 'categoria', 'sector')->paginate(5);
+        //dd($empreses);
         $columns = [
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Telèfon", "field" => "telefon"],
