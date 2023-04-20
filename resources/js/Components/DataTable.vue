@@ -5,7 +5,6 @@ import Pagination from "@/Components/Pagination.vue";
 import "../../css/app.css";
 import { Link } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
-import DeleteButton from "./DeleteButton.vue";
 
 
 const props = defineProps({
