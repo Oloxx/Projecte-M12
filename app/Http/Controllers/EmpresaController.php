@@ -31,7 +31,8 @@ class EmpresaController extends Controller
 
         return Inertia::render('Empresa/Index', [
             'empreses' => $empreses,
-            'columns' => $columns
+            'columns' => $columns,
+            'status' => session('status')
         ]);
     }
 
@@ -122,6 +123,6 @@ class EmpresaController extends Controller
         $empresa = Empresa::find($id);
         $empresa->delete();
 
-        return redirect()->route('empresa_index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
+        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
     }
 }
