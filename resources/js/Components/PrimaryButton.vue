@@ -1,6 +1,6 @@
 <template>
     <button
-        class="btn colorvb"
+        class="btn colorvb text-light"
     >
         <slot />
     </button>

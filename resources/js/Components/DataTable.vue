@@ -2,10 +2,8 @@
 import DeleteButton from "@/Components/DeleteButton.vue";
 import EditButton from "@/Components/EditButton.vue";
 import Pagination from "@/Components/Pagination.vue";
-import "../../css/app.css";
 import { Link } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
-
 
 const props = defineProps({
     columns: {
@@ -13,7 +11,7 @@ const props = defineProps({
         required: true,
     },
     rows: {
-        type: Array,
+        type: Object,
         required: true,
     },
     options: {
@@ -76,5 +74,5 @@ const fieldValue = (row, column) => {
             </tr>
         </tbody>
     </table>
-    <Pagination :data="rows"/>
+    <Pagination :data="rows" />
 </template>

@@ -19,11 +19,6 @@ const props = defineProps({
 })
 </script>
 
-
-
-
-  
-
 <template>
     <Head title="Llistat d'Empreses" />
     <AuthenticatedLayout>

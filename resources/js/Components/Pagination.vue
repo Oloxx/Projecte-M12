@@ -1,13 +1,17 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
 
-defineProps({
+const props = defineProps({
     data: {
         type: Object,
         default: () => ({}),
     }
 });
 
+const filteredLinks = computed(() => {
+    return props.data.links.filter((link, index) => index !== -1 && index !== props.data.links.length);
+});
 </script>
 
 <template>
@@ -16,13 +20,12 @@ defineProps({
         class="container-fluid d-flex justify-content-end mt-4 space-x-4 end-0"
     >
         <Link
-            v-for="(link, k) in data.links"
-            v-if="k != 0 || k != data.links.length"
+            v-for="(link, index) in filteredLinks" 
+            :key="index"
             name="link"
-            :key="k"
             class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
             :class="{ 'bg-indigo-400 text-white': link.active }"
-            :href="link.url"
+            :href="link.url !== null ? link.url : ''"
             v-html="link.label"
         />
     </div>
