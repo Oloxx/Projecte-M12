@@ -1,0 +1,11 @@
+$color-pink: #E00085;
+
+@mixin pink-button(){
+    background-color: $color-pink;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    :hover{
+        background-color: black;
+    }
+}
