@@ -31,7 +31,8 @@ class EmpresaController extends Controller
 
         return Inertia::render('Empresa/Index', [
             'empreses' => $empreses,
-            'columns' => $columns
+            'columns' => $columns,
+            'status' => session('status')
         ]);
     }
 
