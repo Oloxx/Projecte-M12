@@ -42,27 +42,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa.edit');
     Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
     Route::DELETE('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
+
+    // COL·LABORACIÓ CONTROLLER
+    Route::get('/collaboracio/index', [CollaboracioController::class, 'index'])->name('collaboracio.index');
+    Route::get('/collaboracio/show', [CollaboracioController::class, 'show'])->name('collaboracio.show');
+    Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->name('collaboracio.create');
+    Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
+    Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio.store');
+    Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio.edit');
+    Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio.update');
+    Route::DELETE('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio.delete');
+
+    // CONTACTE CONTROLLER
+    Route::get('/contacte/index', [ContacteController::class, 'index'])->name('contacte.index');
+    Route::get('/contacte/show', [ContacteController::class, 'show'])->name('contacte.show');
+    Route::get('/contacte/create', [ContacteController::class, 'create'])->name('contacte.create');
+    Route::post('/contacte/getcontactes', [ContacteController::class, 'getContactes'])->name('contacte.getcontactes');
+    Route::post('/contacte/store', [ContacteController::class, 'store'])->name('contacte.store');
+    Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte.edit');
+    Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte.update');
+    Route::DELETE('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte.delete');
 });
 
 require __DIR__ . '/auth.php';
-
-
-
-
-
-
-// COL·LABORACIÓ CONTROLLER
-
-Route::get('/collaboracio/index', [CollaboracioController::class, 'index'])->name('collaboracio_index');
-
-Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->name('collaboracio_create');
-
-Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio_getcontactes');
-
-Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio_store');
-
-Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio_edit');
-
-Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio_update');
-
-Route::DELETE('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio_delete');

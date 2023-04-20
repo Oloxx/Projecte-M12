@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Empresa;
 use App\Models\Contacte;
+use Inertia\Inertia;
+
 
 class ContacteController extends Controller
 {
@@ -14,8 +16,21 @@ class ContacteController extends Controller
      */
     public function index()
     {
-        $contactes = Contacte::all();
-        return view('contacte.index', ['contactes' => $contactes]);
+        $contactes = Contacte::with('empresa')->paginate(5);
+        //dd($empreses);
+        $columns = [
+            ["label" => "Nom", "field" => "nom"],
+            ["label" => "Cognoms", "field" => "cognoms"],
+            ["label" => "Móvil", "field" => "movil"],
+            ["label" => "E-mail", "field" => "email"],
+            ["label" => "Empresa", "field" => "empresa.nom"]
+        ];
+
+        return Inertia::render('Contacte/Index', [
+            'contactes' => $contactes,
+            'columns' => $columns,
+            'status' => session('status')
+        ]);
     }
 
     /**

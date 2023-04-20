@@ -18,13 +18,13 @@ import Footer from "@/Components/Footer.vue";
             <div class="d-flex align-items-center justify-content-center justify-content-lg-start px-5">
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li>
-                        <a href="#" class="nav-link px-2 link-light">Empreses</a>
+                        <Link :href="route('empresa.index')" class="nav-link px-2 link-light">Empresa</Link>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-2 link-light">Col·laboracions</a>
+                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">Col·laboracions</Link>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-2 link-light">Contactes</a>
+                        <Link :href="route('contacte.index')" class="nav-link px-2 link-light">Contactes</Link>
                     </li>
                 </ul>
 
