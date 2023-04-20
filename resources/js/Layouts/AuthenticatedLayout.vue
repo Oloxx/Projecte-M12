@@ -56,5 +56,6 @@ import Footer from "@/Components/Footer.vue";
             </div>
         </div>
     </header>
+    <slot></slot>
     <Footer />
 </template>

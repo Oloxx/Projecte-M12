@@ -3,8 +3,9 @@ import DeleteButton from "@/Components/DeleteButton.vue";
 import EditButton from "@/Components/EditButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import "../../css/app.css";
-
 import { Link } from "@inertiajs/vue3";
+import Modal from "@/Components/Modal.vue";
+import DeleteButton from "./DeleteButton.vue";
 
 
 const props = defineProps({
@@ -20,6 +21,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    name: {
+        type: String,
+        required: true
+    }
 });
 
 const fieldValue = (row, column) => {
@@ -43,12 +48,31 @@ const fieldValue = (row, column) => {
         </thead>
         <tbody>
             <tr v-for="row in rows.data" :key="row.id">
-                <Link :href="route('empresa.show', row.id)" as="td" v-for="column in columns">
-                {{ fieldValue(row, column) }}
+                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns">
+                    {{ fieldValue(row, column) }}
                 </Link>
-                <td>
-                    <EditButton :url="route('empresa.edit', row.id)" />
-                    <DeleteButton :url="route('empresa.delete', row.id)" />
+                <td v-if="options">
+                    <EditButton :url="route(name + '.edit', row.id)" />
+                    <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#Modal">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <Modal>
+                        <template #header>
+                            <h1>Confirmeu la supressió</h1>
+                        </template>
+                        <template #body>
+                            <p>
+                                Estàs segur que vols eliminar <b>{{ row.nom }}</b>?
+                                <br>
+                                <slot name="confirmDelete"></slot>
+                            </p>
+                        </template>
+                        <template #button>
+                            <DeleteButton data-bs-dismiss="modal" :url="route(name + '.delete', row.id)">
+                                Elimina
+                            </DeleteButton>
+                        </template>
+                    </Modal>
                 </td>
             </tr>
         </tbody>

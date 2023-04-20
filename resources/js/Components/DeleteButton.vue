@@ -10,6 +10,6 @@ const props = defineProps({
 
 <template>
     <Link class="btn btn-danger mx-1" as="button" :href="url" method="delete">
-    <i class="bi bi-trash"></i>
+    <slot></slot>
     </Link>
 </template>

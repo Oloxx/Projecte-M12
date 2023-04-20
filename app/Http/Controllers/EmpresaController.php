@@ -32,7 +32,8 @@ class EmpresaController extends Controller
 
         return Inertia::render('Empresa/Index', [
             'empreses' => $empreses,
-            'columns' => $columns
+            'columns' => $columns,
+            'status' => session('status')
         ]);
     }
 
@@ -68,7 +69,7 @@ class EmpresaController extends Controller
         // TODO: FORM VALIDATIONS
         $empresa->save();
 
-        return redirect()->route('empresa_show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
+        return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
     }
 
     /**
@@ -112,7 +113,7 @@ class EmpresaController extends Controller
 
         $empresa->save();
 
-        return redirect()->route('empresa_index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
+        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
     }
 
     /**
@@ -123,6 +124,6 @@ class EmpresaController extends Controller
         $empresa = Empresa::find($id);
         $empresa->delete();
 
-        return redirect()->route('empresa_index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
+        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
     }
 }
