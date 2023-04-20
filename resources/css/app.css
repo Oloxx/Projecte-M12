@@ -12270,23 +12270,26 @@ footer ul li .nav-link:hover {
 }
 
 @media screen and (max-width: 1453px) {
-  table tbody tr td:nth-child(6) {
+  table thead tr th:nth-child(7) {
+    display: none;
+  }
+  table tbody tr td:nth-child(7) {
     display: none;
   }
 }
 @media screen and (max-width: 1324px) {
-  table thead tr td:nth-child(5) {
+  table thead tr th:nth-child(6) {
     display: none;
   }
-  table tbody tr td:nth-child(5) {
+  table tbody tr td:nth-child(6) {
     display: none;
   }
 }
 @media screen and (max-width: 1085px) {
-  table thead tr td:nth-child(4) {
+  table thead tr th:nth-child(5) {
     display: none;
   }
-  table tbody tr td:nth-child(4) {
+  table tbody tr td:nth-child(5) {
     display: none;
   }
 }
@@ -12297,15 +12300,15 @@ footer ul li .nav-link:hover {
   }
 }
 @media screen and (max-width: 880px) {
-  table thead tr td:nth-child(3) {
+  table thead tr th:nth-child(4) {
     display: none;
   }
-  table tbody tr td:nth-child(3) {
+  table tbody tr td:nth-child(4) {
     display: none;
   }
 }
 @media screen and (max-width: 654px) {
-  table thead tr td:nth-child(3) {
+  table thead tr th:nth-child(3) {
     display: none;
   }
   table tbody tr td:nth-child(3) {
@@ -12323,7 +12326,7 @@ footer ul li .nav-link:hover {
   .section-list-companies table thead tr td {
     width: 50px;
   }
-  .section-list-companies table thead tr td:nth-child(2) {
+  .section-list-companies table thead tr th:nth-child(2) {
     display: none;
   }
   .section-list-companies table tbody tr td {

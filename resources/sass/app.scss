@@ -28,7 +28,7 @@ body {
 
 // LOGIN COLOR
 
-.colorvb{
+.colorvb {
     background-color: $vermellVallbona;
 }
 
@@ -143,8 +143,8 @@ body {
     text-align: left;
 }
 
-.adaptabilitat-compromis-mvl{
-    display:none;
+.adaptabilitat-compromis-mvl {
+    display: none;
 }
 
 /* Compromís */
@@ -317,7 +317,8 @@ button:hover {
     }
 
     .adaptabilitat-compromis-mvl {
-        display:contents;
+        display: contents;
+
         .tittle-container-h2 {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -327,12 +328,12 @@ button:hover {
             color: $whitesmoke;
         }
 
-        .div-video{
+        .div-video {
             width: 100%;
             max-height: 500px;
             overflow: hidden;
 
-            video{
+            video {
                 width: 100%;
                 object-fit: cover;
             }
@@ -345,6 +346,7 @@ button:hover {
     /*Serveis*/
     .serv-container {
         margin-top: 20px;
+
         .row {
             .serv {
                 .servicio {
@@ -364,13 +366,10 @@ button:hover {
             }
         }
     }
-    
+
 }
 
-
-// DASHBOARD
-
-
+// EMPRESES
 
 .container-fluid {
     padding-left: 50px !important;
@@ -379,7 +378,7 @@ button:hover {
 
 // Header
 
-.headercv{
+.headercv {
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -521,9 +520,16 @@ footer {
 @media screen and (max-width: 1453px) {
 
     table {
+        thead {
+            tr {
+                th:nth-child(7) {
+                    display: none;
+                }
+            }
+        }
         tbody {
             tr {
-                td:nth-child(6) {
+                td:nth-child(7) {
                     display: none;
                 }
             }
@@ -536,7 +542,7 @@ footer {
     table {
         thead {
             tr {
-                td:nth-child(5) {
+                th:nth-child(6) {
                     display: none;
                 }
             }
@@ -544,7 +550,7 @@ footer {
 
         tbody {
             tr {
-                td:nth-child(5) {
+                td:nth-child(6) {
                     display: none;
                 }
             }
@@ -557,7 +563,7 @@ footer {
     table {
         thead {
             tr {
-                td:nth-child(4) {
+                th:nth-child(5) {
                     display: none;
                 }
             }
@@ -565,7 +571,7 @@ footer {
 
         tbody {
             tr {
-                td:nth-child(4) {
+                td:nth-child(5) {
                     display: none;
                 }
             }
@@ -576,7 +582,7 @@ footer {
 @media screen and (max-width: 984px) {
 
     .navbarcv {
-    
+
         div {
             div {
                 .navbar-nav {
@@ -590,7 +596,7 @@ footer {
             }
         }
     }
-   
+
 }
 
 @media screen and (max-width: 880px) {
@@ -598,7 +604,7 @@ footer {
     table {
         thead {
             tr {
-                td:nth-child(3) {
+                th:nth-child(4) {
                     display: none;
                 }
             }
@@ -606,7 +612,7 @@ footer {
 
         tbody {
             tr {
-                td:nth-child(3) {
+                td:nth-child(4) {
                     display: none;
                 }
             }
@@ -619,7 +625,7 @@ footer {
     table {
         thead {
             tr {
-                td:nth-child(3) {
+                th:nth-child(3) {
                     display: none;
                 }
             }
@@ -637,26 +643,28 @@ footer {
 
 @media screen and (max-width: 500px) {
 
-    .headercv{
+    .headercv {
         padding: 0px;
     }
-   
+
     .section-list-companies {
-        .div-btn-create-new{
-            .btn{
+        .div-btn-create-new {
+            .btn {
                 margin-top: 3vh;
                 margin-bottom: 3vh;
 
             }
         }
+
         table {
             thead {
 
                 tr {
-                    td{
+                    td {
                         width: 50px;
                     }
-                    td:nth-child(2) {
+
+                    th:nth-child(2) {
                         display: none;
                     }
                 }
@@ -668,6 +676,7 @@ footer {
                         width: 20px !important;
 
                     }
+
                     td:nth-child(2) {
                         display: none;
                     }
