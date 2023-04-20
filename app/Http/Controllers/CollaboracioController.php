@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 use App\Models\Empresa;
 use App\Models\Contacte;
 use App\Models\Collaboracio;
 use App\Models\Cicle;
-use App\Models\User;
 
 class CollaboracioController extends Controller
 {
@@ -18,8 +18,20 @@ class CollaboracioController extends Controller
      */
     public function index()
     {
-        $collaboracions = Collaboracio::all();
-        return view('collaboracio.index', ['collaboracions' => $collaboracions]);
+        $collaboracions = Collaboracio::with('empresa', 'contacte', 'cicle', 'user')->paginate(5);
+        $columns = [
+            ["label" => "Cicle", "field" => "cicle.nom"],
+            ["label" => "Any", "field" => "any"],
+            ["label" => "Empresa", "field" => "empresa.nom"],
+            ["label" => "Contacte", "field" => "contacte.nom"],
+            ["label" => "Usuari", "field" => "user.name"],
+        ];
+
+        return Inertia::render('Collaboracio/Index', [
+            'collaboracions' => $collaboracions,
+            'columns' => $columns,
+            'status' => session('status')
+        ]);
     }
 
     /**
