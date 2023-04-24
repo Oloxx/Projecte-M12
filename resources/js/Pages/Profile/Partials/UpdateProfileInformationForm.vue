@@ -58,7 +58,7 @@ const form = useForm({
                     type="text"
                     v-model="form.cognoms"
                     required
-                    autocomplete="lname"
+                    autocomplete="family-name"
                     style="max-width: 400px;"
                 />
 

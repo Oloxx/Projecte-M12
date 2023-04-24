@@ -92,7 +92,7 @@ const updatePassword = () => {
                 <PrimaryButton :disabled="form.processing">Desa</PrimaryButton>
 
                 <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Desat.</p>
+                    <p v-if="form.recentlySuccessful" class="alert alert-info mt-3" style="max-width: 400px;">Desat.</p>
                 </Transition>
             </div>
         </form>

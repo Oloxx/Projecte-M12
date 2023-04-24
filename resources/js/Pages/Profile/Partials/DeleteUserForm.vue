@@ -65,7 +65,6 @@ const openModal = () => {
                 <div class="mt-4">
                     <TextInput id="password_con" ref="passwordInput" v-model="form.password" type="password" class="mt-1"
                         placeholder="Contrasenya" @keyup.enter="deleteUser" style="max-width: 400px;" />
-
                     <InputError :message="form.errors.password" class="mt-2" />
                 </div>
             </template>
