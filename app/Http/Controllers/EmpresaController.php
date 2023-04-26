@@ -10,6 +10,8 @@ use App\Models\Categoria;
 use App\Models\Empresa;
 use App\Models\Poblacio;
 use App\Models\Sector;
+use App\Models\Contacte;
+
 
 class EmpresaController extends Controller
 {
@@ -47,7 +49,7 @@ class EmpresaController extends Controller
         $categories = Categoria::all();
         $sectors = Sector::all();
 
-        return view('empresa.create', [
+        return Inertia::render('Empresa/Create', [
             'poblacions' => $poblacions,
             'categories' => $categories,
             'sectors' => $sectors
@@ -78,11 +80,24 @@ class EmpresaController extends Controller
      */
     public function show(int $id)
     {
-        $empresa = Empresa::find($id);
-        $contactes = $empresa->contactes;
 
+        $empresa = Empresa::where('id',$id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
 
-        return view('empresa.show', ['empresa' => $empresa, 'contactes' => $contactes]);
+        $contactes = Contacte::where('empresa_id', $id)->paginate(5);
+
+        $columns = [
+            ["label" => "Nom", "field" => "nom"],
+            ["label" => "Cognoms", "field" => "cognoms"],
+            ["label" => "Mòvil", "field" => "movil"],
+            ["label" => "E-mail", "field" => "email"],
+        ];
+
+        return Inertia::render('Empresa/Show', [
+            'empresa' => $empresa->load('poblacio', 'categoria', 'sector'),
+            'contactes' => $contactes,
+            'columns' => $columns
+        ]);
+
     }
 
     /**
@@ -90,12 +105,17 @@ class EmpresaController extends Controller
      */
     public function edit(int $id)
     {
-        $empresa = Empresa::find($id);
+        $empresa = Empresa::where('id',$id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
         $poblacions = Poblacio::all();
         $categories = Categoria::all();
         $sectors = Sector::all();
 
-        return view('empresa.edit', ['empresa' => $empresa, 'poblacions' => $poblacions, 'categories' => $categories, 'sectors' => $sectors]);
+        return Inertia::render('Empresa/Edit', [
+            'empresa' => $empresa->load('poblacio', 'categoria', 'sector'),
+            'poblacions' => $poblacions,
+            'categories' => $categories,
+            'sectors' => $sectors
+        ]);
     }
 
     /**
@@ -114,7 +134,7 @@ class EmpresaController extends Controller
 
         $empresa->save();
 
-        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
+        return redirect()->route('empresa.index');
     }
 
     /**

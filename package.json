@@ -8,7 +8,7 @@
         "@inertiajs/vue3": "^1.0.3",
         "@vitejs/plugin-vue": "^4.0.0",
         "autoprefixer": "^10.4.12",
-        "axios": "^1.3.5",
+        "axios": "^1.3.6",
         "laravel-vite-plugin": "^0.7.2",
         "postcss": "^8.4.18",
         "vite": "^4.0.0",
@@ -23,7 +23,10 @@
         "laravel-vue-pagination": "^4.1.0",
         "portal-vue": "^3.0.0-beta.0",
         "sass": "^1.60.0",
+        "vee-validate": "^4.8.6",
         "vue-awesome-paginate": "^1.1.46",
-        "vue-paginate": "^3.6.0"
+        "vue-laravel-csrf": "^1.0.0",
+        "vue-paginate": "^3.6.0",
+        "yup": "^1.1.1"
     }
 }
