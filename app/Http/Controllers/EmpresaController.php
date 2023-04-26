@@ -21,6 +21,7 @@ class EmpresaController extends Controller
         $empreses = Empresa::with('poblacio', 'categoria', 'sector')->paginate(5);
         //dd($empreses);
         $columns = [
+            ["label" => "Logo", "field" => "logo"],
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Telèfon", "field" => "telefon"],
             ["label" => "Web", "field" => "web"],

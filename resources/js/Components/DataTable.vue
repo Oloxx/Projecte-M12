@@ -29,9 +29,23 @@ const fieldValue = (row, column) => {
         const [objectKey, propertyKey] = column.field.split(".");
         return row[objectKey][propertyKey];
     } else {
-        return row[column.field];
+        if (column.field !== 'logo') {
+            return row[column.field];
+        }
+        if (row['logo'] !== null) {
+            return `<div class="rounded-circle overflow-hidden" style="width: 36px; height: 36px; border: 1px solid #808080;">
+                    <img src='${row['logo']}' alt='Logo' style='width: 100%; height: 100%; object-fit: cover;' />
+                </div>`;
+        }
+        return `<span class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border: 1px solid #808080;">
+                        <i class="bi bi-briefcase"></i>
+                    </span>`;
     }
 };
+
+const filteredColumns = () => {
+    return props.columns.filter(column => column.label !== 'Logo');
+}
 
 </script>
 
@@ -39,15 +53,14 @@ const fieldValue = (row, column) => {
     <table class="table table-hover">
         <thead>
             <tr>
-                <th v-for="column in columns">{{ column.label }}</th>
+                <th v-if="columns[0].label === 'Logo'" width=60></th>
+                <th v-for="column in filteredColumns()">{{ column.label }}</th>
                 <th v-if="options">Opcions</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="row in rows.data" :key="row.id">
-                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns">
-                    {{ fieldValue(row, column) }}
-                </Link>
+                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns" v-html="fieldValue(row, column)" class="align-middle"></Link>
                 <td v-if="options">
                     <EditButton :url="route(name + '.edit', row.id)" />
                     <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#Modal">

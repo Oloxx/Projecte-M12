@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('telefon');
             $table->string('web');
             $table->string('email');
+            $table->string('logo')->nullable();
 
             $table->unsignedBigInteger('poblacio_id');
             $table->foreign('poblacio_id')->references('id')->on('poblacions');
