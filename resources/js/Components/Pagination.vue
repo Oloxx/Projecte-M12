@@ -27,6 +27,7 @@ const filteredLinks = computed(() => {
             :class="{ 'bg-indigo-400 text-white': link.active }"
             :href="link.url !== null ? link.url : ''"
             v-html="link.label"
+            preserveScroll
         />
     </div>
 </template>

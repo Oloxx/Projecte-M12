@@ -33,9 +33,6 @@ const schema = Yup.object().shape({
         /^[0-9]{9}/,
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
-    web: Yup.string().url(
-        "La url no és correcta. Exemple acceptat: https://www.exemple.com"
-    ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
     poblacio_id: Yup.number().required("La població és obligatoria"),
     categoria_id: Yup.number().required("La població és obligatoria"),
@@ -85,10 +82,7 @@ async function onSubmit(values) {
                 <!--Web empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Web</label>
-                    <Field name="web" type="text" class="form-control" :class="{ 'is-invalid': errors.web }" v-model="form.web"/>
-                    <div class="invalid-feedback">
-                        {{ errors.web }}
-                    </div>
+                    <Field name="web" type="text" class="form-control" v-model="form.web"/>
                 </div>
                 <!--E-mail empresa -->
                 <div class="form-group col mt-3">

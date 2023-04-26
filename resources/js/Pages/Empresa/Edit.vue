@@ -10,6 +10,10 @@ import { Link } from '@inertiajs/vue3';
  *  Data received from the controller
  */
 const props = defineProps({
+    empresa: {
+        type: Object,
+        required: true,
+    },
     poblacions: {
         type: Object,
         required: true,
@@ -21,7 +25,7 @@ const props = defineProps({
     sectors: {
         type: Object,
         required: true,
-    },
+    }
 });
 
 /**
@@ -33,9 +37,6 @@ const schema = Yup.object().shape({
         /^[0-9]{9}/,
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
-    web: Yup.string().url(
-        "La url no és correcta. Exemple acceptat: https://www.exemple.com"
-    ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
     poblacio_id: Yup.number().required("La població és obligatoria"),
     categoria_id: Yup.number().required("La població és obligatoria"),
@@ -46,30 +47,32 @@ const schema = Yup.object().shape({
  * Inputs from the controller
  */
 const form = reactive({
-    nom: null,
-    telefon: null,
-    web: null,
-    email: null,
-    poblacio_id: null,
-    categoria_id: null,
-    sector_id: null
+    nom: props.empresa.nom,
+    telefon: props.empresa.telefon,
+    web: props.empresa.web,
+    email: props.empresa.email,
+    poblacio_id: props.empresa.poblacio_id,
+    categoria_id: props.empresa.categoria_id,
+    sector_id: props.empresa.sector_id
 })
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/empresa/store', form)
+    let id = props.empresa.id;
+    router.put(`/empresa/update/${id}`, form)
 }
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <h1 class="mt-5 ms-5 mb-4">Nova empresa</h1>
+        <h1 class="mt-5 ms-5 mb-4">Editar empresa</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
                 <!--Nom empresa -->
                 <div class="form-group col">
                     <label class="mb-2">Empresa</label>
-                    <Field name="nom" type="text" class="form-control" :class="{ 'is-invalid': errors.nom }" v-model="form.nom"/>
+                    <Field name="nom" type="text" class="form-control" :class="{ 'is-invalid': errors.nom }"
+                        v-model="form.nom" />
                     <div class="invalid-feedback">
                         {{ errors.nom }}
                     </div>
@@ -77,7 +80,8 @@ async function onSubmit(values) {
                 <!--Telèfon empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Telèfon</label>
-                    <Field name="telefon" type="text" class="form-control" :class="{ 'is-invalid': errors.telefon }" v-model="form.telefon"/>
+                    <Field name="telefon" type="text" class="form-control" :class="{ 'is-invalid': errors.telefon }"
+                        v-model="form.telefon" />
                     <div class="invalid-feedback">
                         {{ errors.telefon }}
                     </div>
@@ -85,22 +89,22 @@ async function onSubmit(values) {
                 <!--Web empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Web</label>
-                    <Field name="web" type="text" class="form-control" :class="{ 'is-invalid': errors.web }" v-model="form.web"/>
-                    <div class="invalid-feedback">
-                        {{ errors.web }}
-                    </div>
+                    <Field name="web" type="text" class="form-control" v-model="form.web" />
                 </div>
                 <!--E-mail empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">E-mail</label>
-                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" v-model="form.email"/>
+                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }"
+                        v-model="form.email" />
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
                 <!--Població empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Població</label>
-                    <Field name="poblacio_id" as="select" class="form-select" :class="{ 'is-invalid': errors.poblacio_id }" v-model="form.poblacio_id">
-                        <option v-for="poblacio in poblacions" :value="poblacio.id">
+                    <Field name="poblacio_id" as="select" class="form-select" :class="{ 'is-invalid': errors.poblacio_id }"
+                        v-model="form.poblacio_id">
+                        <option v-for="poblacio in poblacions" :value="poblacio.id"
+                            :selected="poblacio.id == empresa.poblacio_id">
                             {{ poblacio.nom }}
                         </option>
                     </Field>
@@ -111,9 +115,8 @@ async function onSubmit(values) {
                     <label class="mb-2">Categoria</label>
                     <Field name="categoria_id" as="select" class="form-select"
                         :class="{ 'is-invalid': errors.categoria_id }" v-model="form.categoria_id">
-                        <option v-for="categoria in categories" :value="categoria.id">
-                            {{ categoria.nom }}
-                        </option>
+                        <option v-for="categoria in categories" :value="categoria.id"
+                            :selected="categoria.id == empresa.categoria_id">{{ categoria.nom }} </option>
                     </Field>
                     <div class="invalid-feedback">
                         {{ errors.categoria_id }}
@@ -122,8 +125,9 @@ async function onSubmit(values) {
                 <!--Sector empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Sector</label>
-                    <Field name="sector_id" as="select" class="form-select" :class="{ 'is-invalid': errors.sector_id }" v-model="form.sector_id">
-                        <option v-for="sector in sectors" :value="sector.id">
+                    <Field name="sector_id" as="select" class="form-select" :class="{ 'is-invalid': errors.sector_id }"
+                        v-model="empresa.sector_id">
+                        <option v-for="sector in sectors" :value="sector.id" :selected="sector.id == form.sector_id">
                             {{ sector.nom }}
                         </option>
                     </Field>
@@ -133,7 +137,7 @@ async function onSubmit(values) {
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary mr-1 me-3">
-                    Crear Empresa
+                    Editar Empresa
                 </button>
                 <Link href="/empresa" method="get" as="button" type="button" class="btn btn-secondary">Cancel·lar</Link>
             </div>

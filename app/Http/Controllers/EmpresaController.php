@@ -133,7 +133,7 @@ class EmpresaController extends Controller
 
         $empresa->save();
 
-        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
+        return redirect()->route('empresa.index');
     }
 
     /**
