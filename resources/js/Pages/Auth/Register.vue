@@ -29,12 +29,16 @@ const submit = () => {
             <main class="d-flex align-items-center justify-content-center">
                 <div class="container rounded-4">
                     <h1 class="text-center m-4">Registre d'usuari</h1>
-                    <form @submit.prevent="submit" style="max-width:650px">
+                    <form 
+                        @submit.prevent="submit" 
+                        class="d-flex flex-column justify-content-center m-auto"
+                        style="max-width:650px"
+                    >
                         <div class="form-outline mb-4">
                             <InputLabel
                                 for="name"
                                 class="form-label"
-                                value="Name"
+                                value="Nom"
                             />
 
                             <TextInput
@@ -66,7 +70,6 @@ const submit = () => {
                                 class="form-control"
                                 v-model="form.cognoms"
                                 required
-                                autofocus
                                 autocomplete="family-name"
                             />
 
@@ -89,7 +92,7 @@ const submit = () => {
                                 class="form-control"
                                 v-model="form.email"
                                 required
-                                autocomplete="username"
+                                autocomplete="email"
                             />
 
                             <InputError
@@ -102,7 +105,7 @@ const submit = () => {
                             <InputLabel
                                 for="password"
                                 class="form-label"
-                                value="Password"
+                                value="Contrasenya"
                             />
 
                             <TextInput
@@ -124,7 +127,7 @@ const submit = () => {
                             <InputLabel
                                 for="password_confirmation"
                                 class="form-label"
-                                value="Confirm Password"
+                                value="Confirmeu la contrasenya"
                             />
 
                             <TextInput
@@ -148,7 +151,7 @@ const submit = () => {
                                 :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing"
                             >
-                                Register
+                                Registra't
                             </PrimaryButton> <br>
                             <Link :href="route('login')" class="link-primary">
                                 Ja estàs registrat? Fes click aquí
