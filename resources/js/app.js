@@ -9,11 +9,6 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Bootstrap5Pagination } from 'laravel-vue-pagination';
-
-
-
-
 
 // Start
 
