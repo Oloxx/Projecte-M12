@@ -63,10 +63,10 @@ const filteredColumns = () => {
                 <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns" v-html="fieldValue(row, column)" class="align-middle"></Link>
                 <td v-if="options">
                     <EditButton :url="route(name + '.edit', row.id)" />
-                    <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#Modal">
+                    <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" :data-bs-target="'#Modal' + row.id">
                         <i class="bi bi-trash"></i>
                     </button>
-                    <Modal>
+                    <Modal :id="'Modal' + row.id">
                         <template #header>
                             <h1>Confirmeu la supressió</h1>
                         </template>
