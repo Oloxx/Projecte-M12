@@ -129,7 +129,7 @@ async function onSubmit(values) {
                 <button type="submit" class="btn btn-primary mr-1 me-3">
                     Crear Empresa
                 </button>
-                <Link href="/empresa" method="get" as="button" type="button" class="btn btn-secondary">Cancel·lar</Link>
+                <Link :href="route('empresa.index')" as="button" class="btn btn-secondary">Cancel·lar</Link>
             </div>
         </Form>
     </AuthenticatedLayout>

@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/DataTable.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const props = defineProps({
                 {{ status }}
             </div>
             <div class="container-flex div-btn-create-new">
-                <a class="btn btn-secondary" :href="`/collaboracio/create`" role="button">+ Nova Col·laboració</a>
+                <Link class="btn btn-secondary" :href="route('collaboracio.create')">+ Nova Col·laboració</Link>
             </div>
             <h1>Llistat de Col·laboracions</h1>
             <DataTable :columns=columns :rows=collaboracions :options=true name="collaboracio">
