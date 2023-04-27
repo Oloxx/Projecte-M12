@@ -1,21 +1,21 @@
 <p align="center"><img src="https://agora.xtec.cat/ies-carles-vallbona/wp-content/uploads/usu2364/2023/01/icon-iescv.png" width="100" alt="IES Carles Vallbona Logo">
 <h2 align="center">IES Carles Vallbona Organization Manager</h2></p>
 
-### Development enviroment
+### Development environment
 
 #### Requirements
 
-- php ^8.1
-- node ^18.15
-- mySQL
+- PHP ^8.1
+- Node ^16.0
+- MySQL
 
 #### Build project
 
 1. Download.
-* Clone github repository:
+* Clone GitHub repository:
   * HTTPS: `git clone https://github.com/Oloxx/Projecte-M12.git`
   * SSH: `git clone git@github.com:Oloxx/Projecte-M12.git`
-* Open the cloned respository: 
+* Open the cloned repository: 
   * `cd Projecte-M12`
 
 2. Set up environment.
@@ -25,8 +25,11 @@
   * `npm install`
 * .env file:
   * Copy the .env.example and rename it to .env
-  * Add your mySQL user and password
+  * Add your MySQL user and password
+* Generate App Key
+  * `php artisan key:generate`
 * Create Database & Run Laravel migrations and seeders:
+> If you already created the database, you can simply run `php artisan migrate` without the `yes |`
   * `yes | php artisan migrate`
   * `php artisan db:seed`
 
