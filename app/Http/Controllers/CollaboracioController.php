@@ -29,8 +29,7 @@ class CollaboracioController extends Controller
 
         return Inertia::render('Collaboracio/Index', [
             'collaboracions' => $collaboracions,
-            'columns' => $columns,
-            'status' => session('status')
+            'columns' => $columns
         ]);
     }
 

@@ -12,9 +12,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    status: {
-        type: String,
-    }
 })
 </script>
 
@@ -22,9 +19,6 @@ const props = defineProps({
     <Head title="Llistat d'Empreses" />
     <AuthenticatedLayout>
         <section class="section-list-companies">
-            <div v-if="status" class="alert alert-success">
-                {{ status }}
-            </div>
             <div class="container-flex div-btn-create-new">
                 <a class="btn btn-secondary" :href="`/empresa/create`" role="button">+ Nova Empresa</a>
             </div>
