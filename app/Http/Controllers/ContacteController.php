@@ -28,8 +28,7 @@ class ContacteController extends Controller
 
         return Inertia::render('Contacte/Index', [
             'contactes' => $contactes,
-            'columns' => $columns,
-            'status' => session('status')
+            'columns' => $columns
         ]);
     }
 

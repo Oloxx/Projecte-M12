@@ -1,21 +1,19 @@
 <script setup>
-import { ref } from "vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import NavLink from "@/Components/NavLink.vue";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import Footer from "@/Components/Footer.vue";
+import BToast from "@/Components/BToast.vue";
 
-const user = usePage().props.auth.user;
+const page = usePage();
+
+const user = page.props.auth.user;
 const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
 
 </script>
 
 <template>
     <div class="p-3 bg-light">
-        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona"/>
+        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona" />
     </div>
     <header class="p-3 p-e-5 mb-3 border-bottom colorvb">
         <div class="container-flex">
@@ -59,5 +57,6 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
         </div>
     </header>
     <slot></slot>
+    <BToast />
     <Footer />
 </template>

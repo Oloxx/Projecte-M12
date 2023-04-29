@@ -1,6 +1,6 @@
 <script setup>
 import InputError from '@/Components/InputError.vue';
-import Modal from '@/Components/Modal.vue';
+import BModal from '@/Components/BModal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
@@ -53,7 +53,7 @@ const openModal = () => {
             Esborrar compte
         </PrimaryButton>
 
-        <Modal class="modal-lg">
+        <BModal class="modal-lg">
             <template #header>
                 <h3>Esteu segur que voleu esborrar el vostre compte?</h3>
             </template>
@@ -73,6 +73,6 @@ const openModal = () => {
                     Elimina
                 </PrimaryButton>
             </template>
-        </Modal>
+        </BModal>
     </section>
 </template>
