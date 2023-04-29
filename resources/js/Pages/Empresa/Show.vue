@@ -26,8 +26,8 @@ const props = defineProps({
     <AuthenticatedLayout>
         <div class="m-5">
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <Link href="/empresa" as="button" type="button" class="btn btn-secondary">Anar al Llistat</Link>
-                <Link href="/empresa/create" as="button" type="button" class="btn btn-secondary">Afegir nova empresa</Link>
+                <Link :href="route('empresa.index')" as="button" type="button" class="btn btn-secondary">Anar al Llistat</Link>
+                <Link :href="route('empresa.create')" as="button" type="button" class="btn btn-secondary">Afegir nova empresa</Link>
             </div>
             <h1 class="mb-4">Informació de l'empresa: <b>{{ empresa.nom }}</b></h1>
             <div class="div-content mb-3">
@@ -64,7 +64,7 @@ const props = defineProps({
             </DataTable>
             <span v-else> Encara no s'ha afegit cap contacte</span>
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <Link href="/contacte/create" method="get" :data="{ empresa: empresa.id }" as="button" type="button" class="btn btn-secondary">
+                <Link :href="route('contacte.create', empresa.id)" class="btn btn-secondary">
                 Afegir contacte</Link>
             </div>
         </div>

@@ -3,7 +3,7 @@ import DeleteButton from "@/Components/DeleteButton.vue";
 import EditButton from "@/Components/EditButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import { Link } from "@inertiajs/vue3";
-import Modal from "@/Components/Modal.vue";
+import BModal from "@/Components/BModal.vue";
 
 const props = defineProps({
     columns: {
@@ -66,7 +66,7 @@ const filteredColumns = () => {
                     <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" :data-bs-target="'#Modal' + row.id">
                         <i class="bi bi-trash"></i>
                     </button>
-                    <Modal :id="'Modal' + row.id">
+                    <BModal :id="'Modal' + row.id">
                         <template #header>
                             <h1>Confirmeu la supressió</h1>
                         </template>
@@ -82,7 +82,7 @@ const filteredColumns = () => {
                                 Elimina
                             </DeleteButton>
                         </template>
-                    </Modal>
+                    </BModal>
                 </td>
             </tr>
         </tbody>

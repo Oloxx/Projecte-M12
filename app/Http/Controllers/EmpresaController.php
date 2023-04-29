@@ -35,8 +35,7 @@ class EmpresaController extends Controller
 
         return Inertia::render('Empresa/Index', [
             'empreses' => $empreses,
-            'columns' => $columns,
-            'status' => session('status')
+            'columns' => $columns
         ]);
     }
 
@@ -134,7 +133,7 @@ class EmpresaController extends Controller
 
         $empresa->save();
 
-        return redirect()->route('empresa.index');
+        return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' modificada!');
     }
 
     /**

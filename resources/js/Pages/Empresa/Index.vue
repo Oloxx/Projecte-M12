@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/DataTable.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     columns: {
@@ -12,9 +12,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    status: {
-        type: String,
-    }
 })
 </script>
 
@@ -22,11 +19,8 @@ const props = defineProps({
     <Head title="Llistat d'Empreses" />
     <AuthenticatedLayout>
         <section class="section-list-companies">
-            <div v-if="status" class="alert alert-success">
-                {{ status }}
-            </div>
             <div class="container-flex div-btn-create-new">
-                <a class="btn btn-secondary" :href="`/empresa/create`" role="button">+ Nova Empresa</a>
+                <Link class="btn btn-secondary" :href="route('empresa.create')">+ Nova Empresa</Link>
             </div>
             <h1>Llistat d'Empreses</h1>
             <DataTable :columns=columns :rows=empreses :options=true name="empresa">
