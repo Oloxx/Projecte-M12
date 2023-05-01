@@ -56,7 +56,10 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
             </div>
         </div>
     </header>
-    <slot></slot>
+    <main>
+        <slot></slot>
+    </main>
     <BToast />
-    <Footer />
+    <Footer class="footer"></Footer>
 </template>
+

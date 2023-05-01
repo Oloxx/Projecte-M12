@@ -27,7 +27,7 @@ const props = defineProps({
                 {{ status }}
             </div>
             <div class="container-flex div-btn-create-new">
-                <Link class="btn btn-secondary" :href="route('contacte.create')">+ Nou Contacte</Link>
+                <Link class="btn btn-secondary" :href="route('contacte.createWithoutId')">+ Nou Contacte</Link>
             </div>
             <h1>Llistat de Contactes</h1>
             <DataTable :columns=columns :rows=contactes :options=true name="contacte">

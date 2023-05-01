@@ -17,7 +17,7 @@ class ContacteController extends Controller
     public function index()
     {
         $contactes = Contacte::with('empresa')->paginate(5);
-        //dd($empreses);
+
         $columns = [
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Cognoms", "field" => "cognoms"],
@@ -37,18 +37,21 @@ class ContacteController extends Controller
      */
     public function create(int $id)
     {
-        $empreses = Empresa::all();
+        $empresa = Empresa::where('id',$id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
 
-        return view('contacte.create', [
-            'idEmpresa' => $id, 'empreses' => $empreses
+        return Inertia::render('Contacte/Create', [
+            'empresa' => $empresa
         ]);
+
     }
 
     public function createWithoutId()
     {
         $empreses = Empresa::all();
 
-        return view('contacte.createWithoutId', ['empreses' => $empreses]);
+        return Inertia::render('Contacte/CreateContacte', [
+            'empreses' => $empreses
+        ]);
     }
 
     /**
@@ -61,11 +64,14 @@ class ContacteController extends Controller
         $contacte->cognoms = $request->cognoms;
         $contacte->movil = $request->movil;
         $contacte->email = $request->email;
-        $contacte->empresa_id = $request->empresa;
+        $contacte->empresa_id = $request->empresa_id;
 
         $contacte->save();
 
-        return redirect()->route('empresa_show', ['id' => $contacte->empresa_id])->with('status', 'Contacte ' . $contacte->nom . ' creat!');
+        $empresa = Empresa::where('id',$contacte->empresa_id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
+        
+        return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Nou contacte ' . $contacte->nom . ' creat!');
+
     }
 
     /**
@@ -73,9 +79,11 @@ class ContacteController extends Controller
      */
     public function edit(int $id)
     {
-        $contacte = Contacte::find($id);
-        $empreses = Empresa::all();
-        return view('contacte.edit', ['contacte' => $contacte, 'empreses' => $empreses]);
+        $contacte = Contacte::where('id',$id)->with('empresa')->firstOrFail();
+
+        return Inertia::render('Contacte/Edit', [
+            'contacte' => $contacte
+        ]);
     }
 
     /**
@@ -83,16 +91,19 @@ class ContacteController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $contacte = Contacte::find($id);
+        $contacte = Contacte::where('id',$id)->with('empresa')->firstOrFail();
         $contacte->nom = $request->nom;
         $contacte->cognoms = $request->cognoms;
         $contacte->movil = $request->movil;
         $contacte->email = $request->email;
-        $contacte->empresa_id = $request->empresa;
+        $contacte->empresa_id = $request->empresa_id;
 
         $contacte->save();
 
-        return redirect()->route('empresa_show', ['id' => $contacte->empresa_id])->with('status', 'Contacte ' . $contacte->nom . ' modificat!');
+        $empresa = Empresa::where('id',$contacte->empresa_id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
+
+        return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Contacte ' . $contacte->nom . ' modificat!');
+
     }
 
     /**
@@ -105,6 +116,6 @@ class ContacteController extends Controller
 
         $idEmpresa = $contacte->empresa_id;
 
-        return redirect()->route('empresa_show', ['id' => $idEmpresa])->with('status', 'Contacte ' . $contacte->nom . ' eliminat!');
+        return redirect()->route('empresa.show', ['id' => $idEmpresa])->with('status', 'Contacte ' . $contacte->nom . ' eliminat!');
     }
 }

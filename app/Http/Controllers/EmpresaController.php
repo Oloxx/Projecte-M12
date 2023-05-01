@@ -7,6 +7,7 @@ use Inertia\Inertia;
 
 
 use App\Models\Categoria;
+use App\Models\Collaboracio;
 use App\Models\Empresa;
 use App\Models\Poblacio;
 use App\Models\Sector;
@@ -21,7 +22,7 @@ class EmpresaController extends Controller
     public function index()
     {
         $empreses = Empresa::with('poblacio', 'categoria', 'sector')->paginate(5);
-        //dd($empreses);
+        
         $columns = [
             ["label" => "Logo", "field" => "logo"],
             ["label" => "Nom", "field" => "nom"],
@@ -84,17 +85,29 @@ class EmpresaController extends Controller
 
         $contactes = Contacte::where('empresa_id', $id)->paginate(5);
 
-        $columns = [
+        $collaboracions = Collaboracio::where('empresa_id',$id)->with('empresa', 'contacte', 'cicle', 'user')->paginate(5);
+
+        $columnsContacte = [
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Cognoms", "field" => "cognoms"],
             ["label" => "Mòvil", "field" => "movil"],
             ["label" => "E-mail", "field" => "email"],
         ];
 
+        $columnsCollaboracio = [
+            ["label" => "Cicle", "field" => "cicle.nom"],
+            ["label" => "Any", "field" => "any"],
+            ["label" => "Empresa", "field" => "empresa.nom"],
+            ["label" => "Contacte", "field" => "contacte.nom"],
+            ["label" => "Usuari", "field" => "user.name"],
+        ];
+
         return Inertia::render('Empresa/Show', [
             'empresa' => $empresa->load('poblacio', 'categoria', 'sector'),
             'contactes' => $contactes,
-            'columns' => $columns
+            'columnsContacte' => $columnsContacte,
+            'collaboracions' => $collaboracions,
+            'columnsCollaboracio' => $columnsCollaboracio
         ]);
 
     }

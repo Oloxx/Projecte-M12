@@ -41,25 +41,36 @@ class CollaboracioController extends Controller
         $empreses = Empresa::all();
         $cicles = Cicle::all();
         $user = Auth::user();
-        $year = date("Y") + 1;
+        $year = date("Y");
 
-        return view('collaboracio.create', [
+        return Inertia::render('Collaboracio/Create', [
             'empreses' => $empreses, 'cicles' => $cicles, 'user' => $user, 'year' => $year
         ]);
+
+        
     }
 
     /**
      * Get contacts for create blade.
      */
-    public function getContactes(Request $request)
+    public function getContactes(int $id)
     {
+        $empreses = Empresa::all();
+        $cicles = Cicle::all();
+        $user = Auth::user();
+        $year = date("Y");
+
         try {
-            if ($request->id) {
-                $empresa_id = $request->id;
-                $contactes = Contacte::where('contactes.empresa_id', '=', $empresa_id)
-                    ->select('contactes.*')
-                    ->get();
-                return response()->json($contactes);
+            if ($id) {
+                $contactes = Contacte::where('empresa_id',$id)->with('empresa')->firstOrFail();
+                $empreses = Empresa::all();
+                $cicles = Cicle::all();
+                $user = Auth::user();
+                $year = date("Y");
+                return Inertia::share('Collaboracio/Create', [
+                    'empreses' => $empreses, 'cicles' => $cicles, 'user' => $user, 'year' => $year, 'contactes' => $contactes
+                ]);
+                //return response()->json($contactes);
             }
         } catch (\Exception $exception) {
             return response()->json(['message' => 'There was an error retrieving the records'], 500);

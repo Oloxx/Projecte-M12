@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/collaboracio/index', [CollaboracioController::class, 'index'])->name('collaboracio.index');
     Route::get('/collaboracio/show', [CollaboracioController::class, 'show'])->name('collaboracio.show');
     Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->name('collaboracio.create');
-    Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
+    Route::get('/collaboracio/getcontactes/{id}', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
     Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio.store');
     Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio.edit');
     Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio.update');
@@ -56,7 +56,8 @@ Route::middleware('auth')->group(function () {
     // CONTACTE CONTROLLER
     Route::get('/contacte/index', [ContacteController::class, 'index'])->name('contacte.index');
     Route::get('/contacte/show', [ContacteController::class, 'show'])->name('contacte.show');
-    Route::get('/contacte/create', [ContacteController::class, 'create'])->name('contacte.create');
+    Route::get('/contacte/create/{id}', [ContacteController::class, 'create'])->name('contacte.create');
+    Route::get('/contacte/createContacte', [ContacteController::class, 'createWithoutId'])->name('contacte.createWithoutId');
     Route::post('/contacte/getcontactes', [ContacteController::class, 'getContactes'])->name('contacte.getcontactes');
     Route::post('/contacte/store', [ContacteController::class, 'store'])->name('contacte.store');
     Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte.edit');
