@@ -6,12 +6,14 @@ import { router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { reactive } from 'vue';
 
-
-
 /**
  *  Data received from the controller
  */
 var props = defineProps({
+    collaboracio: {
+        type: Object,
+        required: true,
+    },
     empreses: {
         type: Object,
         required: true,
@@ -51,17 +53,17 @@ const schema = Yup.object().shape({
  * Inputs from the controller
  */
 const form = reactive({
-    empresa_id: null,
-    contacte_id: null,
-    cicle_id: null,
-    any: null,
-    user: props.user,
-    comentaris: null,
+    empresa_id: props.collaboracio.empresa_id,
+    contacte_id: props.collaboracio.contacte_id,
+    cicle_id: props.collaboracio.cicle_id,
+    any: props.collaboracio.any,
+    user: props.collaboracio.user,
+    comentaris: props.collaboracio.comentaris,
 });
 
 // Request form
 async function onSubmit(values) {
-    router.post("/collaboracio/store", form);
+    router.put(`/collaboracio/update/${props.collaboracio.id}`, form, );
 }
 
 var contactesFiltrats = reactive([]);
@@ -97,7 +99,7 @@ carregarAny();
 
 <template>
     <AuthenticatedLayout>
-        <h1 class="mt-5 ms-5 mb-4">Crear nova estada</h1>
+        <h1 class="mt-5 ms-5 mb-4">Editar estada</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
                 <!-- Empresa -->
@@ -167,7 +169,7 @@ carregarAny();
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary mr-1 me-3">
-                    Crear Estada
+                    Editar Estada
                 </button>
                 <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">Cancel·lar</Link>
             </div>

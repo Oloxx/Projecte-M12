@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/collaboracio/index', [CollaboracioController::class, 'index'])->name('collaboracio.index');
     Route::get('/collaboracio/show', [CollaboracioController::class, 'show'])->name('collaboracio.show');
     Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->name('collaboracio.create');
-    Route::get('/collaboracio/getcontactes/{id}', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
+    Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
     Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio.store');
     Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio.edit');
     Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio.update');

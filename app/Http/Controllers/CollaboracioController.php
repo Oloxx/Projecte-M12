@@ -39,38 +39,28 @@ class CollaboracioController extends Controller
     public function create()
     {
         $empreses = Empresa::all();
+        $contactes = Contacte::all();
         $cicles = Cicle::all();
         $user = Auth::user();
-        $year = date("Y");
+        $year = date("Y")+1;
 
         return Inertia::render('Collaboracio/Create', [
-            'empreses' => $empreses, 'cicles' => $cicles, 'user' => $user, 'year' => $year
+            'empreses' => $empreses, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
         ]);
-
-        
     }
 
     /**
      * Get contacts for create blade.
      */
-    public function getContactes(int $id)
+    public function getContactes(Request $request)
     {
-        $empreses = Empresa::all();
-        $cicles = Cicle::all();
-        $user = Auth::user();
-        $year = date("Y");
 
         try {
-            if ($id) {
-                $contactes = Contacte::where('empresa_id',$id)->with('empresa')->firstOrFail();
-                $empreses = Empresa::all();
-                $cicles = Cicle::all();
-                $user = Auth::user();
-                $year = date("Y");
-                return Inertia::share('Collaboracio/Create', [
-                    'empreses' => $empreses, 'cicles' => $cicles, 'user' => $user, 'year' => $year, 'contactes' => $contactes
+            if ($request->id) {
+                $contactes = Contacte::where('empresa_id', $request->id)->with('empresa')->firstOrFail();
+                return response()->json([
+                    'contactes' => $contactes
                 ]);
-                //return response()->json($contactes);
             }
         } catch (\Exception $exception) {
             return response()->json(['message' => 'There was an error retrieving the records'], 500);
@@ -83,16 +73,17 @@ class CollaboracioController extends Controller
     public function store(Request $request)
     {
         $collaboracio = new Collaboracio;
-        $collaboracio->empresa_id = $request->empresa;
-        $collaboracio->contacte_id = $request->contacte;
-        $collaboracio->cicle_id = $request->cicle;
-        $collaboracio->any = $request->year;
+        $collaboracio->empresa_id = $request->empresa_id;
+        $collaboracio->contacte_id = $request->contacte_id;
+        $collaboracio->cicle_id = $request->cicle_id;
+        $collaboracio->any = $request->any;
         $collaboracio->comentaris = $request->comentaris;
         $collaboracio->user_id = $request->user()->id;
 
         $collaboracio->save();
 
-        return redirect()->route('collaboracio_index')->with('status', 'Col·laboració ' . $collaboracio->id . ' editada!');
+        return redirect()->route('empresa.index')->with('status', 'Estada ' . $collaboracio->id . ' desada!');
+
     }
 
     /**
@@ -100,14 +91,16 @@ class CollaboracioController extends Controller
      */
     public function edit(int $id)
     {
-        $collaboracio = Collaboracio::find($id);
+        $collaboracio = Collaboracio::where('id',$id)->with('empresa', 'contacte', 'cicle', 'user')->firstOrFail();
         $contactes = Contacte::all();
         $empreses = Empresa::all();
         $cicles = Cicle::all();
         $user = Auth::user();
         $year = date("Y") + 1;
 
-        return view('collaboracio.edit', ['collaboracio' => $collaboracio, 'empreses' => $empreses, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year]);
+        return Inertia::render('Collaboracio/Edit', [
+            'collaboracio' => $collaboracio, 'empreses' => $empreses, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
+        ]);
     }
 
     /**
@@ -116,15 +109,15 @@ class CollaboracioController extends Controller
     public function update(Request $request, int $id)
     {
         $collaboracio = Collaboracio::find($id);
-        $collaboracio->any = $request->year;
-        $collaboracio->empresa_id = $request->empresa;
-        $collaboracio->contacte_id = $request->contacte;
-        $collaboracio->cicle_id = $request->cicle;
+        $collaboracio->any = $request->any;
+        $collaboracio->empresa_id = $request->empresa_id;
+        $collaboracio->contacte_id = $request->contacte_id;
+        $collaboracio->cicle_id = $request->cicle_id;
         $collaboracio->comentaris = $request->comentaris;
 
         $collaboracio->save();
 
-        return redirect()->route('collaboracio_index')->with('status', 'Col·laboració ' . $collaboracio->id . ' modificada!');
+        return redirect()->route('collaboracio.index')->with('status', 'Estada ' . $collaboracio->id . ' modificada!');
     }
 
     /**
@@ -135,6 +128,6 @@ class CollaboracioController extends Controller
         $collaboracio = Collaboracio::find($id);
         $collaboracio->delete();
 
-        return redirect()->route('collaboracio_index')->with('status', 'Col·laboració ' . $collaboracio->id . ' eliminada!');
+        return redirect()->route('collaboracio.index')->with('status', 'Estada ' . $collaboracio->id . ' eliminada!');
     }
 }

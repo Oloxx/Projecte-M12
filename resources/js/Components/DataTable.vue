@@ -48,15 +48,29 @@ const filteredColumns = () => {
 }
 
 function deleteUser(row, name) {
+
+    let txt = '';
+    let registre = '';
+    if(name == 'empresa'){
+        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar l\'empresa <b>${row.nom}</b>?</p>`;
+        registre = `Empresa ${row.nom} eliminada!`;
+    } else if (name == 'contacte'){
+        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar el contacte <b>${row.nom}</b>?</p>`;
+        registre = `Contacte ${row.nom} eliminat!`;
+    } else {
+        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar la col·laboració amb l'empresa <b>${row.empresa.nom}</b>?</p>`;
+        registre = `Col·laboració ${row.empresa.nom} eliminada!`;
+    }
+
     Swal.fire({
-        html: `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar l'empresa <b>${row.nom}</b>?</p>`,
+        html: txt,
         showDenyButton: true,
         confirmButtonText: 'Eliminar',
         denyButtonText: `Cancelar`,
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-            Swal.fire(`Registre ${row.nom} eliminat!`, '', 'success');
+            Swal.fire(registre, '', 'success');
             router.delete(`/${name}/delete/${row.id}`)
         } else if (result.isDenied) {
             Swal.fire('Els canvis no s\'han guardat', '', 'info')
