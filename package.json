@@ -24,12 +24,14 @@
         "laravel-vue-pagination": "^4.1.0",
         "portal-vue": "^3.0.0-beta.0",
         "sass": "^1.60.0",
+        "sweetalert2": "^11.7.3",
         "typescript": "^5.0.4",
         "vee-validate": "^4.8.6",
         "vue-awesome-paginate": "^1.1.46",
         "vue-i18n": "^9.2.2",
         "vue-laravel-csrf": "^1.0.0",
         "vue-paginate": "^3.6.0",
+        "vue-sweetalert2": "^5.0.5",
         "yup": "^1.1.1"
     }
 }
