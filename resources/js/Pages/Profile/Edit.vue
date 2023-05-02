@@ -16,13 +16,9 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Profile" />
+    <Head :title="$t(`Perfil`)" />
 
     <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>
-        </template>
-
         <div class="py-2">
             <div class="mx-3">
                 <div class="p-4 ">

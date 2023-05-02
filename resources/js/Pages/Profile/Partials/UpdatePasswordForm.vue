@@ -36,16 +36,16 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2>Actualitza la contrasenya</h2>
+            <h2>{{ $t("Actualitza la contrasenya") }}</h2>
 
             <p class="mt-1">
-                Assegureu-vos que el vostre compte utilitzi una contrasenya llarga i aleatòria per mantenir la seguretat.
+                {{ $t("Assegureu-vos que el vostre compte utilitzi una contrasenya llarga i aleatòria per mantenir la seguretat.") }}
             </p>
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-1">
             <div>
-                <InputLabel for="current_password" value="Contrasenya Actual" />
+                <InputLabel for="current_password" :value="$t(`Contrasenya Actual`)" />
 
                 <TextInput
                     id="current_password"
@@ -60,7 +60,7 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <InputLabel for="password" value="Nova Contrasenya" />
+                <InputLabel for="password" :value="$t(`Nova Contrasenya`)" />
 
                 <TextInput
                     id="password"
@@ -75,7 +75,7 @@ const updatePassword = () => {
             </div>
 
             <div class="mb-3">
-                <InputLabel for="password_confirmation" value="Confirma la Contrasenya" />
+                <InputLabel for="password_confirmation" :value="$t(`Confirma la Contrasenya`)" />
 
                 <TextInput
                     id="password_confirmation"
@@ -89,10 +89,10 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <PrimaryButton :disabled="form.processing">Desa</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">{{ $t("Desa") }}</PrimaryButton>
 
                 <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                    <p v-if="form.recentlySuccessful" class="alert alert-info mt-3" style="max-width: 400px;">Desat.</p>
+                    <p v-if="form.recentlySuccessful" class="alert alert-info mt-3" style="max-width: 400px;">{{ $t("Desat") }}!</p>
                 </Transition>
             </div>
         </form>

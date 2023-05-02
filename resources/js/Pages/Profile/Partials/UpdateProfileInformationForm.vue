@@ -26,16 +26,16 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2>Informació del perfil</h2>
+            <h2>{{ $t("Informació del perfil") }}</h2>
 
             <p>
-                Actualitzeu la informació del perfil i l'adreça de correu electrònic del vostre compte.
+                {{ $t("Actualitzeu la informació del perfil i l'adreça de correu electrònic del vostre compte.") }}
             </p>
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" >
             <div>
-                <InputLabel for="name" value="Nom" />
+                <InputLabel for="name" :value="$t(`Nom`)" />
 
                 <TextInput
                     id="name"
@@ -51,7 +51,7 @@ const form = useForm({
             </div>
 
             <div class="mt-2">
-                <InputLabel for="cognoms" value="Cognoms" />
+                <InputLabel for="cognoms" :value="$t(`Cognoms`)" />
 
                 <TextInput
                     id="cognoms"
@@ -66,7 +66,7 @@ const form = useForm({
             </div>
 
             <div class="mb-3 mt-2">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" :value="$t(`Email`)" />
 
                 <TextInput
                     id="email"
@@ -101,10 +101,10 @@ const form = useForm({
             </div>
 
             <div >
-                <PrimaryButton :disabled="form.processing">Desa</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">{{ $t("Desa") }}</PrimaryButton>
 
                 <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                    <p v-if="form.recentlySuccessful" class="alert alert-info mt-3" style="max-width: 400px;">Desat.</p>
+                    <p v-if="form.recentlySuccessful" class="alert alert-info mt-3" style="max-width: 400px;">{{ $t("Desat") }}.</p>
                 </Transition>
             </div>
         </form>

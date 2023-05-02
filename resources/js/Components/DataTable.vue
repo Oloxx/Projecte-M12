@@ -54,8 +54,8 @@ const filteredColumns = () => {
         <thead>
             <tr>
                 <th v-if="columns[0].label === 'Logo'" width=60></th>
-                <th v-for="column in filteredColumns()">{{ column.label }}</th>
-                <th v-if="options">Opcions</th>
+                <th v-for="column in filteredColumns()">{{ $t(column.label) }}</th>
+                <th v-if="options">{{ $t("Opcions") }}</th>
             </tr>
         </thead>
         <tbody>
@@ -68,18 +68,18 @@ const filteredColumns = () => {
                     </button>
                     <BModal :id="'Modal' + row.id">
                         <template #header>
-                            <h1>Confirmeu la supressió</h1>
+                            <h1>{{ $t("Confirmeu la supressió") }}</h1>
                         </template>
                         <template #body>
                             <p>
-                                Estàs segur que vols eliminar <b>{{ row.nom }}</b>?
+                                {{ $t("Estàs segur que vols eliminar") }} <b>{{ row.nom }}</b>?
                                 <br>
                                 <slot name="confirmDelete"></slot>
                             </p>
                         </template>
                         <template #button>
                             <DeleteButton data-bs-dismiss="modal" :url="route(name + '.delete', row.id)">
-                                Elimina
+                                {{ $t("Elimina") }}
                             </DeleteButton>
                         </template>
                     </BModal>
