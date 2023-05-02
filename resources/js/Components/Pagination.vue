@@ -24,7 +24,7 @@ const filteredLinks = computed(() => {
             :key="index"
             name="link"
             class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
-            :class="{ 'bg-indigo-400 text-white': link.active }"
+            :class="{ 'bg-indigo-400 text-light': link.active }"
             :href="link.url !== null ? link.url : ''"
             v-html="link.label"
             preserveScroll

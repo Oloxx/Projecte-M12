@@ -20,19 +20,19 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Llistat de Contactes" />
+    <Head :title="$t(`Contactes`)" />
     <AuthenticatedLayout>
         <section class="section-list-companies">
             <div v-if="status" class="alert alert-success">
                 {{ status }}
             </div>
             <div class="container-flex div-btn-create-new">
-                <Link class="btn btn-secondary" :href="route('contacte.create')">+ Nou Contacte</Link>
+                <Link class="btn btn-secondary" :href="route('contacte.create')">+ {{ $t("Nou Contacte") }}</Link>
             </div>
-            <h1>Llistat de Contactes</h1>
+            <h1>{{ $t("Llistat de Contactes") }}</h1>
             <DataTable :columns=columns :rows=contactes :options=true name="contacte">
                 <template #confirmDelete>
-                    Aquesta acció eliminarà el contacte.
+                    {{ $t("Aquesta acció eliminarà el contacte.") }}
                 </template>
             </DataTable>
         </section>

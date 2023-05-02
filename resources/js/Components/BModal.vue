@@ -10,7 +10,7 @@
                     <slot name="body"></slot>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel·la</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $t("Cancel·la") }}</button>
                     <slot name="button"></slot>
                 </div>
             </div>

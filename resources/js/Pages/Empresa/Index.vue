@@ -16,16 +16,16 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Llistat d'Empreses" />
+    <Head :title="$t(`Empreses`)" />
     <AuthenticatedLayout>
         <section class="section-list-companies">
             <div class="container-flex div-btn-create-new">
-                <Link class="btn btn-secondary" :href="route('empresa.create')">+ Nova Empresa</Link>
+                <Link class="btn btn-secondary" :href="route('empresa.create')">+ {{ $t("Nova Empresa") }}</Link>
             </div>
-            <h1>Llistat d'Empreses</h1>
+            <h1>{{ $t(`Llistat d'Empreses`) }}</h1>
             <DataTable :columns=columns :rows=empreses :options=true name="empresa">
                 <template #confirmDelete>
-                    Aquesta acció eliminarà TOTS els contactes de l'empresa
+                    {{ $t("Aquesta acció eliminarà TOTS els contactes de l'empresa") }}
                 </template>
             </DataTable>
         </section>
