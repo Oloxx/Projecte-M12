@@ -1,9 +1,9 @@
 <script setup>
-import DeleteButton from "@/Components/DeleteButton.vue";
 import EditButton from "@/Components/EditButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import { Link } from "@inertiajs/vue3";
-import BModal from "@/Components/BModal.vue";
+import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     columns: {
@@ -47,6 +47,38 @@ const filteredColumns = () => {
     return props.columns.filter(column => column.label !== 'Logo');
 }
 
+function deleteUser(row, name) {
+
+    let txt = '';
+    let registre = '';
+    if(name == 'empresa'){
+        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar l\'empresa <b>${row.nom}</b>?</p>`;
+        registre = `Empresa ${row.nom} eliminada!`;
+    } else if (name == 'contacte'){
+        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar el contacte <b>${row.nom}</b>?</p>`;
+        registre = `Contacte ${row.nom} eliminat!`;
+    } else {
+        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar la col·laboració amb l'empresa <b>${row.empresa.nom}</b>?</p>`;
+        registre = `Col·laboració ${row.empresa.nom} eliminada!`;
+    }
+
+    Swal.fire({
+        html: txt,
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: `Cancelar`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            Swal.fire(registre, '', 'success');
+            router.delete(`/${name}/delete/${row.id}`)
+        } else if (result.isDenied) {
+            Swal.fire('Els canvis no s\'han guardat', '', 'info')
+        }
+    })
+
+}
+
 </script>
 
 <template>
@@ -60,29 +92,14 @@ const filteredColumns = () => {
         </thead>
         <tbody>
             <tr v-for="row in rows.data" :key="row.id">
-                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns" v-html="fieldValue(row, column)" class="align-middle"></Link>
+                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
+                    v-html="fieldValue(row, column)" class="align-middle">
+                </Link>
                 <td v-if="options">
                     <EditButton :url="route(name + '.edit', row.id)" />
-                    <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" :data-bs-target="'#Modal' + row.id">
+                    <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
                         <i class="bi bi-trash"></i>
                     </button>
-                    <BModal :id="'Modal' + row.id">
-                        <template #header>
-                            <h1>{{ $t("Confirmeu la supressió") }}</h1>
-                        </template>
-                        <template #body>
-                            <p>
-                                {{ $t("Estàs segur que vols eliminar") }} <b>{{ row.nom }}</b>?
-                                <br>
-                                <slot name="confirmDelete"></slot>
-                            </p>
-                        </template>
-                        <template #button>
-                            <DeleteButton data-bs-dismiss="modal" :url="route(name + '.delete', row.id)">
-                                {{ $t("Elimina") }}
-                            </DeleteButton>
-                        </template>
-                    </BModal>
                 </td>
             </tr>
         </tbody>

@@ -12109,13 +12109,6 @@ body {
   font-weight: 100;
 }
 
-.footer {
-  background-color: rgb(11, 125, 214);
-}
-.footer span {
-  color: whitesmoke;
-}
-
 button:hover {
   color: rgb(39, 58, 129);
 }
@@ -12253,20 +12246,6 @@ button:hover {
 }
 .section-list-companies ul {
   justify-content: flex-end;
-}
-
-footer {
-  background-color: rgb(187, 0, 0);
-  padding-left: 3vw;
-  padding-right: 3vw;
-  height: 60px;
-  bottom: 50px;
-}
-footer ul li .nav-link {
-  color: whitesmoke;
-}
-footer ul li .nav-link:hover {
-  color: rgb(70, 70, 70);
 }
 
 @media screen and (max-width: 1453px) {

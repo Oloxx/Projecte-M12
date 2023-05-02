@@ -143,6 +143,6 @@ async function onSubmit(values) {
                 </button>
                 <Link :href="route('empresa.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·la") }}</Link>
             </div>
-        </Form>
+        </Form><br><br><br>
     </AuthenticatedLayout>
 </template>

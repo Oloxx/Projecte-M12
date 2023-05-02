@@ -56,7 +56,8 @@ Route::middleware('auth')->group(function () {
     // CONTACTE CONTROLLER
     Route::get('/contacte/index', [ContacteController::class, 'index'])->name('contacte.index');
     Route::get('/contacte/show', [ContacteController::class, 'show'])->name('contacte.show');
-    Route::get('/contacte/create', [ContacteController::class, 'create'])->name('contacte.create');
+    Route::get('/contacte/create/{id}', [ContacteController::class, 'create'])->name('contacte.create');
+    Route::get('/contacte/createContacte', [ContacteController::class, 'createWithoutId'])->name('contacte.createWithoutId');
     Route::post('/contacte/getcontactes', [ContacteController::class, 'getContactes'])->name('contacte.getcontactes');
     Route::post('/contacte/store', [ContacteController::class, 'store'])->name('contacte.store');
     Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte.edit');

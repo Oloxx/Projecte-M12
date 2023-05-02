@@ -2,6 +2,8 @@
 import { Head, Link } from "@inertiajs/vue3";
 import DataTable from "@/Components/DataTable.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { router } from '@inertiajs/vue3';
+
 
 /**
  *  Data received from the controller
@@ -15,11 +17,28 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    columns: {
+    columnsContacte: {
+        type: Array,
+        required: true,
+    },
+    collaboracions: {
+        type: Object,
+        required: true,
+    },
+    columnsCollaboracio: {
         type: Array,
         required: true,
     },
 });
+
+// Request form  
+async function onSubmitContacte() {
+    router.get(`/contacte/create/${props.empresa.id}`)
+}
+
+async function onSubmitCollaboracio() {
+    router.get(`/collaboracio/create/${props.empresa.id}`)
+}
 </script>
 
 <template>
@@ -58,7 +77,7 @@ const props = defineProps({
             </div>
             <br />
             <h1 class="mb-4">{{ $t("Llistat de Contactes") }}</h1>
-            <DataTable v-if="Object.keys(props.contactes).length == 0" :columns="columns" :rows="contactes" :options="true"
+            <DataTable v-if="props.contactes.total != 0" :columns="columnsContacte" :rows="contactes" :options="true"
                 name="contacte">
                 <template #confirmDelete>
                     {{ $t("Aquesta acció eliminarà TOTS els contactes de l'empresa") }}
@@ -66,9 +85,20 @@ const props = defineProps({
             </DataTable>
             <span v-else>{{ $t("Encara no s'ha afegit cap contacte") }}</span>
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <Link :href="route('contacte.create', empresa.id)" class="btn btn-secondary">
-                {{ $t("Afegir contacte") }}</Link>
+                <button type="button" @click="onSubmitContacte()" class="btn btn-primary mr-1 me-3">
+                    {{ $t("Afegir contacte") }}
+                </button>
             </div>
+            <h1 class="mb-4">Llistat d'estades</h1>
+            <DataTable v-if="props.collaboracions.total != 0" :columns="columnsCollaboracio" :rows="collaboracions" :options="true"
+                name="collaboracio">
+            </DataTable>
+            <span v-else> Encara no s'ha afegit cap estada.</span>
+            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" @click="onSubmitCollaboracio()" class="btn btn-primary mr-1 me-3">
+                    Afegir Estada
+                </button>
+            </div><br>
         </div>
     </AuthenticatedLayout>
 </template>

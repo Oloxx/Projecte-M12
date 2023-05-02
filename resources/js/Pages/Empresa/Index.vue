@@ -31,3 +31,9 @@ const props = defineProps({
         </section>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.footer{
+    bottom:0;
+}
+</style>

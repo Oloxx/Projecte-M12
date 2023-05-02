@@ -279,14 +279,6 @@ body {
     }
 }
 
-.footer {
-    background-color: $colorblausecundari;
-
-    span {
-        color: $whitesmoke;
-    }
-}
-
 button:hover {
     color: $colorblaulogo;
 }
@@ -493,29 +485,6 @@ button:hover {
     }
 }
 
-// Footer
-
-footer {
-    background-color: $vermellVallbona;
-    padding-left: 3vw;
-    padding-right: 3vw;
-    height: 60px;
-    bottom: 50px;
-
-    ul {
-        li {
-            .nav-link {
-                color: $whitesmoke;
-
-            }
-
-            .nav-link:hover {
-                color: $colorblack80;
-            }
-
-        }
-    }
-}
 
 @media screen and (max-width: 1453px) {
 

@@ -11,6 +11,9 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+//Pop up
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // Start
 
@@ -29,6 +32,7 @@ createInertiaApp({
             .use(plugin)
             .use(i18n)
             .use(ZiggyVue, Ziggy)
+            .use(VueSweetalert2)
             .mount(el);
     },
     progress: {
