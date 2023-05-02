@@ -13,20 +13,20 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
 
 <template>
     <div class="p-3 bg-light">
-        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona" />
+        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona"/>
     </div>
     <header class="p-3 p-e-5 mb-3 border-bottom colorvb">
         <div class="container-flex">
             <div class="d-flex align-items-center justify-content-center justify-content-lg-start px-5">
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li>
-                        <Link :href="route('empresa.index')" class="nav-link px-2 link-light">Empresa</Link>
+                        <Link :href="route('empresa.index')" class="nav-link px-2 link-light">{{ $t("Empresa") }}</Link>
                     </li>
                     <li>
-                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">Col·laboracions</Link>
+                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">{{ $t("Col·laboracions") }}</Link>
                     </li>
                     <li>
-                        <Link :href="route('contacte.index')" class="nav-link px-2 link-light">Contactes</Link>
+                        <Link :href="route('contacte.index')" class="nav-link px-2 link-light">{{ $t("Contactes") }}</Link>
                     </li>
                 </ul>
 

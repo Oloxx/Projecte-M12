@@ -1,7 +1,7 @@
 <template>
     <footer class="foot colorvb">
         <div class="container text-center text-light p-3 ">
-            <span>Copyright © 2023 IES Carles Vallbona. Tots els drets reservats.</span>
+            <span>Copyright © 2023 IES Carles Vallbona. {{ $t("Tots els drets reservats.") }}</span>
         </div>
     </footer>
 </template>

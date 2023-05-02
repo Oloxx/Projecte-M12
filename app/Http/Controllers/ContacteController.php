@@ -21,7 +21,7 @@ class ContacteController extends Controller
         $columns = [
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Cognoms", "field" => "cognoms"],
-            ["label" => "Móvil", "field" => "movil"],
+            ["label" => "Mòbil", "field" => "movil"],
             ["label" => "E-mail", "field" => "email"],
             ["label" => "Empresa", "field" => "empresa.nom"]
         ];

@@ -86,8 +86,8 @@ function deleteUser(row, name) {
         <thead>
             <tr>
                 <th v-if="columns[0].label === 'Logo'" width=60></th>
-                <th v-for="column in filteredColumns()">{{ column.label }}</th>
-                <th v-if="options">Opcions</th>
+                <th v-for="column in filteredColumns()">{{ $t(column.label) }}</th>
+                <th v-if="options">{{ $t("Opcions") }}</th>
             </tr>
         </thead>
         <tbody>
