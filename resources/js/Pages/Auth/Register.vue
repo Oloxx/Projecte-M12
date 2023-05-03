@@ -1,18 +1,30 @@
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 
+
+/**
+ *  Data received from the controller
+ */
+const props = defineProps({
+    cicles: {
+        type: Object,
+        required: true,
+    }
+});
+
 const form = useForm({
     name: "",
     cognoms: "",
+    cicle_id: "",
     email: "",
     password: "",
     password_confirmation: "",
-    terms: false,
+    terms: false
 });
 
 const submit = () => {
@@ -23,143 +35,76 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthenticatedLayout>
+
         <Head title="Register" />
-        <body class="d-flex flex-column m-0">
-            <main class="d-flex align-items-center justify-content-center">
-                <div class="container rounded-4">
-                    <h1 class="text-center m-4">Registre d'usuari</h1>
-                    <form 
-                        @submit.prevent="submit" 
-                        class="d-flex flex-column justify-content-center m-auto"
-                        style="max-width:650px"
-                    >
-                        <div class="form-outline mb-4">
-                            <InputLabel
-                                for="name"
-                                class="form-label"
-                                value="Nom"
-                            />
 
-                            <TextInput
-                                id="name"
-                                type="text"
-                                class="form-control"
-                                v-model="form.name"
-                                required
-                                autofocus
-                                autocomplete="name"
-                            />
+        <h1 class="mt-5 ms-5 mb-4">Registre d'usuari</h1>
+        <form @submit.prevent="submit" class="ms-5 me-5" >
+            <div class="form-outline mb-4">
+                <InputLabel for="name" class="form-label" value="Nom" />
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.name"
-                            />
-                        </div>
+                <TextInput id="name" type="text" class="form-control" v-model="form.name" required autofocus
+                    autocomplete="name" />
 
-                        <div class="form-outline mb-4">
-                            <InputLabel
-                                for="cognoms"
-                                class="form-label"
-                                value="Cognoms"
-                            />
+                <InputError class="mt-2" :message="form.errors.name" />
+            </div>
 
-                            <TextInput
-                                id="cognoms"
-                                type="text"
-                                class="form-control"
-                                v-model="form.cognoms"
-                                required
-                                autocomplete="family-name"
-                            />
+            <div class="form-outline mb-4">
+                <InputLabel for="cognoms" class="form-label" value="Cognoms" />
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.name"
-                            />
-                        </div>
+                <TextInput id="cognoms" type="text" class="form-control" v-model="form.cognoms" required
+                    autocomplete="family-name" />
 
-                        <div class="form-outline mb-4">
-                            <InputLabel
-                                for="email"
-                                class="form-label"
-                                value="Email"
-                            />
+                <InputError class="mt-2" :message="form.errors.name" />
+            </div>
 
-                            <TextInput
-                                id="email"
-                                type="email"
-                                class="form-control"
-                                v-model="form.email"
-                                required
-                                autocomplete="email"
-                            />
+            <div class="form-outline mb-4">
+                <InputLabel for="cicle_id" class="form-label" value="Cicle" />
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.email"
-                            />
-                        </div>
+                <select name="cicle_id" id="cicle_id" class="form-control" v-model="form.cicle_id" required>
+                    <option v-for="cicle in cicles" :value="cicle.id">
+                        {{ cicle.nom }}
+                    </option>
+                </select>
 
-                        <div class="form-outline mb-4">
-                            <InputLabel
-                                for="password"
-                                class="form-label"
-                                value="Contrasenya"
-                            />
+                <InputError class="mt-2" :message="form.errors.cicle_id" />
 
-                            <TextInput
-                                id="password"
-                                type="password"
-                                class="form-control"
-                                v-model="form.password"
-                                required
-                                autocomplete="new-password"
-                            />
+            </div>
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.password"
-                            />
-                        </div>
+            <div class="form-outline mb-4">
+                <InputLabel for="email" class="form-label" value="Email" />
 
-                        <div class="form-outline mb-4">
-                            <InputLabel
-                                for="password_confirmation"
-                                class="form-label"
-                                value="Confirmeu la contrasenya"
-                            />
+                <TextInput id="email" type="email" class="form-control" v-model="form.email" required
+                    autocomplete="email" />
 
-                            <TextInput
-                                id="password_confirmation"
-                                type="password"
-                                class="form-control"
-                                v-model="form.password_confirmation"
-                                required
-                                autocomplete="new-password"
-                            />
+                <InputError class="mt-2" :message="form.errors.email" />
+            </div>
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.password_confirmation"
-                            />
-                        </div>
+            <div class="form-outline mb-4">
+                <InputLabel for="password" class="form-label" value="Contrasenya" />
 
-                        <div class="text-center mt-2">
-                            <PrimaryButton
-                                class="btn btnlogin btn-block mb-4"
-                                :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing"
-                            >
-                                Registra't
-                            </PrimaryButton> <br>
-                            <Link :href="route('login')" class="link-primary">
-                                Ja estàs registrat? Fes click aquí
-                            </Link>
-                        </div>
-                    </form>
-                </div>
-            </main>
-        </body>
-    </GuestLayout>
+                <TextInput id="password" type="password" class="form-control" v-model="form.password" required
+                    autocomplete="new-password" />
+
+                <InputError class="mt-2" :message="form.errors.password" />
+            </div>
+
+            <div class="form-outline mb-4">
+                <InputLabel for="password_confirmation" class="form-label" value="Confirmeu la contrasenya" />
+
+                <TextInput id="password_confirmation" type="password" class="form-control"
+                    v-model="form.password_confirmation" required autocomplete="new-password" />
+
+                <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            </div>
+
+            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
+                <PrimaryButton class="btn btnlogin btn-block mb-4" :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing">
+                    Registra el nou usuari
+                </PrimaryButton> <br>
+            </div>
+        </form><br><br><br>
+    </AuthenticatedLayout>
 </template>

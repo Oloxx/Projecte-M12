@@ -22,6 +22,8 @@ class User extends Authenticatable
         'cognoms',
         'email',
         'password',
+        'cicle_id',
+        'rol_id'
     ];
 
     /**

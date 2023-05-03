@@ -13,7 +13,7 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
 
 <template>
     <div class="p-3 bg-light">
-        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona"/>
+        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona" />
     </div>
     <header class="p-3 p-e-5 mb-3 border-bottom colorvb">
         <div class="container-flex">
@@ -23,7 +23,8 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
                         <Link :href="route('empresa.index')" class="nav-link px-2 link-light">{{ $t("Empresa") }}</Link>
                     </li>
                     <li>
-                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">{{ $t("Col·laboracions") }}</Link>
+                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">{{ $t("Col·laboracions")
+                        }}</Link>
                     </li>
                     <li>
                         <Link :href="route('contacte.index')" class="nav-link px-2 link-light">{{ $t("Contactes") }}</Link>
@@ -40,6 +41,12 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
                             <DropdownLink class="dropdown-item" :href="route('profile.edit')">
                                 <i class="bi bi-person"></i>
                                 Perfil
+                            </DropdownLink>
+                        </li>
+                        <li v-if="user.rol_id == 1">
+                            <DropdownLink class="dropdown-item" :href="route('register')">
+                                <i class="bi bi-check2-circle"></i>
+                                Registrar usuari
                             </DropdownLink>
                         </li>
                         <li>
