@@ -14,6 +14,8 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use App\Models\Cicle;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -21,7 +23,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        $cicles = Cicle::all();
+        return Inertia::render('Auth/Register', ['cicles' => $cicles]);
     }
 
     /**
@@ -34,8 +37,9 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'cognoms' => 'required|string|max:255',
+            'cicle_id' => 'required',
             'email' => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()]
         ]);
 
         $user = User::create([
@@ -43,12 +47,14 @@ class RegisteredUserController extends Controller
             'cognoms' => $request->cognoms,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'rol_id' => 2,
+            'cicle_id' => $request->cicle_id
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        //Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('empresa.index')->with('status', 'Nou usuari ' . $user->name . ' creat!');
     }
 }

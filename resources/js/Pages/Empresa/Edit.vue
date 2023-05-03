@@ -65,7 +65,6 @@ async function onSubmit(values) {
 
 <template>
     <Head :title="$t(`Editar Empresa`)" />
-
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Empresa") }}</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
