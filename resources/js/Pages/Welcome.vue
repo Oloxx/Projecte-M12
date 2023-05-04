@@ -44,12 +44,7 @@ defineProps({
                     <li class="nav-item"><a href="/main/main.html" class="nav-link link-light px-2">
                             <Link :href="route('login')"
                                 class="font-semibold hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                            Log in</Link>
-                        </a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-light px-2">
-                            <Link v-if="canRegister" :href="route('register')"
-                                class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                            Sign in</Link>
+                            Entrar</Link>
                         </a></li>
                 </ul>
             </div>
