@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -59,5 +60,23 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Set the user Language
+     */
+    public function setLanguage(Request $request, string $lang)
+    {
+        if (!in_array($lang, ['ca', 'es', 'en'])) {
+            abort(400);
+        }
+
+        $user = $request->user();
+        $user->language = $lang;
+        $user->save();
+
+        App::setLocale($lang);
+
+        return redirect()->back();
     }
 }

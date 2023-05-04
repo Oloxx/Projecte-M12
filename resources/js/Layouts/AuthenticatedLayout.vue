@@ -3,11 +3,12 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import Footer from "@/Components/Footer.vue";
 import BToast from "@/Components/BToast.vue";
+import LanguageSelector from "@/Components/LanguageSelector.vue"
 
 const page = usePage();
 
 const user = page.props.auth.user;
-const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
+const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.charAt(0)}`;
 
 </script>
 
@@ -30,35 +31,41 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms}`;
                     </li>
                 </ul>
 
-                <div class="dropdown text-end">
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <img :src="profile" alt="Foto de perfil" width="32" height="32" class="rounded-circle" />
-                    </a>
-                    <ul class="dropdown-menu text-small">
-                        <li>
-                            <DropdownLink class="dropdown-item" :href="route('profile.edit')">
-                                <i class="bi bi-person"></i>
-                                Perfil
-                            </DropdownLink>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li>
-                            <DropdownLink class="dropdown-item" :href="route('logout')" method="post" as="button">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Surt
-                            </DropdownLink>
-                        </li>
-                    </ul>
+                <div class="d-flex align-items-center">
+                    <LanguageSelector></LanguageSelector>
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img :src="profile" alt="Foto de perfil" width="32" height="32" class="rounded-circle" />
+                        </a>
+                        <ul class="dropdown-menu text-small">
+                            <li>
+                                <DropdownLink class="dropdown-item" :href="route('profile.edit')">
+                                    <i class="bi bi-person"></i>
+                                    Perfil
+                                </DropdownLink>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <DropdownLink class="dropdown-item" :href="route('logout')" method="post" as="button">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Surt
+                                </DropdownLink>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
-    <main>
-        <slot></slot>
-    </main>
+    <transition name="page" mode="out-in">
+        <main>
+            <slot />
+        </main>
+</transition>
+
     <BToast />
     <Footer class="footer"></Footer>
 </template>

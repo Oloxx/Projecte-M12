@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             'password' => '12345678',
             'rol_id' => 1,
             'cicle_id' => 5,
+            'language' => 'ca',
             'remember_token' => NULL,
             'created_at' => NULL,
             'updated_at' => NULL

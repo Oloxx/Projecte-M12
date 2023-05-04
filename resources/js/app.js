@@ -19,15 +19,15 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
-const i18n = createI18n({
-    locale: 'es',
-    messages
-})
-
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
+        const i18n = createI18n({
+            locale: props.initialPage.props.auth.user.language || props.initialPage.props.local,
+            messages
+        });
+
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(i18n)
