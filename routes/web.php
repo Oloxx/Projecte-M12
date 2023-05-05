@@ -4,6 +4,7 @@ use App\Http\Controllers\ContacteController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CollaboracioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TesterController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -65,5 +66,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte.update');
     Route::delete('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte.delete');
 });
+Route::get('/test', [TesterController::class, 'test'])->name('test');
 
 require __DIR__ . '/auth.php';

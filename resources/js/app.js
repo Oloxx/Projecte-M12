@@ -1,5 +1,5 @@
 import './bootstrap';
-import '../css/app.css';
+import '../sass/app.scss'
 
 import { createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
@@ -9,7 +9,6 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
 import 'bootstrap/dist/js/bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 //Pop up
 import VueSweetalert2 from 'vue-sweetalert2';
