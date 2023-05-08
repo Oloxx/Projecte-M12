@@ -66,7 +66,7 @@ class EmpresaController extends Controller
         $empresa->telefon = $request->telefon;
         $empresa->web = $request->web;
         $empresa->email = $request->email;
-        $empresa->poblacio_id = $request->poblacio_id;
+        $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
         // TODO: FORM VALIDATIONS

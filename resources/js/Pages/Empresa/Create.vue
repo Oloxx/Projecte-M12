@@ -5,6 +5,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import VueMultiselect from 'vue-multiselect'
 
 /**
  *  Data received from the controller
@@ -24,6 +25,11 @@ const props = defineProps({
     },
 });
 
+const data = reactive({
+    poblacioSelected: false,
+    showPoblacioError: false
+})
+
 /**
  * Validations
  */
@@ -34,7 +40,6 @@ const schema = Yup.object().shape({
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
-    poblacio_id: Yup.number().required("La població és obligatoria"),
     categoria_id: Yup.number().required("La població és obligatoria"),
     sector_id: Yup.number().required("La població és obligatoria"),
 });
@@ -52,9 +57,20 @@ const form = reactive({
     sector_id: null
 })
 
+function handleSelect() {
+    data.poblacioSelected = true
+    data.showPoblacioError = false
+}
+
 // Request form  
-async function onSubmit(values) {
-    router.post('/empresa/store', form)
+async function onSubmit() {
+    if (data.poblacioSelected === true) {
+        router.post('/empresa/store', form)
+    } else {
+        console.log('a');
+        data.showPoblacioError = true
+        console.log(data.showPoblacioError);
+    }
 }
 </script>
 
@@ -95,12 +111,22 @@ async function onSubmit(values) {
                 <!--Població empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Població") }}</label>
-                    <Field name="poblacio_id" as="select" class="form-select" :class="{ 'is-invalid': errors.poblacio_id }" v-model="form.poblacio_id">
-                        <option v-for="poblacio in poblacions" :value="poblacio.id">
-                            {{ poblacio.nom }}
-                        </option>
-                    </Field>
-                    <div class="invalid-feedback">{{ errors.poblacio_id }}</div>
+                    <VueMultiselect
+                    name="poblacio_id"
+                    v-model="form.poblacio_id"
+                    :options="poblacions"
+                    :allow-empty="false"
+                    :close-on-select="true"
+                    :clear-on-select="false"
+                    selectLabel=""
+                    selectedLabel=""
+                    deselectLabel=""
+                    placeholder=""
+                    label="nom"
+                    trackBy="id"
+                    @select="handleSelect"
+                    />
+                    <div v-if="data.showPoblacioError" class="invalid-feedback">La població és obligatoria</div>
                 </div>
                 <!--Categoria empresa -->
                 <div class="form-group col mt-3">
@@ -136,3 +162,5 @@ async function onSubmit(values) {
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
