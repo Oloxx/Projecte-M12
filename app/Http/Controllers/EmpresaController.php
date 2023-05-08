@@ -90,7 +90,7 @@ class EmpresaController extends Controller
         $columnsContacte = [
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Cognoms", "field" => "cognoms"],
-            ["label" => "Mòvil", "field" => "movil"],
+            ["label" => "Mòbil", "field" => "movil"],
             ["label" => "E-mail", "field" => "email"],
         ];
 

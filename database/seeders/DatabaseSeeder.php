@@ -29,9 +29,10 @@ class DatabaseSeeder extends Seeder
             'Cognoms' => 'Random',
             'email' => 'random@gmail.com',
             'email_verified_at' => NULL,
-            'password' => '12345678',
+            'password' => '$2y$10$ZaOY70N1hPdSD0s2GsnpIuXxG0PlCm0SLBIzzjgDJtS6UHMEZjPiO',
             'rol_id' => 1,
             'cicle_id' => 5,
+            'language' => 'ca',
             'remember_token' => NULL,
             'created_at' => NULL,
             'updated_at' => NULL

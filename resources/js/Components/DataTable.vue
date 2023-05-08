@@ -4,6 +4,7 @@ import Pagination from "@/Components/Pagination.vue";
 import { Link } from "@inertiajs/vue3";
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3';
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
     columns: {
@@ -47,36 +48,40 @@ const filteredColumns = () => {
     return props.columns.filter(column => column.label !== 'Logo');
 }
 
-function deleteUser(row, name) {
+const { t } = useI18n();
 
+function deleteUser(row, name) {
     let txt = '';
     let registre = '';
-    if(name == 'empresa'){
-        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar l\'empresa <b>${row.nom}</b>?</p>`;
-        registre = `Empresa ${row.nom} eliminada!`;
-    } else if (name == 'contacte'){
-        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar el contacte <b>${row.nom}</b>?</p>`;
-        registre = `Contacte ${row.nom} eliminat!`;
-    } else {
-        txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar la col·laboració amb l'empresa <b>${row.empresa.nom}</b>?</p>`;
-        registre = `Col·laboració ${row.empresa.nom} eliminada!`;
+    switch (name) {
+        case 'empresa':
+            txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar l'empresa")} <b>${row.nom}</b>?</p>`;
+            registre = t("Empresa {name} eliminada!", {name: row.nom});
+            break;
+        case 'contacte':
+            txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar el contacte")} <b>${row.nom}</b>?</p>`;
+            registre = t("Contacte {name} eliminat!", {name: row.nom});
+            break;
+        default:
+            txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar la col·laboració amb l'empresa")} <b>${row.empresa.nom}</b>?</p>`;
+            registre = t("Col·laboració {name} eliminada!", {name: row.empresa.nom});
+            break;
     }
 
     Swal.fire({
         html: txt,
         showDenyButton: true,
-        confirmButtonText: 'Eliminar',
-        denyButtonText: `Cancelar`,
+        confirmButtonText: t("Eliminar"),
+        denyButtonText: t("Cancel·lar"),
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
             Swal.fire(registre, '', 'success');
             router.delete(`/${name}/delete/${row.id}`)
         } else if (result.isDenied) {
-            Swal.fire('Els canvis no s\'han guardat', '', 'info')
+            Swal.fire(t("Els canvis no s'han guardat"), '', 'info')
         }
     })
-
 }
 
 </script>
@@ -93,7 +98,7 @@ function deleteUser(row, name) {
         <tbody>
             <tr v-for="row in rows.data" :key="row.id">
                 <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
-                    v-html="fieldValue(row, column)" class="align-middle">
+                    v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
                 </Link>
                 <td v-if="options">
                     <EditButton :url="route(name + '.edit', row.id)" />
