@@ -4,6 +4,8 @@ import Pagination from "@/Components/Pagination.vue";
 import { Link } from "@inertiajs/vue3";
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3';
+import { Form, Field } from "vee-validate";
+import { reactive } from 'vue';
 
 const props = defineProps({
     columns: {
@@ -21,6 +23,10 @@ const props = defineProps({
     name: {
         type: String,
         required: true
+    },
+    search: {
+        type: Boolean,
+        required: true,
     }
 });
 
@@ -51,10 +57,10 @@ function deleteUser(row, name) {
 
     let txt = '';
     let registre = '';
-    if(name == 'empresa'){
+    if (name == 'empresa') {
         txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar l\'empresa <b>${row.nom}</b>?</p>`;
         registre = `Empresa ${row.nom} eliminada!`;
-    } else if (name == 'contacte'){
+    } else if (name == 'contacte') {
         txt = `</br><h2>AVÍS DE CONFIRMACIÓ</h2></br><p>Realment vols eliminar el contacte <b>${row.nom}</b>?</p>`;
         registre = `Contacte ${row.nom} eliminat!`;
     } else {
@@ -77,6 +83,25 @@ function deleteUser(row, name) {
         }
     })
 
+}
+
+/**
+ * Inputs from the controller
+ */
+const form = reactive({
+    nom: null,
+    poblacio: null,
+    sector: null
+})
+
+// Request form  
+async function goIndex(values) {
+    router.get('/empresa/search')
+}
+
+// Request form  
+async function onSubmit(values) {
+    router.post('/empresa/search', form)
 }
 
 </script>
@@ -105,4 +130,36 @@ function deleteUser(row, name) {
         </tbody>
     </table>
     <Pagination :data="rows" />
+    <br>
+    <h1>Búsqueda personalitzada</h1>
+    <Form @submit="onSubmit">
+        <!--Nom empresa -->
+        <div class="d-flex p-2">
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2">{{ $t("Nom") }}</label>
+                <Field name="nom" type="text" class="form-control" v-model="form.nom" />
+            </div>
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2">{{ $t("Població") }}</label>
+                <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
+            </div>
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2">{{ $t("Sector") }}</label>
+                <Field name="sector" type="text" class="form-control" v-model="form.sector" />
+            </div>
+        </div>
+        <!--Submit-->
+        <div class="d-flex p-2 justify-content-md-end">
+            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
+                <button type="submit" class="btn btn-primary mr-1 me-3">
+                    {{ $t("Cercar empresa") }}
+                </button>
+            </div>
+            <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
+                <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
+                    {{ $t("Netejar cerca") }}
+                </button>
+            </div>
+        </div>
+    </Form><br>
 </template>
