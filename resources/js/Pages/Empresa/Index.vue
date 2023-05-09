@@ -12,6 +12,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    search: {
+        type: Boolean,
+        required: true,
+    }
 })
 </script>
 
@@ -23,7 +27,7 @@ const props = defineProps({
                 <Link class="btn btn-secondary" :href="route('empresa.create')">+ {{ $t("Nova Empresa") }}</Link>
             </div>
             <h1>{{ $t(`Llistat d'Empreses`) }}</h1>
-            <DataTable :columns=columns :rows=empreses :options=true name="empresa">
+            <DataTable :columns=columns :rows=empreses :options=true name="empresa" :search=search>
                 <template #confirmDelete>
                     {{ $t("Aquesta acció eliminarà TOTS els contactes de l'empresa") }}
                 </template>

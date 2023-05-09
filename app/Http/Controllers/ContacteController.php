@@ -16,7 +16,7 @@ class ContacteController extends Controller
      */
     public function index()
     {
-        $contactes = Contacte::with('empresa')->paginate(5);
+        $contactes = Contacte::with('empresa')->orderBy('nom')->paginate(5);
 
         $columns = [
             ["label" => "Nom", "field" => "nom"],
