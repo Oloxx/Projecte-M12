@@ -65,5 +65,6 @@
     "Realment vols eliminar la col·laboració amb l'empresa": "Realment vols eliminar la col·laboració amb l'empresa",
     "Empresa {name} eliminada!": "Empresa {name} eliminada!",
     "Contacte {name} eliminat!": "Contacte {name} eliminat!",
-    "Col·laboració {name} eliminada!" : "Col·laboració {name} eliminada!"
+    "Col·laboració {name} eliminada!" : "Col·laboració {name} eliminada!",
+    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No s'ha trobat cap element. Prova de canviar la consulta de cerca."
 }

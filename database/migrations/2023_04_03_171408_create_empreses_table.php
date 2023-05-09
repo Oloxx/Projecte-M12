@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->integer('telefon');
-            $table->string('web');
+            $table->string('web')->nullable();
             $table->string('email');
             $table->string('logo')->nullable();
 

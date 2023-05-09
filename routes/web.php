@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
     Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa.create');
     Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa.store');
-    Route::get('/empresa/show/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
+    Route::get('/empresa/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
     Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa.edit');
     Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
     Route::delete('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');

@@ -50,30 +50,30 @@ async function onSubmitCollaboracio() {
                 <Link :href="route('empresa.index')" as="button" type="button" class="btn btn-secondary">{{ $t("Anar al Llistat") }}</Link>
                 <Link :href="route('empresa.create')" as="button" type="button" class="btn btn-secondary">{{ $t("Afegir nova empresa") }}</Link>
             </div>
-            <h1 class="mb-4">{{ $t("Informació de l'empresa") }}: <b>{{ empresa.nom }}</b></h1>
-            <div class="div-content mb-3">
-                <label for="telefon" class="box-label"><b>{{ $t("Telèfon") }}</b></label>
-                <span class="box">{{ empresa.telefon }}</span>
+            <h1 class="mb-4">{{ $t("Informació de l'empresa") }}: {{ empresa.nom }}</h1>
+            <div class="d-flex align-items-center mb-3">
+                <label for="telefon" class="me-2 fw-bold">{{ $t("Telèfon") }}</label>
+                <input class="form-control" type="text" id="telefon" :value="empresa.telefon" readonly>
             </div>
-            <div class="div-content mb-3">
-                <label for="web" class="box-label"><b>{{ $t("Web") }}</b></label>
-                <span class="box">{{ empresa.web }}</span>
+            <div class="d-flex align-items-center mb-3">
+                <label for="web" class="me-2 fw-bold">{{ $t("Web") }}</label>
+                <input class="form-control" type="text" id="web" :value="empresa.web" readonly>
             </div>
-            <div class="div-content mb-3">
-                <label for="email" class="box-label"><b>{{ $t("E-mail") }}</b></label>
-                <span class="box">{{ empresa.email }}</span>
+            <div class="d-flex align-items-center mb-3">
+                <label for="email" class="me-2 fw-bold">{{ $t("E-mail") }}</label>
+                <input class="form-control" type="text" id="email" :value="empresa.email" readonly>
             </div>
-            <div class="div-content mb-3">
-                <label for="poblacio_id" class="box-label"><b>{{ $t("Població") }}</b></label>
-                <span class="box">{{ empresa.poblacio.nom }}</span>
+            <div class="d-flex align-items-center mb-3">
+                <label for="poblacio_id" class="me-2 fw-bold">{{ $t("Població") }}</label>
+                <input class="form-control" type="text" id="poblacio_id" :value="empresa.poblacio.nom" readonly>
             </div>
-            <div class="div-content mb-3">
-                <label for="categoria_id" class="box-label"><b>{{ $t("Categoria") }}</b></label>
-                <span class="box">{{ empresa.categoria.nom }}</span>
+            <div class="d-flex align-items-center mb-3">
+                <label for="categoria_id" class="me-2 fw-bold">{{ $t("Categoria") }}</label>
+                <input class="form-control" type="text" id="categoria_id" :value="empresa.categoria.nom" readonly>
             </div>
-            <div class="div-content mb-3">
-                <label for="sector_id" class="box-label"><b>{{ $t("Sector") }}</b></label>
-                <span class="box"> {{ empresa.sector.nom }}</span>
+            <div class="d-flex align-items-center mb-3">
+                <label for="sector_id" class="me-2 fw-bold">{{ $t("Sector") }}</label>
+                <input class="form-control" type="text" id="sector_id" :value="empresa.sector.nom" readonly>
             </div>
             <br />
             <h1 class="mb-4">{{ $t("Llistat de Contactes") }}</h1>
@@ -104,16 +104,7 @@ async function onSubmitCollaboracio() {
 </template>
 
 <style scoped>
-.box-label {
-    display: inline-block;
-    width: 6%;
-}
-
-.box {
-    display: inline-block;
-    border: 1px solid rgb(105, 105, 105);
-    border-radius: 3px;
-    padding: 5px;
-    width: 94%;
+label {
+    width: 95px;
 }
 </style>
