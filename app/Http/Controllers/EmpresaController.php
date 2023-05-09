@@ -84,7 +84,7 @@ class EmpresaController extends Controller
         $empresa->telefon = $request->telefon;
         $empresa->web = $request->web;
         $empresa->email = $request->email;
-        $empresa->poblacio_id = $request->poblacio_id;
+        $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
         // TODO: FORM VALIDATIONS
@@ -108,7 +108,7 @@ class EmpresaController extends Controller
         $columnsContacte = [
             ["label" => "Nom", "field" => "nom"],
             ["label" => "Cognoms", "field" => "cognoms"],
-            ["label" => "Mòvil", "field" => "movil"],
+            ["label" => "Mòbil", "field" => "movil"],
             ["label" => "E-mail", "field" => "email"],
         ];
 
@@ -157,7 +157,7 @@ class EmpresaController extends Controller
         $empresa->telefon = $request->telefon;
         $empresa->web = $request->web;
         $empresa->email = $request->email;
-        $empresa->poblacio_id = $request->poblacio_id;
+        $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
 

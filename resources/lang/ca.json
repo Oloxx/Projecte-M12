@@ -40,7 +40,9 @@
     "Confirmeu la supressió": "Confirmeu la supressió",
     "Estàs segur que vols eliminar": "Estàs segur que vols eliminar",
     "Cancel·la": "Cancel·la",
+    "Cancel·lar": "Cancel·lar",
     "Elimina": "Elimina",
+    "Eliminar": "Eliminar",
     "Informació de l'empresa": "Informació de l'empresa",
     "Encara no s'ha afegit cap contacte": "Encara no s'ha afegit cap contacte",
     "Anar al Llistat": "Anar al Llistat",
@@ -57,6 +59,14 @@
     "Aquesta acció eliminarà la col·laboració.": "Aquesta acció eliminarà la col·laboració.",
     "Aquesta acció eliminarà el contacte.": "Aquesta acció eliminarà el contacte.",
     "Cercar empresa": "Cercar empresa",
-    "Netejar cerca": "Netejar cerca"
-
+    "Netejar cerca": "Netejar cerca",
+    "AVÍS DE CONFIRMACIÓ": "AVÍS DE CONFIRMACIÓ",
+    "Els canvis no s'han guardat": "Els canvis no s'han guardat",
+    "Realment vols eliminar l'empresa": "Realment vols eliminar l'empresa",
+    "Realment vols eliminar el contacte": "Realment vols eliminar el contacte",
+    "Realment vols eliminar la col·laboració amb l'empresa": "Realment vols eliminar la col·laboració amb l'empresa",
+    "Empresa {name} eliminada!": "Empresa {name} eliminada!",
+    "Contacte {name} eliminat!": "Contacte {name} eliminat!",
+    "Col·laboració {name} eliminada!" : "Col·laboració {name} eliminada!",
+    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No s'ha trobat cap element. Prova de canviar la consulta de cerca."
 }

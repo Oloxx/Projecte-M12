@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'toast' => session('status'),
+            'locale' => app()->getLocale(),
         ]);
     }
 }

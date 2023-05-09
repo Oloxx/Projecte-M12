@@ -40,7 +40,9 @@
     "Confirmeu la supressió": "Confirm deletion",
     "Estàs segur que vols eliminar": "Are you sure you want to delete",
     "Cancel·la": "Cancel",
+    "Cancel·lar": "Cancel",
     "Elimina": "Delete",
+    "Eliminar": "Delete",
     "Informació de l'empresa": "Company information",
     "Encara no s'ha afegit cap contacte": "No contacts have been added yet",
     "Anar al Llistat": "Go to the listing",
@@ -58,4 +60,13 @@
     "Aquesta acció eliminarà el contacte.": "This action will delete the contact.",
     "Cercar empresa": "Search company",
     "Netejar cerca": "Reset search"
+    "AVÍS DE CONFIRMACIÓ": "CONFIRMATION NOTICE",
+    "Els canvis no s'han guardat": "Changes not saved",
+    "Realment vols eliminar l'empresa": "You really want to delete the company",
+    "Realment vols eliminar el contacte": "You really want to delete the contact",
+    "Realment vols eliminar la col·laboració amb l'empresa": "You really want to delete the collaboration with company",
+    "Empresa {name} eliminada!": "Company {name} deleted!",
+    "Contacte {name} eliminat!": "Contact {name} deleted!",
+    "Col·laboració {name} eliminada!" : "Collaboration {name} deleted!",
+    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No items found. Try changing the search query."
 }

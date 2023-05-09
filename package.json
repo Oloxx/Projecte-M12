@@ -28,8 +28,10 @@
         "typescript": "^5.0.4",
         "vee-validate": "^4.8.6",
         "vue-awesome-paginate": "^1.1.46",
+        "vue-country-flag-next": "^2.3.2",
         "vue-i18n": "^9.2.2",
         "vue-laravel-csrf": "^1.0.0",
+        "vue-multiselect": "^3.0.0-beta.1",
         "vue-paginate": "^3.6.0",
         "vue-sweetalert2": "^5.0.5",
         "yup": "^1.1.1"
