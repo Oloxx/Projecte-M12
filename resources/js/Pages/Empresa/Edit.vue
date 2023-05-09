@@ -5,6 +5,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import SearchSelect from "@/Components/SearchSelect.vue";
 
 /**
  *  Data received from the controller
@@ -38,9 +39,6 @@ const schema = Yup.object().shape({
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
-    poblacio_id: Yup.number().required("La població és obligatoria"),
-    categoria_id: Yup.number().required("La població és obligatoria"),
-    sector_id: Yup.number().required("La població és obligatoria"),
 });
 
 /**
@@ -51,7 +49,7 @@ const form = reactive({
     telefon: props.empresa.telefon,
     web: props.empresa.web,
     email: props.empresa.email,
-    poblacio_id: props.empresa.poblacio_id,
+    poblacio_id: props.poblacions.find(x => x.id == props.empresa.poblacio_id),
     categoria_id: props.empresa.categoria_id,
     sector_id: props.empresa.sector_id
 })
@@ -102,14 +100,13 @@ async function onSubmit(values) {
                 <!--Població empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Població") }}</label>
-                    <Field name="poblacio_id" as="select" class="form-select" :class="{ 'is-invalid': errors.poblacio_id }"
-                        v-model="form.poblacio_id">
-                        <option v-for="poblacio in poblacions" :value="poblacio.id"
-                            :selected="poblacio.id == empresa.poblacio_id">
-                            {{ poblacio.nom }}
-                        </option>
-                    </Field>
-                    <div class="invalid-feedback">{{ errors.poblacio_id }}</div>
+                    <SearchSelect
+                    name="poblacio_id"
+                    v-model="form.poblacio_id"
+                    :options="poblacions"
+                    label="nom"
+                    trackBy="id"
+                    />
                 </div>
                 <!--Categoria empresa -->
                 <div class="form-group col mt-3">

@@ -5,7 +5,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import VueMultiselect from 'vue-multiselect'
+import SearchSelect from "@/Components/SearchSelect.vue";
 
 /**
  *  Data received from the controller
@@ -25,7 +25,7 @@ const props = defineProps({
     },
 });
 
-const data = reactive({
+const state = reactive({
     poblacioSelected: false,
     showPoblacioError: false
 })
@@ -40,8 +40,9 @@ const schema = Yup.object().shape({
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
-    categoria_id: Yup.number().required("La població és obligatoria"),
-    sector_id: Yup.number().required("La població és obligatoria"),
+    poblacio_id: Yup.object(),
+    categoria_id: Yup.number().required("La categoria és obligatoria"),
+    sector_id: Yup.number().required("El sector és obligatori"),
 });
 
 /**
@@ -57,19 +58,25 @@ const form = reactive({
     sector_id: null
 })
 
-function handleSelect() {
-    data.poblacioSelected = true
-    data.showPoblacioError = false
+function handleSelect(selectedOption) {
+    if (selectedOption) {
+        state.poblacioSelected = true;
+        state.showPoblacioError = false;
+    }
+}
+
+function handleClose() {
+    if (!state.poblacioSelected) {
+        state.showPoblacioError = true;
+    }
 }
 
 // Request form  
 async function onSubmit() {
-    if (data.poblacioSelected === true) {
+    if (state.poblacioSelected !== false) {
         router.post('/empresa/store', form)
     } else {
-        console.log('a');
-        data.showPoblacioError = true
-        console.log(data.showPoblacioError);
+        state.showPoblacioError = true;
     }
 }
 </script>
@@ -111,22 +118,18 @@ async function onSubmit() {
                 <!--Població empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Població") }}</label>
-                    <VueMultiselect
+                    <SearchSelect
                     name="poblacio_id"
                     v-model="form.poblacio_id"
                     :options="poblacions"
-                    :allow-empty="false"
-                    :close-on-select="true"
-                    :clear-on-select="false"
-                    selectLabel=""
-                    selectedLabel=""
-                    deselectLabel=""
-                    placeholder=""
                     label="nom"
                     trackBy="id"
                     @select="handleSelect"
+                    @close="handleClose"
                     />
-                    <div v-if="data.showPoblacioError" class="invalid-feedback">La població és obligatoria</div>
+                    <div v-if="state.showPoblacioError" class="text-danger">
+                        La població és obligatoria
+                    </div>
                 </div>
                 <!--Categoria empresa -->
                 <div class="form-group col mt-3">
@@ -162,5 +165,3 @@ async function onSubmit() {
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
-
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>
