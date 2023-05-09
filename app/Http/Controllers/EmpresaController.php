@@ -99,7 +99,7 @@ class EmpresaController extends Controller
     public function show(int $id)
     {
 
-        $empresa = Empresa::where('nom', 'like', '')->with('poblacio', 'categoria', 'sector')->firstOrFail();
+        $empresa = Empresa::where('id', $id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
 
         $contactes = Contacte::where('empresa_id', $id)->paginate(5);
 
