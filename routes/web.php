@@ -4,6 +4,7 @@ use App\Http\Controllers\ContacteController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CollaboracioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TesterController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/language/{lang}', [ProfileController::class, 'setLanguage'])->name('proflie.setLanguage');
 
     // PATHS FOR ADDED CONTROLLERS
     // EMPRESA CONTROLLER
@@ -41,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/empresa/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
     Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa.edit');
     Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
-    Route::DELETE('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
+    Route::delete('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
 
     // COL·LABORACIÓ CONTROLLER
     Route::get('/collaboracio', [CollaboracioController::class, 'index'])->name('collaboracio.index');
@@ -51,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/collaboracio/store', [CollaboracioController::class, 'store'])->name('collaboracio.store');
     Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio.edit');
     Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio.update');
-    Route::DELETE('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio.delete');
+    Route::delete('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio.delete');
 
     // CONTACTE CONTROLLER
     Route::get('/contacte', [ContacteController::class, 'index'])->name('contacte.index');
@@ -62,7 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/contacte/store', [ContacteController::class, 'store'])->name('contacte.store');
     Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte.edit');
     Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte.update');
-    Route::DELETE('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte.delete');
+    Route::delete('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte.delete');
 });
+Route::get('/test', [TesterController::class, 'test'])->name('test');
 
 require __DIR__ . '/auth.php';

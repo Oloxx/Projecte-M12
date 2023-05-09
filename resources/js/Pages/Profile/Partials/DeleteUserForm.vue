@@ -4,7 +4,7 @@ import BModal from '@/Components/BModal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
-import * as bootstrap from 'bootstrap/dist/js/bootstrap.js';
+import * as bootstrap from 'bootstrap';
 import { nextTick, ref } from 'vue';
 
 const passwordInput = ref(null);
