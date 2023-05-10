@@ -62,15 +62,15 @@ function deleteUser(row, name) {
     switch (name) {
         case 'empresa':
             txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar l'empresa")} <b>${row.nom}</b>?</p>`;
-            registre = t("Empresa {name} eliminada!", {name: row.nom});
+            registre = t("Empresa {name} eliminada!", { name: row.nom });
             break;
         case 'contacte':
             txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar el contacte")} <b>${row.nom}</b>?</p>`;
-            registre = t("Contacte {name} eliminat!", {name: row.nom});
+            registre = t("Contacte {name} eliminat!", { name: row.nom });
             break;
         default:
             txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar la col·laboració amb l'empresa")} <b>${row.empresa.nom}</b>?</p>`;
-            registre = t("Col·laboració {name} eliminada!", {name: row.empresa.nom});
+            registre = t("Col·laboració {name} eliminada!", { name: row.empresa.nom });
             break;
     }
 
@@ -112,6 +112,31 @@ async function onSubmit(values) {
 </script>
 
 <template>
+    <Form @input="onSubmit">
+        <!--Nom empresa -->
+        <div class="d-flex p-2">
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
+                <Field name="nom" type="text" class="form-control" v-model="form.nom" />
+            </div>
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2"><b>{{ $t("Població") }}</b></label>
+                <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
+            </div>
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2"><b>{{ $t("Sector") }}</b></label>
+                <Field name="sector" type="text" class="form-control" v-model="form.sector" />
+            </div>
+        </div>
+        <!--Submit-->
+        <div class="d-flex p-2 justify-content-md-end">
+            <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
+                <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
+                    {{ $t("Netejar cerca") }}
+                </button>
+            </div>
+        </div>
+    </Form><br>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -147,38 +172,5 @@ async function onSubmit(values) {
             </tr>
         </tbody>
     </table>
-    <Pagination v-if="rows.data" :data="rows"/>
-    <Pagination v-else :data="rows"/>
-    <br>
-    <h1>Búsqueda personalitzada</h1>
-    <Form @submit="onSubmit">
-        <!--Nom empresa -->
-        <div class="d-flex p-2">
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2">{{ $t("Nom") }}</label>
-                <Field name="nom" type="text" class="form-control" v-model="form.nom" />
-            </div>
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2">{{ $t("Població") }}</label>
-                <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
-            </div>
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2">{{ $t("Sector") }}</label>
-                <Field name="sector" type="text" class="form-control" v-model="form.sector" />
-            </div>
-        </div>
-        <!--Submit-->
-        <div class="d-flex p-2 justify-content-md-end">
-            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
-                    {{ $t("Cercar empresa") }}
-                </button>
-            </div>
-            <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
-                    {{ $t("Netejar cerca") }}
-                </button>
-            </div>
-        </div>
-    </Form><br>
+    <Pagination :data="rows" :search="props.search"/>
 </template>

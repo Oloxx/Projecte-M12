@@ -6,7 +6,11 @@ const props = defineProps({
     data: {
         type: Object,
         default: () => ({}),
-    }
+    }, 
+    search: {
+        type: Boolean
+    } 
+   
 });
 
 const filteredLinks = computed(() => {
@@ -15,6 +19,7 @@ const filteredLinks = computed(() => {
 </script>
 
 <template>
+    <template v-if="search">
     <div
         v-if="data.links.length > 3"
         class="container-fluid d-flex justify-content-end mt-4 space-x-4 end-0"
@@ -32,6 +37,25 @@ const filteredLinks = computed(() => {
         />
     </div>
 </template>
+<template v-else>
+    <div
+        v-if="data.links.length > 3"
+        class="container-fluid d-flex justify-content-end mt-4 space-x-4 end-0"
+    >
+        <Link
+            v-for="(link, index) in filteredLinks" 
+            :key="index"
+            name="link"
+            class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
+            :class="{ 'bg-indigo-400 text-light': link.active }"
+            :href="link.url !== null ? link.url : ''"
+            v-html="link.label"
+            preserveScroll
+        />
+    </div>
+</template>
+</template>
+
 
 <style scoped>
 .linkPaginator {
