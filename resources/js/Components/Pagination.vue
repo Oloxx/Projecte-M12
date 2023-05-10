@@ -21,6 +21,7 @@ const filteredLinks = computed(() => {
     >
         <Link
             v-for="(link, index) in filteredLinks" 
+            method="post"
             :key="index"
             name="link"
             class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
