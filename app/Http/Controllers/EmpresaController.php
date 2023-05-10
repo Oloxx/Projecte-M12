@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Redirect;
-
 
 use App\Models\Categoria;
 use App\Models\Collaboracio;
@@ -14,9 +12,18 @@ use App\Models\Poblacio;
 use App\Models\Sector;
 use App\Models\Contacte;
 
-
 class EmpresaController extends Controller
 {
+    private $columns = [
+        ["label" => "Logo", "field" => "logo"],
+        ["label" => "Nom", "field" => "nom"],
+        ["label" => "Telèfon", "field" => "telefon"],
+        ["label" => "Web", "field" => "web"],
+        ["label" => "E-mail", "field" => "email"],
+        ["label" => "Població", "field" => "poblacio.nom"],
+        ["label" => "Categoria", "field" => "categoria.nom"],
+        ["label" => "Sector", "field" => "sector.nom"]
+    ];
 
     /**
      * Display a listing of the resource.
@@ -24,36 +31,74 @@ class EmpresaController extends Controller
     public function index(Request $request)
     {
 
-        $columns = [
-            ["label" => "Logo", "field" => "logo"],
-            ["label" => "Nom", "field" => "nom"],
-            ["label" => "Telèfon", "field" => "telefon"],
-            ["label" => "Web", "field" => "web"],
-            ["label" => "E-mail", "field" => "email"],
-            ["label" => "Població", "field" => "poblacio.nom"],
-            ["label" => "Categoria", "field" => "categoria.nom"],
-            ["label" => "Sector", "field" => "sector.nom"]
-        ];
+        if ($request->isMethod('post')) {
 
-        if ($request->session()->exists('empreses')) {
-            $data = session('empreses');
+            $nomEmpresa = $request->nom;
+            $nomPoblacio = $request->poblacio;
+            $nomSector = $request->sector;
 
-            if ($request->session()->exists('empreses')) {
-                session()->forget('empreses');
+            if ($nomEmpresa || $nomPoblacio || $nomSector) {
+
+                if ($request->session()->exists('nomEmpresa')) {
+                    $request->session()->forget('nomEmpresa');
+                    session(['nomEmpresa' => $nomEmpresa]);
+                } else {
+                    session(['nomEmpresa' => $nomEmpresa]);
+                }
+
+                if ($request->session()->exists('nomPoblacio')) {
+                    $request->session()->forget('nomPoblacio');
+                    session(['nomPoblacio' => $nomPoblacio]);
+                } else {
+                    session(['nomPoblacio' => $nomPoblacio]);
+                }
+
+                if ($request->session()->exists('nomSector')) {
+                    $request->session()->forget('nomSector');
+                    session(['nomSector' => $nomSector]);
+                } else {
+                    session(['nomSector' => $nomSector]);
+                }
+
+                $search = true;
+                $empresesFiltre = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
+
+            } else {
+                $search = true;
+                $nomEmpresa = $request->session()->get('nomEmpresa');
+                $nomPoblacio = $request->session()->get('nomPoblacio');
+                $nomSector = $request->session()->get('nomSector');
+
+                $empresesFiltre = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
             }
+
             return Inertia::render('Empresa/Index', [
-                'empreses' => $data,
-                'columns' => $columns,
-                'search' => true
+                'empreses' => $empresesFiltre,
+                'columns' => $this->columns,
+                'search' => $search
             ]);
 
         } else {
 
+            if ($request->session()->exists('nomEmpresa')) {
+                $request->session()->forget('nomEmpresa');
+            }
+
+            if ($request->session()->exists('nomPoblacio')) {
+                $request->session()->forget('nomPoblacio');
+            }
+
+            if ($request->session()->exists('nomSector')) {
+                $request->session()->forget('nomSector');
+            } 
+            
             $empreses = Empresa::with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);
+            $search = false;
+
             return Inertia::render('Empresa/Index', [
                 'empreses' => $empreses,
-                'columns' => $columns,
-                'search' => false
+                'columns' => $this->columns,
+                'search' => $search
             ]);
         }
     }
@@ -181,80 +226,37 @@ class EmpresaController extends Controller
      * Filters
      */
 
-    public function search(Request $request)
+    /* public function search(Request $request)
     {
-        if ($request->session()->exists('empreses')) {
-            session()->forget('empreses');
-        }
-
-        if ($request->isMethod('post')) {
-
-            $empreses = null;
-            
-            $request->session()->put('empreses', $empreses);
-
+        if ($request->isMethod('post')){
             $nomEmpresa = $request->nom;
             $nomPoblacio = $request->poblacio;
             $nomSector = $request->sector;
 
-            if ($nomEmpresa && !$nomPoblacio && !$nomSector) {
-                $empreses = Empresa::where('nom', 'LIKE', '%' . $nomEmpresa . '%')->with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);
-            } else if ($nomPoblacio && !$nomEmpresa && !$nomSector) {
+            if ($nomEmpresa || $nomPoblacio || $nomSector) {
 
-                $empreses = Empresa::join('poblacions', 'empreses.poblacio_id', '=', 'poblacions.id')
-                    ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')->with('poblacio', 'categoria', 'sector')
-                    ->select('empreses.*')
-                    ->orderBy('empreses.nom')->paginate(5);
-            } else if ($nomSector && !$nomEmpresa && !$nomPoblacio) {
+                $empreses = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
+                if ($request->session()->exists('empreses')) {
+                    $request->session()->forget('empreses');
+                    session(['empreses' => $empreses]);
+                } else {
+                    session(['empreses' => $empreses]);
+                }
+            } else {
 
-                $empreses = Empresa::join('sectors', 'empreses.sector_id', '=', 'sectors.id')
-                    ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')->with('poblacio', 'categoria', 'sector')
-                    ->select('empreses.*')
-                    ->orderBy('empreses.nom')->paginate(5);
-
-            } else if ($nomEmpresa && $nomPoblacio && !$nomSector) {
-                $empreses = Empresa::join('poblacions', 'empreses.poblacio_id', '=', 'poblacions.id')
-                    ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')
-                    ->where('empreses.nom', 'LIKE', '%' . $nomEmpresa . '%')
-                    ->with('poblacio', 'categoria', 'sector')
-                    ->select('empreses.*')
-                    ->orderBy('empreses.nom')->paginate(5);
-
-            } else if ($nomEmpresa && $nomSector && !$nomPoblacio) {
-
-                $empreses = Empresa::join('sectors', 'empreses.sector_id', '=', 'sectors.id')
-                    ->select('empreses.*')
-                    ->where('empreses.nom', 'LIKE', '%' . $nomEmpresa . '%')
-                    ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')
-                    ->with('poblacio', 'categoria', 'sector')
-                    ->orderBy('empreses.nom')->paginate(5);
-            } else if ($nomPoblacio && $nomSector && !$nomEmpresa) {
-
-                $empreses = Empresa::join('sectors', 'empreses.sector_id', '=', 'sectors.id')
-                    ->join('poblacions', 'empreses.poblacio_id', '=', 'poblacions.id')
-                    ->select('empreses.*')
-                    ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')
-                    ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')
-                    ->with('poblacio', 'categoria', 'sector')
-                    ->orderBy('empreses.nom')->paginate(5);
-            } else if ($nomPoblacio && $nomSector && $nomEmpresa) {
-
-                $empreses = Empresa::join('sectors', 'empreses.sector_id', '=', 'sectors.id')
-                    ->join('poblacions', 'empreses.poblacio_id', '=', 'poblacions.id')
-                    ->select('empreses.*')
-                    ->where('empreses.nom', 'LIKE', '%' . $nomEmpresa . '%')
-                    ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')
-                    ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')
-                    ->with('poblacio', 'categoria', 'sector')
-                    ->orderBy('empreses.nom')->paginate(5);
+                if ($request->session()->exists('empreses')) {
+                    $request->session()->forget('empreses');
+                }
             }
 
-            session(['empreses' => $empreses]);
-
-            Redirect::to('posts')->with('variable','this is a new value');
-
+            return redirect()->route('empresa.index');
         } else {
+            dd('hola');
+            if ($request->session()->exists('empreses')) {
+                $request->session()->forget('empreses');
+            }
+
             return redirect()->route('empresa.index');
         }
-    }
+    } */
 }
