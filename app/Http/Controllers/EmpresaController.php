@@ -13,7 +13,7 @@ use App\Models\Empresa;
 use App\Models\Poblacio;
 use App\Models\Sector;
 use App\Models\Contacte;
-
+use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
 {
@@ -87,6 +87,10 @@ class EmpresaController extends Controller
         $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
+        if ($request->logo) {
+            $logo = Storage::url($request->file('logo')->store('public/logos'));
+            $empresa->logo = $logo;
+        }
         // TODO: FORM VALIDATIONS
         $empresa->save();
 

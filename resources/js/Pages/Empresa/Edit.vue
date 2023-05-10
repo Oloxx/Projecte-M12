@@ -51,7 +51,8 @@ const form = reactive({
     email: props.empresa.email,
     poblacio_id: props.poblacions.find(x => x.id == props.empresa.poblacio_id),
     categoria_id: props.empresa.categoria_id,
-    sector_id: props.empresa.sector_id
+    sector_id: props.empresa.sector_id,
+    logo: null
 })
 
 // Request form  
@@ -130,6 +131,17 @@ async function onSubmit(values) {
                         </option>
                     </Field>
                     <div class="invalid-feedback">{{ errors.sector_id }}</div>
+                </div>
+                <!--Logo empresa -->
+                <div class="form-group col mt-3">
+                    <label class="mb-2">{{ $t("Logo") }}</label>
+                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': errors.logo }" @input="form.logo = $event.target.files[0]"/>
+                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                        {{ form.progress.percentage }}%
+                    </progress>
+                    <div class="invalid-feedback">
+                        {{ errors.logo }}
+                    </div>
                 </div>
             </div>
             <!--Submit-->

@@ -2,7 +2,7 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SearchSelect from "@/Components/SearchSelect.vue";
@@ -55,7 +55,8 @@ const form = reactive({
     email: null,
     poblacio_id: null,
     categoria_id: null,
-    sector_id: null
+    sector_id: null,
+    logo: null
 })
 
 function handleSelect(selectedOption) {
@@ -153,6 +154,14 @@ async function onSubmit() {
                         </option>
                     </Field>
                     <div class="invalid-feedback">{{ errors.sector_id }}</div>
+                </div>
+                <!--Logo empresa -->
+                <div class="form-group col mt-3">
+                    <label class="mb-2">{{ $t("Logo") }}</label>
+                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': errors.logo }" @input="form.logo = $event.target.files[0]"/>
+                    <div class="invalid-feedback">
+                        {{ errors.logo }}
+                    </div>
                 </div>
             </div>
             <!--Submit-->
