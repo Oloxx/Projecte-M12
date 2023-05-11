@@ -6,6 +6,7 @@ import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SearchSelect from "@/Components/SearchSelect.vue";
+import { useI18n } from "vue-i18n";
 
 /**
  *  Data received from the controller
@@ -29,6 +30,13 @@ const props = defineProps({
     }
 });
 
+const { t } = useI18n();
+
+const state = reactive({
+    url: props.empresa.logo,
+    logo: null
+})
+
 /**
  * Validations
  */
@@ -45,6 +53,7 @@ const schema = Yup.object().shape({
  * Inputs from the controller
  */
 const form = reactive({
+    _method: 'put',
     nom: props.empresa.nom,
     telefon: props.empresa.telefon,
     web: props.empresa.web,
@@ -55,10 +64,32 @@ const form = reactive({
     logo: null
 })
 
+function onFileChange(e) {
+    if (e.target.files[0]) {
+        const file = e.target.files[0];
+        const maxSize = 2048 * 1024; // 2MB
+        if (file.type.startsWith('image/') && file.size < maxSize) {
+            state.url = URL.createObjectURL(file);
+            state.logo = null;
+        } else {
+            state.logo = t("Error, imatge no valida (Màxim 2MB)");
+            state.url = null;
+        }
+    } else {
+        state.url = null;
+    }
+}
+
+function checkLogo() {
+    if (!props.empresa.logo && !form.logo) {
+        state.url = null;
+    }
+}
+
 // Request form  
 async function onSubmit(values) {
     let id = props.empresa.id;
-    router.put(`/empresa/update/${id}`, form)
+    router.post(`/empresa/update/${id}`, form)
 }
 </script>
 
@@ -66,7 +97,7 @@ async function onSubmit(values) {
     <Head :title="$t(`Editar Empresa`)" />
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Empresa") }}</h1>
-        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
+        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5" method="PUT">
             <div class="form-row">
                 <!--Nom empresa -->
                 <div class="form-group col">
@@ -80,7 +111,7 @@ async function onSubmit(values) {
                 <!--Telèfon empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Telèfon") }}</label>
-                    <Field name="telefon" type="text" class="form-control" :class="{ 'is-invalid': errors.telefon }"
+                    <Field name="telefon" type="tel" class="form-control" :class="{ 'is-invalid': errors.telefon }"
                         v-model="form.telefon" />
                     <div class="invalid-feedback">
                         {{ errors.telefon }}
@@ -94,7 +125,7 @@ async function onSubmit(values) {
                 <!--E-mail empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("E-mail") }}</label>
-                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }"
+                    <Field name="email" type="email" class="form-control" :class="{ 'is-invalid': errors.email }"
                         v-model="form.email" />
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
@@ -135,12 +166,14 @@ async function onSubmit(values) {
                 <!--Logo empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Logo") }}</label>
-                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': errors.logo }" @input="form.logo = $event.target.files[0]"/>
-                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                        {{ form.progress.percentage }}%
-                    </progress>
+                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': state.logo }" v-model="form.logo" @change="onFileChange"/>
                     <div class="invalid-feedback">
-                        {{ errors.logo }}
+                        {{ state.logo }}
+                    </div>
+                    <div class="mt-2" v-if="state.url">
+                        <label for="preview">Preview:</label><br>
+                        <img id="preview" :src="state.url" width="100"/><br>
+                        <Link v-if="empresa.logo" :href="route('empresa.removeLogo', empresa.id)" method="post" as="button" class="btn btn-danger mt-2" preserve-scroll @success="checkLogo">{{ $t("Esborrar Logo") }}</Link>
                     </div>
                 </div>
             </div>
@@ -149,7 +182,7 @@ async function onSubmit(values) {
                 <button type="submit" class="btn btn-primary mr-1 me-3">
                     {{ $t("Editar Empresa") }}
                 </button>
-                <Link :href="route('empresa.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·la") }}</Link>
+                <Link :href="route('empresa.index')" as="button" class="btn btn-secondary mr-1 me-3">{{ $t("Cancel·la") }}</Link>
             </div>
         </Form><br><br><br>
     </AuthenticatedLayout>

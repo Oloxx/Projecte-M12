@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
     Route::delete('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
     Route::match(['get', 'post'], '/empresa/search', [EmpresaController::class, 'search'])->name('empresa.search');
+    Route::post('/removeLogo/{id}', [EmpresaController::class, 'removeLogo'])->name('empresa.removeLogo');
 
     // COL·LABORACIÓ CONTROLLER
     Route::match(['get', 'post'],'/collaboracio', [CollaboracioController::class, 'index'])->name('collaboracio.index');
