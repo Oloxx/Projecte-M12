@@ -62,15 +62,15 @@ function deleteUser(row, name) {
     switch (name) {
         case 'empresa':
             txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar l'empresa")} <b>${row.nom}</b>?</p>`;
-            registre = t("Empresa {name} eliminada!", {name: row.nom});
+            registre = t("Empresa {name} eliminada!", { name: row.nom });
             break;
         case 'contacte':
             txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar el contacte")} <b>${row.nom}</b>?</p>`;
-            registre = t("Contacte {name} eliminat!", {name: row.nom});
+            registre = t("Contacte {name} eliminat!", { name: row.nom });
             break;
         default:
             txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar la col·laboració amb l'empresa")} <b>${row.empresa.nom}</b>?</p>`;
-            registre = t("Col·laboració {name} eliminada!", {name: row.empresa.nom});
+            registre = t("Col·laboració {name} eliminada!", { name: row.empresa.nom });
             break;
     }
 
@@ -101,17 +101,42 @@ const form = reactive({
 
 // Request form  
 async function goIndex(values) {
-    router.get('/empresa/search')
+    router.get('/empresa')
 }
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/empresa/search', form)
+    router.post('/empresa', form)
 }
 
 </script>
 
 <template>
+    <Form @input="onSubmit">
+        <!--Nom empresa -->
+        <div class="d-flex p-2">
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
+                <Field name="nom" type="text" class="form-control" v-model="form.nom" />
+            </div>
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2"><b>{{ $t("Població") }}</b></label>
+                <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
+            </div>
+            <div class="d-inline p-2 form-group col">
+                <label class="mb-2"><b>{{ $t("Sector") }}</b></label>
+                <Field name="sector" type="text" class="form-control" v-model="form.sector" />
+            </div>
+        </div>
+        <!--Submit-->
+        <div class="d-flex p-2 justify-content-md-end">
+            <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
+                <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
+                    {{ $t("Netejar cerca") }}
+                </button>
+            </div>
+        </div>
+    </Form><br>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -120,7 +145,7 @@ async function onSubmit(values) {
                 <th v-if="options">{{ $t("Opcions") }}</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody v-if="rows.data">
             <tr v-for="row in rows.data" :key="row.id">
                 <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
                     v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
@@ -133,38 +158,19 @@ async function onSubmit(values) {
                 </td>
             </tr>
         </tbody>
+        <tbody v-else>
+            <tr v-for="row in rows" :key="row.id">
+                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
+                    v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
+                </Link>
+                <td v-if="options">
+                    <EditButton :url="route(name + '.edit', row.id)" />
+                    <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
     </table>
-    <Pagination :data="rows" />
-    <br>
-    <h1>Búsqueda personalitzada</h1>
-    <Form @submit="onSubmit">
-        <!--Nom empresa -->
-        <div class="d-flex p-2">
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2">{{ $t("Nom") }}</label>
-                <Field name="nom" type="text" class="form-control" v-model="form.nom" />
-            </div>
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2">{{ $t("Població") }}</label>
-                <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
-            </div>
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2">{{ $t("Sector") }}</label>
-                <Field name="sector" type="text" class="form-control" v-model="form.sector" />
-            </div>
-        </div>
-        <!--Submit-->
-        <div class="d-flex p-2 justify-content-md-end">
-            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
-                    {{ $t("Cercar empresa") }}
-                </button>
-            </div>
-            <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
-                    {{ $t("Netejar cerca") }}
-                </button>
-            </div>
-        </div>
-    </Form><br>
+    <Pagination :data="rows" :search="props.search"/>
 </template>
