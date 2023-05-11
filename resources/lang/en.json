@@ -69,5 +69,8 @@
     "Empresa {name} eliminada!": "Company {name} deleted!",
     "Contacte {name} eliminat!": "Contact {name} deleted!",
     "Estada {name} eliminada!" : "Collaboration {name} deleted!",
-    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No items found. Try changing the search query."
+    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No items found. Try changing the search query.",
+    "Logo": "Logo",
+    "Esborrar Logo": "Remove Logo",
+    "Error, imatge no valida (Màxim 2MB)": "Error, invalid image (Maximum 2MB)"
 }
