@@ -37,6 +37,8 @@ class Empresa extends Model
         return $this->belongsTo(Sector::class);
     }
 
+    // Querys
+
     public static function searchByName($nomEmpresa)
     {
         return Empresa::where('nom', 'LIKE', '%' . $nomEmpresa . '%')->with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);

@@ -26,6 +26,7 @@ const filteredLinks = computed(() => {
     >
         <Link
             v-for="(link, index) in filteredLinks" 
+            as="button"
             method="post"
             :key="index"
             name="link"
@@ -34,7 +35,8 @@ const filteredLinks = computed(() => {
             :href="link.url !== null ? link.url : ''"
             v-html="link.label"
             preserveScroll
-        />
+        /> 
+
     </div>
 </template>
 <template v-else>
@@ -44,6 +46,7 @@ const filteredLinks = computed(() => {
     >
         <Link
             v-for="(link, index) in filteredLinks" 
+            as="button"
             :key="index"
             name="link"
             class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
@@ -60,8 +63,10 @@ const filteredLinks = computed(() => {
 <style scoped>
 .linkPaginator {
     background-color: rgb(230, 228, 228);
+    color:rgb(22, 99, 177);
     margin: 3px;
     text-decoration: none;
+    border:none;
 }
 
 @media screen and (max-width: 850px){

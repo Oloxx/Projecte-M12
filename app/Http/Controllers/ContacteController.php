@@ -11,26 +11,93 @@ use Inertia\Inertia;
 
 class ContacteController extends Controller
 {
+
+    private $columns = [
+        ["label" => "Nom", "field" => "nom"],
+        ["label" => "Cognoms", "field" => "cognoms"],
+        ["label" => "Mòbil", "field" => "movil"],
+        ["label" => "E-mail", "field" => "email"],
+        ["label" => "Empresa", "field" => "empresa.nom"]
+    ];
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $contactes = Contacte::with('empresa')->orderBy('nom')->paginate(5);
 
-        $columns = [
-            ["label" => "Nom", "field" => "nom"],
-            ["label" => "Cognoms", "field" => "cognoms"],
-            ["label" => "Mòbil", "field" => "movil"],
-            ["label" => "E-mail", "field" => "email"],
-            ["label" => "Empresa", "field" => "empresa.nom"]
-        ];
-
-        return Inertia::render('Contacte/Index', [
-            'contactes' => $contactes,
-            'columns' => $columns
-        ]);
-    }
+     public function index(Request $request)
+     {
+ 
+         if ($request->isMethod('post')) {
+ 
+             $nomContacte = $request->nomContacte;
+             $cognomsContacte = $request->cognoms;
+             $nomEmpresaContacte = $request->empresaContacte;
+ 
+             if ($nomContacte || $cognomsContacte || $nomEmpresaContacte) {
+ 
+                 if ($request->session()->exists('nomContacte')) {
+                     $request->session()->forget('nomContacte');
+                     session(['nomContacte' => $nomContacte]);
+                 } else {
+                     session(['nomContacte' => $nomContacte]);
+                 }
+ 
+                 if ($request->session()->exists('cognomsContacte')) {
+                     $request->session()->forget('cognomsContacte');
+                     session(['cognomsContacte' => $cognomsContacte]);
+                 } else {
+                     session(['cognomsContacte' => $cognomsContacte]);
+                 }
+ 
+                 if ($request->session()->exists('nomEmpresaContacte')) {
+                     $request->session()->forget('nomEmpresaContacte');
+                     session(['nomEmpresaContacte' => $nomEmpresaContacte]);
+                 } else {
+                     session(['nomEmpresaContacte' => $nomEmpresaContacte]);
+                 }
+ 
+                 $search = true;
+                 $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
+ 
+             } else {
+                 $search = true;
+                 $nomContacte = $request->session()->get('nomContacte');
+                 $cognomsContacte = $request->session()->get('cognomsContacte');
+                 $nomEmpresaContacte = $request->session()->get('nomEmpresaContacte');
+ 
+                 $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
+             }
+ 
+             return Inertia::render('Contacte/Index', [
+                 'contactes' => $contactesFiltre,
+                 'columns' => $this->columns,
+                 'search' => $search
+             ]);
+ 
+         } else {
+ 
+             if ($request->session()->exists('nomContacte')) {
+                 $request->session()->forget('nomContacte');
+             }
+ 
+             if ($request->session()->exists('cognomsContacte')) {
+                 $request->session()->forget('cognomsContacte');
+             }
+ 
+             if ($request->session()->exists('nomEmpresaContacte')) {
+                 $request->session()->forget('nomEmpresaContacte');
+             } 
+             
+             $contactes = Contacte::with('empresa')->orderBy('nom')->paginate(5);
+             $search = false;
+ 
+             return Inertia::render('Contacte/Index', [
+                 'contactes' => $contactes,
+                 'columns' => $this->columns,
+                 'search' => $search
+             ]);
+         }
+     }
 
     /**
      * Show the form for creating a new resource.

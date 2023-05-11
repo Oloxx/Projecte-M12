@@ -4,8 +4,6 @@ import Pagination from "@/Components/Pagination.vue";
 import { Link } from "@inertiajs/vue3";
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3';
-import { Form, Field } from "vee-validate";
-import { reactive } from 'vue';
 import { useI18n } from "vue-i18n";
 
 const props = defineProps({
@@ -90,53 +88,9 @@ function deleteUser(row, name) {
     })
 }
 
-/**
- * Inputs from the controller
- */
-const form = reactive({
-    nom: null,
-    poblacio: null,
-    sector: null
-})
-
-// Request form  
-async function goIndex(values) {
-    router.get('/empresa')
-}
-
-// Request form  
-async function onSubmit(values) {
-    router.post('/empresa', form)
-}
-
 </script>
 
 <template>
-    <Form @input="onSubmit">
-        <!--Nom empresa -->
-        <div class="d-flex p-2">
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
-                <Field name="nom" type="text" class="form-control" v-model="form.nom" />
-            </div>
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2"><b>{{ $t("Població") }}</b></label>
-                <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
-            </div>
-            <div class="d-inline p-2 form-group col">
-                <label class="mb-2"><b>{{ $t("Sector") }}</b></label>
-                <Field name="sector" type="text" class="form-control" v-model="form.sector" />
-            </div>
-        </div>
-        <!--Submit-->
-        <div class="d-flex p-2 justify-content-md-end">
-            <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
-                    {{ $t("Netejar cerca") }}
-                </button>
-            </div>
-        </div>
-    </Form><br>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -147,9 +101,16 @@ async function onSubmit(values) {
         </thead>
         <tbody v-if="rows.data">
             <tr v-for="row in rows.data" :key="row.id">
-                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
-                    v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
-                </Link>
+                <template v-if="name == 'empresa'">
+                    <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
+                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
+                    </Link>
+                </template>
+                <template v-else>
+                    <Link :href="route(name + '.index')" as="td" v-for="column in columns"
+                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;" preserveScroll>
+                    </Link>
+                </template>
                 <td v-if="options">
                     <EditButton :url="route(name + '.edit', row.id)" />
                     <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
@@ -172,5 +133,5 @@ async function onSubmit(values) {
             </tr>
         </tbody>
     </table>
-    <Pagination :data="rows" :search="props.search"/>
+    <Pagination :data="rows" :search="props.search" />
 </template>
