@@ -39,4 +39,28 @@ class Collaboracio extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Querys
+
+    public static function filter($nomCicleEstada, $anyEstada, $nomEmpresaEstada, $nomContacteEstada, $nomUsuariEstada)
+    {
+        $query =  Collaboracio::join('contactes', 'collaboracions.contacte_id', '=', 'contactes.id')
+            ->join('empreses', 'collaboracions.empresa_id', '=', 'empreses.id')
+            ->join('cicles', 'collaboracions.cicle_id', '=', 'cicles.id')
+            ->join('users', 'collaboracions.user_id', '=', 'users.id')
+            ->select('collaboracions.*')
+            ->where('cicles.nom', 'LIKE', '%' . $nomCicleEstada . '%')
+            ->where('empreses.nom', 'LIKE', '%' . $nomEmpresaEstada . '%')
+            ->where('contactes.nom', 'LIKE', '%' . $nomContacteEstada . '%')
+            ->where('users.name', 'LIKE', '%' . $nomUsuariEstada . '%')
+            ->with('empresa', 'contacte', 'cicle', 'user')
+            ->orderBy('cicles.nom');
+
+        if ($anyEstada) {
+            $query = $query->where('collaboracions.any', '=', $anyEstada)->paginate(5);
+        } else {
+            $query = $query->paginate(5);
+        }
+
+        return $query;
+    }
 }

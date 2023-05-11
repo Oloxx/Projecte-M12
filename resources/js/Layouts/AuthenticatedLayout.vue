@@ -24,7 +24,7 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
                         <Link :href="route('empresa.index')" class="nav-link px-2 link-light">{{ $t("Empresa") }}</Link>
                     </li>
                     <li>
-                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">{{ $t("Col·laboracions")
+                        <Link :href="route('collaboracio.index')" class="nav-link px-2 link-light">{{ $t("Estades")
                         }}</Link>
                     </li>
                     <li>
