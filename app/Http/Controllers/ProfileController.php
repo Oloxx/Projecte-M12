@@ -76,7 +76,5 @@ class ProfileController extends Controller
         $user->save();
 
         App::setLocale($lang);
-
-        return redirect()->back();
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Empresa;
 use App\Models\Poblacio;
 use App\Models\Sector;
 use App\Models\Contacte;
+use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
 {
@@ -132,6 +133,10 @@ class EmpresaController extends Controller
         $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
+        if ($request->hasFile('logo')) {
+            $logo = Storage::url($request->file('logo')->store('public/logos'));
+            $empresa->logo = $logo;
+        }
         // TODO: FORM VALIDATIONS
         $empresa->save();
 
@@ -205,6 +210,16 @@ class EmpresaController extends Controller
         $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
+        if ($request->hasFile('logo')) {
+            if ($empresa->logo) {
+                $path = str_replace('/storage', 'public', $empresa->logo);
+                if (Storage::exists($path)) {
+                    Storage::delete($path);
+                }
+            }
+            $logo = Storage::url($request->file('logo')->store('public/logos'));
+            $empresa->logo = $logo;
+        }
 
         $empresa->save();
 
@@ -259,4 +274,16 @@ class EmpresaController extends Controller
             return redirect()->route('empresa.index');
         }
     } */
+
+    public function removeLogo(int $id) {
+        $empresa = Empresa::find($id);
+        if ($empresa->logo) {
+            $path = str_replace('/storage', 'public', $empresa->logo);
+            if (Storage::exists($path)) {
+                Storage::delete($path);
+            }
+            $empresa->logo = null;
+            $empresa->save();
+        }
+    }
 }

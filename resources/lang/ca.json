@@ -68,5 +68,8 @@
     "Empresa {name} eliminada!": "Empresa {name} eliminada!",
     "Contacte {name} eliminat!": "Contacte {name} eliminat!",
     "Col·laboració {name} eliminada!" : "Col·laboració {name} eliminada!",
-    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No s'ha trobat cap element. Prova de canviar la consulta de cerca."
+    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No s'ha trobat cap element. Prova de canviar la consulta de cerca.",
+    "Logo": "Logo",
+    "Esborrar Logo": "Esborrar Logo",
+    "Error, imatge no valida (Màxim 2MB)": "Error, imatge no valida (Màxim 2MB)"
 }
