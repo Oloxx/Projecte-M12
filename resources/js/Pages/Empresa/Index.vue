@@ -25,7 +25,7 @@ const props = defineProps({
 /**
  * Inputs from the controller
  */
- const form = reactive({
+const form = reactive({
     nom: null,
     poblacio: null,
     sector: null
@@ -38,7 +38,7 @@ async function goIndex(values) {
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/empresa', form)
+    router.post('/empresa', form, { preserveScroll: true })
 }
 </script>
 
