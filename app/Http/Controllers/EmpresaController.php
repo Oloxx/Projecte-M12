@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+
 
 use App\Models\Categoria;
 use App\Models\Collaboracio;
@@ -63,7 +65,6 @@ class EmpresaController extends Controller
 
                 $search = true;
                 $empresesFiltre = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
-
             } else {
                 $search = true;
                 $nomEmpresa = $request->session()->get('nomEmpresa');
@@ -78,7 +79,6 @@ class EmpresaController extends Controller
                 'columns' => $this->columns,
                 'search' => $search
             ]);
-
         } else {
 
             if ($request->session()->exists('nomEmpresa')) {
@@ -91,8 +91,8 @@ class EmpresaController extends Controller
 
             if ($request->session()->exists('nomSector')) {
                 $request->session()->forget('nomSector');
-            } 
-            
+            }
+
             $empreses = Empresa::with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);
             $search = false;
 
@@ -116,7 +116,7 @@ class EmpresaController extends Controller
         return Inertia::render('Empresa/Create', [
             'poblacions' => $poblacions,
             'categories' => $categories,
-            'sectors' => $sectors
+            'sectors' => $sectors,
         ]);
     }
 
@@ -137,7 +137,7 @@ class EmpresaController extends Controller
             $logo = Storage::url($request->file('logo')->store('public/logos'));
             $empresa->logo = $logo;
         }
-        // TODO: FORM VALIDATIONS
+
         $empresa->save();
 
         return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
@@ -237,45 +237,8 @@ class EmpresaController extends Controller
         return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
     }
 
-    /**
-     * Filters
-     */
-
-    /* public function search(Request $request)
+    public function removeLogo(int $id)
     {
-        if ($request->isMethod('post')){
-            $nomEmpresa = $request->nom;
-            $nomPoblacio = $request->poblacio;
-            $nomSector = $request->sector;
-
-            if ($nomEmpresa || $nomPoblacio || $nomSector) {
-
-                $empreses = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
-                if ($request->session()->exists('empreses')) {
-                    $request->session()->forget('empreses');
-                    session(['empreses' => $empreses]);
-                } else {
-                    session(['empreses' => $empreses]);
-                }
-            } else {
-
-                if ($request->session()->exists('empreses')) {
-                    $request->session()->forget('empreses');
-                }
-            }
-
-            return redirect()->route('empresa.index');
-        } else {
-            dd('hola');
-            if ($request->session()->exists('empreses')) {
-                $request->session()->forget('empreses');
-            }
-
-            return redirect()->route('empresa.index');
-        }
-    } */
-
-    public function removeLogo(int $id) {
         $empresa = Empresa::find($id);
         if ($empresa->logo) {
             $path = str_replace('/storage', 'public', $empresa->logo);

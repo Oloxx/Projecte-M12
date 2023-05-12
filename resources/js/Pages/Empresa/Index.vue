@@ -22,6 +22,7 @@ const props = defineProps({
     }
 })
 
+
 /**
  * Inputs from the controller
  */
@@ -41,6 +42,7 @@ async function onSubmit(values) {
     router.post('/empresa', form, { preserveScroll: true })
 }
 </script>
+
 
 <template>
     <Head :title="$t(`Empreses`)" />
@@ -90,3 +92,4 @@ async function onSubmit(values) {
     bottom: 0;
 }
 </style>
+

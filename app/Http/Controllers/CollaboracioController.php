@@ -135,18 +135,6 @@ class CollaboracioController extends Controller
         }
     }
 
-
-    /*   public function index()
-    {
-        $collaboracions = Collaboracio::with('empresa', 'contacte', 'cicle', 'user')->paginate(5);
-        
-
-        return Inertia::render('Collaboracio/Index', [
-            'collaboracions' => $collaboracions,
-            'columns' => $this->columns
-        ]);
-    }  */
-
     /**
      * Show the form for creating a new resource.
      */
