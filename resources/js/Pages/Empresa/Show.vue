@@ -3,6 +3,7 @@ import { Head, Link } from "@inertiajs/vue3";
 import DataTable from "@/Components/DataTable.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { router } from '@inertiajs/vue3';
+import DataList from "@/Components/DataList.vue";
 
 
 /**
@@ -31,6 +32,15 @@ const props = defineProps({
     },
 });
 
+const items = [
+    { id: 'telefon', label: 'Telèfon', value: props.empresa.telefon },
+    { id: 'web', label: 'Web', value: props.empresa.web },
+    { id: 'email', label: 'E-mail', value: props.empresa.email },
+    { id: 'poblacio_id', label: 'Població', value: props.empresa.poblacio.nom },
+    { id: 'categoria_id', label: 'Categoria', value: props.empresa.categoria.nom },
+    { id: 'sector_id', label: 'Sector', value: props.empresa.sector.nom },
+]
+
 // Request form  
 async function onSubmitContacte() {
     router.get(`/contacte/create/${props.empresa.id}`)
@@ -51,31 +61,7 @@ async function onSubmitCollaboracio() {
                 <Link :href="route('empresa.create')" as="button" type="button" class="btn btn-secondary">{{ $t("Afegir nova empresa") }}</Link>
             </div>
             <h1 class="mb-4">{{ $t("Informació de l'empresa") }}: {{ empresa.nom }}</h1>
-            <div class="d-flex align-items-center mb-3">
-                <label for="telefon" class="me-2 fw-bold">{{ $t("Telèfon") }}</label>
-                <input class="form-control" type="text" id="telefon" :value="empresa.telefon" readonly>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-                <label for="web" class="me-2 fw-bold">{{ $t("Web") }}</label>
-                <input class="form-control" type="text" id="web" :value="empresa.web" readonly>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-                <label for="email" class="me-2 fw-bold">{{ $t("E-mail") }}</label>
-                <input class="form-control" type="text" id="email" :value="empresa.email" readonly>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-                <label for="poblacio_id" class="me-2 fw-bold">{{ $t("Població") }}</label>
-                <input class="form-control" type="text" id="poblacio_id" :value="empresa.poblacio.nom" readonly>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-                <label for="categoria_id" class="me-2 fw-bold">{{ $t("Categoria") }}</label>
-                <input class="form-control" type="text" id="categoria_id" :value="empresa.categoria.nom" readonly>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-                <label for="sector_id" class="me-2 fw-bold">{{ $t("Sector") }}</label>
-                <input class="form-control" type="text" id="sector_id" :value="empresa.sector.nom" readonly>
-            </div>
-            <br />
+            <DataList :items="items" />
             <h1 class="mb-4">{{ $t("Llistat de Contactes") }}</h1>
             <DataTable v-if="props.contactes.total != 0" :columns="columnsContacte" :rows="contactes" :options="true"
                 name="contacte">
@@ -102,9 +88,3 @@ async function onSubmitCollaboracio() {
         </div>
     </AuthenticatedLayout>
 </template>
-
-<style scoped>
-label {
-    width: 95px;
-}
-</style>

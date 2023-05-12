@@ -40,7 +40,7 @@ async function goIndex(values) {
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/contacte', form)
+    router.post('/contacte', form, { preserveScroll: true })
 }
 </script>
 
@@ -63,8 +63,8 @@ async function onSubmit(values) {
                         <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
                         <Field name="nomContacte" type="text" class="form-control" v-model="form.nomContacte" />
                     </div>
-                   <!-- Cognom -->
-                   <div class="d-inline p-2 form-group col">
+                    <!-- Cognom -->
+                    <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Cognoms") }}</b></label>
                         <Field name="cognoms" type="text" class="form-control" v-model="form.cognoms" />
                     </div>

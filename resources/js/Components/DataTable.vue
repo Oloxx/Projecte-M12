@@ -108,7 +108,7 @@ function deleteUser(row, name) {
                 </template>
                 <template v-else>
                     <Link :href="route(name + '.index')" as="td" v-for="column in columns"
-                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;" preserveScroll>
+                        v-html="fieldValue(row, column)" class="align-middle" preserve-scroll>
                     </Link>
                 </template>
                 <td v-if="options">
