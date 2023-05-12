@@ -12,6 +12,10 @@ defineProps({
     status: {
         type: String,
     },
+    cicles: {
+        type: Object,
+        required: true,
+    },
 });
 </script>
 
@@ -22,7 +26,7 @@ defineProps({
         <div class="py-2">
             <div class="mx-3">
                 <div class="p-4 ">
-                    <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" />
+                    <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" :cicles="cicles" />
                 </div>
                 <hr>
 
