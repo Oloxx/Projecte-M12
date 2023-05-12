@@ -3,6 +3,8 @@
     "Llistat d'Estades": "Listado de estancias",
     "Llistat de Contactes": "Listado de Contactos",
     "Col·laboració": "Colaboración",
+    "Col·laboracions": "Colaboraciones",
+    "Nova Col·laboració": "Nueva Colaboración",
     "Cicle": "Ciclo",
     "Any": "Año",
     "Contacte": "Contacto",
@@ -69,7 +71,7 @@
     "Empresa {name} eliminada!": "Empresa {name} eliminada!",
     "Contacte {name} eliminat!": "Contacto {name} eliminado!",
     "Estada {name} eliminada!" : "Estancia {name} eliminada!",
-    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No se ha encontrado ningún elemento. Prueba a cambiar la consulta de búsqueda."
+    "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No se ha encontrado ningún elemento. Prueba a cambiar la consulta de búsqueda.",
     "Logo": "Logo",
     "Esborrar Logo": "Borrar Logo",
     "Error, imatge no valida (Màxim 2MB)": "Error, imagen no valida (Máximo 2MB)"
