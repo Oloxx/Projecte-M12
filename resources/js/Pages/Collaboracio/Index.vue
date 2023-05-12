@@ -64,7 +64,7 @@ async function goIndex(values) {
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/collaboracio', form)
+    router.post('/collaboracio', form, { preserveScroll: true })
 }
 </script>
 
