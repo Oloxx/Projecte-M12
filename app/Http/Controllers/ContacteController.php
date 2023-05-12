@@ -24,92 +24,89 @@ class ContacteController extends Controller
      * Display a listing of the resource.
      */
 
-     public function index(Request $request)
-     {
- 
-         if ($request->isMethod('post')) {
- 
-             $nomContacte = $request->nomContacte;
-             $cognomsContacte = $request->cognoms;
-             $nomEmpresaContacte = $request->empresaContacte;
- 
-             if ($nomContacte || $cognomsContacte || $nomEmpresaContacte) {
- 
-                 if ($request->session()->exists('nomContacte')) {
-                     $request->session()->forget('nomContacte');
-                     session(['nomContacte' => $nomContacte]);
-                 } else {
-                     session(['nomContacte' => $nomContacte]);
-                 }
- 
-                 if ($request->session()->exists('cognomsContacte')) {
-                     $request->session()->forget('cognomsContacte');
-                     session(['cognomsContacte' => $cognomsContacte]);
-                 } else {
-                     session(['cognomsContacte' => $cognomsContacte]);
-                 }
- 
-                 if ($request->session()->exists('nomEmpresaContacte')) {
-                     $request->session()->forget('nomEmpresaContacte');
-                     session(['nomEmpresaContacte' => $nomEmpresaContacte]);
-                 } else {
-                     session(['nomEmpresaContacte' => $nomEmpresaContacte]);
-                 }
- 
-                 $search = true;
-                 $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
- 
-             } else {
-                 $search = true;
-                 $nomContacte = $request->session()->get('nomContacte');
-                 $cognomsContacte = $request->session()->get('cognomsContacte');
-                 $nomEmpresaContacte = $request->session()->get('nomEmpresaContacte');
- 
-                 $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
-             }
- 
-             return Inertia::render('Contacte/Index', [
-                 'contactes' => $contactesFiltre,
-                 'columns' => $this->columns,
-                 'search' => $search
-             ]);
- 
-         } else {
- 
-             if ($request->session()->exists('nomContacte')) {
-                 $request->session()->forget('nomContacte');
-             }
- 
-             if ($request->session()->exists('cognomsContacte')) {
-                 $request->session()->forget('cognomsContacte');
-             }
- 
-             if ($request->session()->exists('nomEmpresaContacte')) {
-                 $request->session()->forget('nomEmpresaContacte');
-             } 
-             
-             $contactes = Contacte::with('empresa')->orderBy('nom')->paginate(5);
-             $search = false;
- 
-             return Inertia::render('Contacte/Index', [
-                 'contactes' => $contactes,
-                 'columns' => $this->columns,
-                 'search' => $search
-             ]);
-         }
-     }
+    public function index(Request $request)
+    {
+
+        if ($request->isMethod('post')) {
+
+            $nomContacte = $request->nomContacte;
+            $cognomsContacte = $request->cognoms;
+            $nomEmpresaContacte = $request->empresaContacte;
+
+            if ($nomContacte || $cognomsContacte || $nomEmpresaContacte) {
+
+                if ($request->session()->exists('nomContacte')) {
+                    $request->session()->forget('nomContacte');
+                    session(['nomContacte' => $nomContacte]);
+                } else {
+                    session(['nomContacte' => $nomContacte]);
+                }
+
+                if ($request->session()->exists('cognomsContacte')) {
+                    $request->session()->forget('cognomsContacte');
+                    session(['cognomsContacte' => $cognomsContacte]);
+                } else {
+                    session(['cognomsContacte' => $cognomsContacte]);
+                }
+
+                if ($request->session()->exists('nomEmpresaContacte')) {
+                    $request->session()->forget('nomEmpresaContacte');
+                    session(['nomEmpresaContacte' => $nomEmpresaContacte]);
+                } else {
+                    session(['nomEmpresaContacte' => $nomEmpresaContacte]);
+                }
+
+                $search = true;
+                $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
+            } else {
+                $search = true;
+                $nomContacte = $request->session()->get('nomContacte');
+                $cognomsContacte = $request->session()->get('cognomsContacte');
+                $nomEmpresaContacte = $request->session()->get('nomEmpresaContacte');
+
+                $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
+            }
+
+            return Inertia::render('Contacte/Index', [
+                'contactes' => $contactesFiltre,
+                'columns' => $this->columns,
+                'search' => $search
+            ]);
+        } else {
+
+            if ($request->session()->exists('nomContacte')) {
+                $request->session()->forget('nomContacte');
+            }
+
+            if ($request->session()->exists('cognomsContacte')) {
+                $request->session()->forget('cognomsContacte');
+            }
+
+            if ($request->session()->exists('nomEmpresaContacte')) {
+                $request->session()->forget('nomEmpresaContacte');
+            }
+
+            $contactes = Contacte::with('empresa')->orderBy('nom')->paginate(5);
+            $search = false;
+
+            return Inertia::render('Contacte/Index', [
+                'contactes' => $contactes,
+                'columns' => $this->columns,
+                'search' => $search
+            ]);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create(int $id)
     {
-        $empresa = Empresa::where('id',$id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
+        $empresa = Empresa::where('id', $id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
 
         return Inertia::render('Contacte/Create', [
             'empresa' => $empresa
         ]);
-
     }
 
     public function createWithoutId()
@@ -135,10 +132,9 @@ class ContacteController extends Controller
 
         $contacte->save();
 
-        $empresa = Empresa::where('id',$contacte->empresa_id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
-        
-        return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Nou contacte ' . $contacte->nom . ' creat!');
+        $empresa = Empresa::where('id', $contacte->empresa_id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
 
+        return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Nou contacte ' . $contacte->nom . ' creat!');
     }
 
     /**
@@ -146,7 +142,7 @@ class ContacteController extends Controller
      */
     public function edit(int $id)
     {
-        $contacte = Contacte::where('id',$id)->with('empresa')->firstOrFail();
+        $contacte = Contacte::where('id', $id)->with('empresa')->firstOrFail();
 
         return Inertia::render('Contacte/Edit', [
             'contacte' => $contacte
@@ -158,7 +154,7 @@ class ContacteController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $contacte = Contacte::where('id',$id)->with('empresa')->firstOrFail();
+        $contacte = Contacte::where('id', $id)->with('empresa')->firstOrFail();
         $contacte->nom = $request->nom;
         $contacte->cognoms = $request->cognoms;
         $contacte->movil = $request->movil;
@@ -167,10 +163,9 @@ class ContacteController extends Controller
 
         $contacte->save();
 
-        $empresa = Empresa::where('id',$contacte->empresa_id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
+        $empresa = Empresa::where('id', $contacte->empresa_id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
 
         return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Contacte ' . $contacte->nom . ' modificat!');
-
     }
 
     /**

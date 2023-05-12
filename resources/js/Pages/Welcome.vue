@@ -1,5 +1,12 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import { onMounted, onUnmounted } from 'vue'
+
+
+onMounted(() => {
+    window.addEventListener('scroll', logoAppear);
+    window.addEventListener('resize', interpolarIdControlAdaptabilitat);
+})
 
 defineProps({
     canLogin: {
@@ -18,6 +25,44 @@ defineProps({
     },
 });
 
+onUnmounted(() => {
+    window.removeEventListener('scroll', logoAppear);
+    window.removeEventListener('resize', interpolarIdControlAdaptabilitat);
+})
+
+// Makes logo Labora appear when the user scrolls
+function logoAppear() {
+
+    let scrollY = window.scrollY;
+    let scrollX = window.scrollX;
+
+    //console.log(scrollY);
+    if (scrollY > 7) {
+        document.getElementById('linkLogo').setAttribute('style', 'display:flex');
+    } else {
+        document.getElementById('linkLogo').setAttribute('style', 'display:none');
+    }
+}
+
+// Change id of Adaptabilitat section and Control section 
+function interpolarIdControlAdaptabilitat() {
+    let width = window.innerWidth;
+    let elemAdaptabilitat = document.getElementById('adaptabilitat');
+    let elemControl = document.getElementById('control');
+    let elemAdaptabilitat2 = document.getElementById('adaptabilitat2');
+    let elemControl2 = document.getElementById('control2');
+    if (width <= 966) {
+        elemAdaptabilitat.setAttribute('id', 'adaptabilitat2');
+        elemControl.setAttribute('id', 'control2');
+        elemAdaptabilitat2.setAttribute('id', 'adaptabilitat');
+        elemControl2.setAttribute('id', 'control');
+    } else {
+        elemAdaptabilitat.setAttribute('id', 'adaptabilitat');
+        elemControl.setAttribute('id', 'control');
+        elemAdaptabilitat2.setAttribute('id', 'adaptabilitat2');
+        elemControl2.setAttribute('id', 'control2');
+    }
+}
 
 </script>
 
@@ -277,11 +322,11 @@ defineProps({
     </footer>
 </template>
 
-<script>
+<!-- <script>
 
-window.onload = function () {
-    document.addEventListener('scroll', logoAppear);
-}
+/* window.onload = function () {
+} */
+document.addEventListener('scroll', logoAppear);
 
 window.addEventListener('resize', interpolarIdControlAdaptabilitat);
 
@@ -318,4 +363,4 @@ function interpolarIdControlAdaptabilitat() {
         elemControl2.setAttribute('id', 'control2');
     }
 }
-</script>
+</script> -->
