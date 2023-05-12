@@ -6,6 +6,7 @@ import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SearchSelect from "@/Components/SearchSelect.vue";
+import { useI18n } from "vue-i18n";
 
 /**
  *  Data received from the controller

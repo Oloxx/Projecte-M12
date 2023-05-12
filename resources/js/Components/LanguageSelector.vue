@@ -15,17 +15,17 @@ import DropdownLink from "@/Components/DropdownLink.vue";
         <div class="locale-changer">
             <ul class="dropdown-menu">
                 <li>
-                    <DropdownLink class="dropdown-item" :href="route('proflie.setLanguage', 'ca')" method="post" as="button" @click="$i18n.locale = 'ca'">
+                    <DropdownLink class="dropdown-item" :href="route('proflie.setLanguage', 'ca')" method="post" as="button" @click="$i18n.locale = 'ca'" preserve-scroll>
                         <CountryFlag country=es-ca rounded /> Català
                     </DropdownLink>
                 </li>
                 <li>
-                    <DropdownLink class="dropdown-item" :href="route('proflie.setLanguage', 'es')" method="post" as="button" @click="$i18n.locale = 'es'">
+                    <DropdownLink class="dropdown-item" :href="route('proflie.setLanguage', 'es')" method="post" as="button" @click="$i18n.locale = 'es'" preserve-scroll>
                         <CountryFlag country=es rounded/> Castellano
                     </DropdownLink>
                 </li>
                 <li>
-                    <DropdownLink class="dropdown-item" :href="route('proflie.setLanguage', 'en')" method="post" as="button" @click="$i18n.locale = 'en'">
+                    <DropdownLink class="dropdown-item" :href="route('proflie.setLanguage', 'en')" method="post" as="button" @click="$i18n.locale = 'en'" preserve-scroll>
                         <CountryFlag country=gb rounded /> English
                     </DropdownLink>
                 </li>

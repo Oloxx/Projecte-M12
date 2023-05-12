@@ -74,5 +74,6 @@
     "No s'ha trobat cap element. Prova de canviar la consulta de cerca.": "No items found. Try changing the search query.",
     "Logo": "Logo",
     "Esborrar Logo": "Remove Logo",
-    "Error, imatge no valida (Màxim 2MB)": "Error, invalid image (Maximum 2MB)"
+    "Error, imatge no valida (Màxim 2MB)": "Error, invalid image (Maximum 2MB)",
+    "Error, email no vàlid": "Error, invalid email"
 }
