@@ -42,9 +42,6 @@ const schema = Yup.object().shape({
     contacte_id: Yup.string().required("S'ha d'assignar un contacte a l'estada."),
     cicle_id: Yup.string().required("S'ha d'assignar un cicle a l'estada."),
     any: Yup.number("Assignar un any és obligatori."),
-    comentaris: Yup.string().required(
-        "S'ha d'afegir un comentari."
-    ),
 });
 
 /**
