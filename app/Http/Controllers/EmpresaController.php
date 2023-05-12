@@ -138,7 +138,7 @@ class EmpresaController extends Controller
             $empresa->logo = $logo;
         }
 
-        return $empresa->save();
+        $empresa->save();
 
         return redirect()->route('empresa.show', ['id' => $empresa->id])->with('status', 'Nova empresa ' . $empresa->nom . ' creada!');
     }
