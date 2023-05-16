@@ -75,5 +75,14 @@
     "Logo": "Logo",
     "Esborrar Logo": "Borrar Logo",
     "Error, imatge no valida (Màxim 2MB)": "Error, imagen no valida (Máximo 2MB)",
-    "Error, email no vàlid": "Error email no válido"
+    "Error, email no vàlid": "Error email no válido",
+    "These credentials do not match our records.": "Estas credenciales no coinciden con nuestros registros.",
+    "The current password field is required.": "El campo de contraseña actual es obligatorio.",
+    "The password field is required.": "El campo contraseña es obligatorio.",
+    "The password is incorrect.": "La contraseña es incorrecta.",
+    "The password field must be at least 8 characters.": "El campo de contraseña debe tener al menos 8 caracteres.",
+    "The password field confirmation does not match.": "La confirmación del campo de contraseña no coincide.",
+    "Your account is disabled.": "Tu cuenta está desactivada.",
+    "Previous": "Anterior",
+    "Next": "Siguiente"
 }

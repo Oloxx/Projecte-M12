@@ -75,5 +75,14 @@
     "Logo": "Logo",
     "Esborrar Logo": "Remove Logo",
     "Error, imatge no valida (Màxim 2MB)": "Error, invalid image (Maximum 2MB)",
-    "Error, email no vàlid": "Error, invalid email"
+    "Error, email no vàlid": "Error, invalid email",
+    "These credentials do not match our records.": "These credentials do not match our records.",
+    "The current password field is required.": "The current password field is required.",
+    "The password field is required.": "The password field is required.",
+    "The password is incorrect.": "The password is incorrect.",
+    "The password field must be at least 8 characters.": "The password field must be at least 8 characters.",
+    "The password field confirmation does not match.": "The password field confirmation does not match.",
+    "Your account is disabled.": "Your account is disabled.",
+    "Previous": "Previous",
+    "Next": "Next"
 }
