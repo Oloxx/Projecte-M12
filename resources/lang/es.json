@@ -75,5 +75,14 @@
     "Logo": "Logo",
     "Esborrar Logo": "Borrar Logo",
     "Error, imatge no valida (Màxim 2MB)": "Error, imagen no valida (Máximo 2MB)",
-    "Error, email no vàlid": "Error email no válido"
+    "Error, email no vàlid": "Error email no válido",
+    "El nom de l'empresa és obligatori." : "El nombre de la empresa es obligatorio",
+    "El camp telèfon és obligatori." : "El campo teléfono es obligatorio.",
+    "El camp població és obligatori." : "El campo población es obligatorio",
+    "El camp categoria és obligatori." : "El campo categoria es obligatorio",
+    "El camp sector és obligatori." : "El campo sector es obligatorio.",
+    "El nom de l'empresa ha de tenir com a mínim un caràcter." : "El nombre de la empresa debe tener mínimo un carácter.",
+    "El nom de l'empresa ha de tenir com a màxim 60 caràcters." : "El nombre de la empresa debe tener como máximo 60 carácteres",
+    "Aquest correu és incorrecte." : "El correo es incorrecto.",
+    "Aquesta URL és incorrecta." : "La URL es incorrecta."
 }
