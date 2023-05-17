@@ -6,12 +6,12 @@ import { watchEffect, onMounted, ref } from 'vue';
 const message = ref(null);
 
 onMounted(() => {
-    const toastElement = document.getElementById('app-toast-status')
+    const toastElement = document.getElementById('app-toast-error')
     const toast = new bootstrap.Toast(toastElement)
 
     watchEffect(() => {
-        if (usePage().props.toast.status) {
-            message.value = usePage().props.toast.status;
+        if (usePage().props.toast.error) {
+            message.value = usePage().props.toast.error;
             toast.show();
         }
     })
@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="app-toast-status" class="toast align-items-center text-light bg-success">
+        <div id="app-toast-error" class="toast align-items-center text-light bg-danger">
             <div class="d-flex">
                 <div class="toast-body">
                     {{ message }}

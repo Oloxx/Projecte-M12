@@ -179,7 +179,7 @@ async function onSubmit() {
                 <!--Logo empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Logo") }}</label>
-                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': state.logo }" @input="form.logo = $event.target.files[0]" @change="onFileChange"/>
+                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': state.logo }" accept="image/*" @input="form.logo = $event.target.files[0]" @change="onFileChange"/>
                     <div class="invalid-feedback">
                         {{ state.logo }}
                     </div>
