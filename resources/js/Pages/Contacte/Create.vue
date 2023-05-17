@@ -13,7 +13,11 @@ const props = defineProps({
     empresa: {
         type: Object,
         required: true,
-    }
+    },
+    errors: {
+        type: Object,
+        required: false,
+    },
 });
 
 /**
@@ -41,9 +45,20 @@ const form = reactive({
     empresa_id: props.empresa.id
 })
 
+async function scrollTop() {
+    window.scroll({
+        top: 100,
+        behavior: "smooth",
+    });
+}
+
 // Request form  
 async function onSubmit(values) {
-    router.post('/contacte/store', form)
+    router.post('/contacte/store', form);
+
+    if (Object.keys(props.errors).length > 0) {
+        scrollTop();
+    }
 }
 </script>
 
@@ -52,10 +67,18 @@ async function onSubmit(values) {
         <h1 class="mt-5 ms-5 mb-4">Assignar nou contacte a: {{ empresa.nom }}</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
+                <div class="serverError" v-if="Object.keys(props.errors).length > 0">
+                    <ol>
+                        <li v-for="item in props.errors">
+                            {{ $t(item) }}
+                        </li>
+                    </ol>
+                </div>
                 <!--Nom contacte -->
                 <div class="form-group col">
                     <label class="mb-2">Nom</label>
-                    <Field name="nom" type="text" class="form-control" :class="{ 'is-invalid': errors.nom }" v-model="form.nom"/>
+                    <Field name="nom" type="text" class="form-control" :class="{ 'is-invalid': errors.nom }"
+                        v-model="form.nom" />
                     <div class="invalid-feedback">
                         {{ errors.nom }}
                     </div>
@@ -63,7 +86,8 @@ async function onSubmit(values) {
                 <!--Congoms contacte -->
                 <div class="form-group col">
                     <label class="mb-2">Cognoms</label>
-                    <Field name="cognoms" type="text" class="form-control" :class="{ 'is-invalid': errors.cognoms }" v-model="form.cognoms"/>
+                    <Field name="cognoms" type="text" class="form-control" :class="{ 'is-invalid': errors.cognoms }"
+                        v-model="form.cognoms" />
                     <div class="invalid-feedback">
                         {{ errors.cognoms }}
                     </div>
@@ -71,7 +95,8 @@ async function onSubmit(values) {
                 <!--Mòvil contacte -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Telèfon</label>
-                    <Field name="movil" type="text" class="form-control" :class="{ 'is-invalid': errors.movil }" v-model="form.movil"/>
+                    <Field name="movil" type="text" class="form-control" :class="{ 'is-invalid': errors.movil }"
+                        v-model="form.movil" />
                     <div class="invalid-feedback">
                         {{ errors.movil }}
                     </div>
@@ -79,13 +104,15 @@ async function onSubmit(values) {
                 <!--E-mail contacte -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">E-mail</label>
-                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" v-model="form.email"/>
+                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }"
+                        v-model="form.email" />
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
                 <!-- Empresa contacte -->
                 <div class="form-group col mt-3" v-if="props.empresa">
                     <label class="mb-2">Empresa</label>
-                    <Field name="empresa_id" type="text" class="form-control" :class="{ 'is-invalid': errors.empresa_id }" :value="empresa.nom" disabled/>
+                    <Field name="empresa_id" type="text" class="form-control" :class="{ 'is-invalid': errors.empresa_id }"
+                        :value="empresa.nom" disabled />
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
             </div>
@@ -96,6 +123,15 @@ async function onSubmit(values) {
                 </button>
                 <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">Cancel·lar</Link>
             </div>
-        </Form>
+        </Form><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.serverError {
+    color: rgb(202, 8, 8);
+    background-color: rgb(252, 239, 183);
+    border-radius: 5px;
+    padding: 20px 20px 5px 10px;
+    margin-bottom: 20px;
+}</style>

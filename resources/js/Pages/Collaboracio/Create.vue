@@ -6,8 +6,6 @@ import { router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { reactive } from 'vue';
 
-
-
 /**
  *  Data received from the controller
  */
@@ -31,7 +29,11 @@ var props = defineProps({
     year: {
         type: Number,
         required: true,
-    }
+    },
+    errors: {
+        type: Object,
+        required: false,
+    },
 });
 
 /**
@@ -42,7 +44,14 @@ const schema = Yup.object().shape({
     contacte_id: Yup.string().required("S'ha d'assignar un contacte a l'estada."),
     cicle_id: Yup.string().required("S'ha d'assignar un cicle a l'estada."),
     any: Yup.number("Assignar un any és obligatori."),
-});
+}); 
+
+async function scrollTop() {
+    window.scroll({
+        top: 100,
+        behavior: "smooth",
+    });
+}
 
 /**
  * Inputs from the controller
@@ -59,6 +68,10 @@ const form = reactive({
 // Request form
 async function onSubmit(values) {
     router.post("/collaboracio/store", form);
+
+    if(Object.keys(props.errors).length > 0){
+        scrollTop();
+    }
 }
 
 var contactesFiltrats = reactive([]);
@@ -85,6 +98,8 @@ function carregarAny() {
         anys.push(index);
     }
 
+    anys = anys.reverse();
+
     return anys;
 }
 
@@ -97,6 +112,13 @@ carregarAny();
         <h1 class="mt-5 ms-5 mb-4">Crear nova estada</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
+                <div class = "serverError" v-if="Object.keys(props.errors).length > 0">
+                    <ol>
+                        <li v-for="item in props.errors">
+                            {{ $t(item) }}
+                        </li>
+                    </ol>
+                </div>
                 <!-- Empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Empresa</label>
@@ -171,3 +193,13 @@ carregarAny();
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.serverError{
+    color: rgb(202, 8, 8);
+    background-color: rgb(252, 239, 183);
+    border-radius: 5px;
+    padding: 20px 20px 5px 10px;
+    margin-bottom: 20px;
+}
+</style>

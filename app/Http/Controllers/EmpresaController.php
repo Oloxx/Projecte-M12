@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 use App\Models\Categoria;
@@ -122,8 +124,30 @@ class EmpresaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
+        $rules = [
+            'nom' => 'required|min:1|max:255',
+            'telefon' => 'required|numeric|digits_between:9,9',
+            'email' => 'nullable|email',
+            'web' => 'nullable|url',
+            'poblacio_id' => 'required',
+            'categoria_id' => 'required',
+            'sector_id' => 'required',
+        ];
+
+        Validator::make($request->all(), $rules, $messages = [
+            'required' => 'El camp :attribute és obligatori.',
+            'nom.required' => 'El nom de l\'empresa és obligatori.',
+            'telefon.required' => 'El camp telèfon és obligatori.',
+            'telefon.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
+            'telefon.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
+            'min' => 'El nom de l\'empresa ha de tenir com a mínim :min caràcters.',
+            'max' => 'El nom de l\'empresa ha de tenir com a màxim :man caràcters.',
+            'email' => 'Aquest correu és incorrecte.',
+            'url' => 'Aquesta URL és incorrecta.',
+        ])->validate();   
+
         $empresa = new Empresa;
         $empresa->nom = $request->nom;
         $empresa->telefon = $request->telefon;
@@ -199,8 +223,31 @@ class EmpresaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
+       
+        $rules = [
+            'nom' => 'required|min:1|max:255',
+            'telefon' => 'required|numeric|digits_between:9,9',
+            'email' => 'nullable|email',
+            'web' => 'nullable|url',
+            'poblacio_id' => 'required',
+            'categoria_id' => 'required',
+            'sector_id' => 'required',
+        ];
+
+        Validator::make($request->all(), $rules, $messages = [
+            'required' => 'El camp :attribute és obligatori.',
+            'nom.required' => 'El nom de l\'empresa és obligatori.',
+            'telefon.required' => 'El camp telèfon és obligatori.',
+            'telefon.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
+            'telefon.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
+            'min' => 'El nom de l\'empresa ha de tenir com a mínim :min caràcters.',
+            'max' => 'El nom de l\'empresa ha de tenir com a màxim :man caràcters.',
+            'email' => 'Aquest correu és incorrecte.',
+            'url' => 'Aquesta URL és incorrecta.',
+        ])->validate();   
+
         $empresa = Empresa::find($id);
         $empresa->nom = $request->nom;
         $empresa->telefon = $request->telefon;

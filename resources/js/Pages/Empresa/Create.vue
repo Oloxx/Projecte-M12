@@ -2,11 +2,12 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SearchSelect from "@/Components/SearchSelect.vue";
 import { useI18n } from "vue-i18n";
+
 
 /**
  *  Data received from the controller
@@ -40,14 +41,20 @@ const state = reactive({
  */
 const schema = Yup.object().shape({
     nom: Yup.string().min(1, 'El nom ha de contenir mínim un caràcter').max(60, 'El nom ha de contenir màxim 60 caràcters').required("El nom de l'empresa és obligatori"),
-    telefon: Yup.string().matches(
-        /^[0-9]{9}/,
-        "El número de telèfon ha d'estar compost per nomès 9 números."
-    ),
-    email: Yup.string().email("El E-mail introduït és invàlid"),
+    telefon: Yup.string('').matches(
+         /^[0-9]{9}/,
+         "El número de telèfon ha d'estar compost per nomès 9 números."
+     ).required("El telèfon de l'empresa és obligatori"),  
+    web: Yup.string('').matches(
+        /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/,
+        "El format de la web és incorrecte. Ha de coincidir amb els següents formats: https://www.something.com/ , http://www.something.com/ . https://www.something.edu.co.in, http://www.url-with-path.com/path, https://www.url-with-querystring.com/?url=has-querystring, http://url-without-www-subdomain.com/, https://mail.google.com."
+    ).notRequired(),
+    email: Yup.string().email("El E-mail introduït és invàlid").notRequired(),
+    poblacio_id: Yup.number().required("La població és obligatoria"),
     categoria_id: Yup.number().required("La categoria és obligatoria"),
     sector_id: Yup.number().required("El sector és obligatori"),
-});
+});  
+
 
 /**
  * Inputs from the controller
@@ -92,10 +99,30 @@ function onFileChange(e) {
     }
 }
 
+const serverError = reactive({ error: null, message: [] });
+
+async function scrollTop() {
+    window.scroll({
+        top: 100,
+        behavior: "smooth",
+    });
+}
+
 // Request form  
 async function onSubmit() {
     if (state.poblacioSelected && !state.logo) {
-        router.post('/empresa/store', form)
+        let url = route('empresa.store');
+        axios.post(url, form).catch(error => {
+            serverError.error = error.response.data;
+            let count = 0;
+            serverError.message = [];
+            for (const key in serverError.error.errors) {
+                serverError.message[count] = serverError.error.errors[key][0];
+                count++;
+            }
+            console.log(serverError.message);
+            scrollTop();
+        });
     } else {
         state.showPoblacioError = true;
     }
@@ -109,6 +136,13 @@ async function onSubmit() {
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Nova Empresa") }}</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
+                 <div class="serverError" v-if="serverError.error">
+                    <ol>
+                        <li v-for="item in serverError.message">
+                            {{ $t(item) }}
+                        </li>
+                    </ol>
+                </div>
                 <!--Nom empresa -->
                 <div class="form-group col">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
@@ -198,3 +232,13 @@ async function onSubmit() {
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.serverError{
+    color: rgb(202, 8, 8);
+    background-color: rgb(252, 239, 183);
+    border-radius: 5px;
+    padding: 20px 20px 5px 10px;
+    margin-bottom: 20px;
+}
+</style>
