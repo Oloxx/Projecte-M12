@@ -72,7 +72,7 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
         <main>
             <slot />
         </main>
-</transition>
+    </transition>
 
     <BToast />
     <BToastError />

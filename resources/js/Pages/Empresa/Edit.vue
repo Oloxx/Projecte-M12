@@ -41,7 +41,7 @@ const state = reactive({
  * Validations
  */
 const schema = Yup.object().shape({
-    nom: Yup.string().required("El nom de l'empresa és obligatori"),
+    nom: Yup.string().min(1, 'El nom ha de contenir mínim un caràcter').max(60, 'El nom ha de contenir màxim 60 caràcters').required("El nom de l'empresa és obligatori"),
     telefon: Yup.string().matches(
         /^[0-9]{9}/,
         "El número de telèfon ha d'estar compost per nomès 9 números."

@@ -21,6 +21,7 @@ class CollaboracioController extends Controller
         ["label" => "Contacte", "field" => "contacte.nom"],
         ["label" => "Usuari", "field" => "user.name"],
     ];
+    
 
     /**
      * Display a listing of the resource.
@@ -156,7 +157,6 @@ class CollaboracioController extends Controller
      */
     public function getContactes(Request $request)
     {
-
         try {
             if ($request->id) {
                 $contactes = Contacte::where('empresa_id', $request->id)->with('empresa')->firstOrFail();
@@ -174,6 +174,15 @@ class CollaboracioController extends Controller
      */
     public function store(Request $request)
     {
+        $year = date("Y") + 1;
+
+        $request->validate([
+            'empresa_id' => ['required'],
+            'contacte_id' => ['required'],
+            'cicle_id' => ['required'],
+            'any' => ['required', 'before_or_equal:'.$year],
+        ]);
+
         $collaboracio = new Collaboracio;
         $collaboracio->empresa_id = $request->empresa_id;
         $collaboracio->contacte_id = $request->contacte_id;
@@ -184,7 +193,7 @@ class CollaboracioController extends Controller
 
         $collaboracio->save();
 
-        return redirect()->route('empresa.index')->with('status', 'Estada ' . $collaboracio->id . ' desada!');
+        return redirect()->route('collaboracio.index')->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' desada!');
     }
 
     /**
@@ -209,6 +218,16 @@ class CollaboracioController extends Controller
      */
     public function update(Request $request, int $id)
     {
+
+        $year = date("Y") + 1;
+
+        $request->validate([
+            'empresa_id' => ['required'],
+            'contacte_id' => ['required'],
+            'cicle_id' => ['required'],
+            'any' => ['required', 'before_or_equal:'.$year],
+        ]);
+
         $collaboracio = Collaboracio::find($id);
         $collaboracio->any = $request->any;
         $collaboracio->empresa_id = $request->empresa_id;
@@ -218,7 +237,7 @@ class CollaboracioController extends Controller
 
         $collaboracio->save();
 
-        return redirect()->route('collaboracio.index')->with('status', 'Estada ' . $collaboracio->id . ' modificada!');
+        return redirect()->route('collaboracio.index')->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' modificada!');
     }
 
     /**
@@ -229,6 +248,6 @@ class CollaboracioController extends Controller
         $collaboracio = Collaboracio::find($id);
         $collaboracio->delete();
 
-        return redirect()->route('collaboracio.index')->with('status', 'Estada ' . $collaboracio->id . ' eliminada!');
+        return redirect()->route('collaboracio.index')->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' eliminada!');
     }
 }

@@ -12,6 +12,10 @@ defineProps({
     status: {
         type: String,
     },
+    cicles: {
+        type: Object,
+        required: true,
+    },
 });
 
 const user = usePage().props.auth.user;
@@ -20,6 +24,7 @@ const form = useForm({
     name: user.name,
     cognoms: user.cognoms,
     email: user.email,
+    cicle_id: user.cicle_id
 });
 </script>
 
@@ -63,6 +68,19 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.cognoms" />
+            </div>
+
+            <div class="mb-3 mt-2">
+                <InputLabel for="cicle_id" class="form-label" :value="$t(`Cicle`)" />
+
+                <select name="cicle_id" id="cicle_id" class="form-select" v-model="form.cicle_id" required style="max-width: 400px;">
+                    <option v-for="cicle in cicles" :value="cicle.id">
+                        {{ cicle.nom }}
+                    </option>
+                </select>
+
+                <InputError class="mt-2" :message="form.errors.cicle_id" />
+
             </div>
 
             <div class="mb-3 mt-2">
