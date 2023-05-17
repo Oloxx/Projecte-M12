@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Contacte;
 use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 
 
 class ContacteController extends Controller
@@ -121,8 +123,29 @@ class ContacteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
+
+        $rules = [
+            'nom' => ['required', 'max:30'],
+            'cognoms' => ['required', 'max:60'],
+            'movil' => ['required', 'numeric', 'digits_between:9,9'],
+            'email' => ['required', 'email'],
+            'empresa_id' => ['required'],
+        ];
+
+        Validator::make($request->all(), $rules, $messages = [
+            'nom.required' => 'El nom del contacte és obligatori.',
+            'cognoms.required' => 'Els cognoms del contacte són obligatoris.',
+            'nom.max' => 'El nom del contacte ha de tenir com a màxim 30 caràcters.',
+            'cognoms.max' => 'El nom del contacte ha de tenir com a màxim 60 caràcters.',
+            'movil.required' => 'El camp telèfon és obligatori.',
+            'movil.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
+            'movil.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
+            'email' => 'Aquest correu és incorrecte.',
+            'empresa_id.required' => 'L\'assignació d\'empresa és obligatoria.',
+        ])->validate();
+
         $contacte = new Contacte;
         $contacte->nom = $request->nom;
         $contacte->cognoms = $request->cognoms;
@@ -152,8 +175,28 @@ class ContacteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
+        $rules = [
+            'nom' => ['required', 'max:30'],
+            'cognoms' => ['required', 'max:60'],
+            'movil' => ['required', 'numeric', 'digits_between:9,9'],
+            'email' => ['required', 'email'],
+            'empresa_id' => ['required', 'numeric'],
+        ];
+
+        Validator::make($request->all(), $rules, $messages = [
+            'nom.required' => 'El nom del contacte és obligatori.',
+            'cognoms.required' => 'Els cognoms del contacte són obligatoris.',
+            'nom.max' => 'El nom del contacte ha de tenir com a màxim 30 caràcters.',
+            'cognoms.max' => 'El nom del contacte ha de tenir com a màxim 60 caràcters.',
+            'movil.required' => 'El camp telèfon és obligatori.',
+            'movil.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
+            'movil.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
+            'email' => 'Aquest correu és incorrecte.',
+            'empresa_id.required' => 'L\'assignació d\'empresa és obligatoria.',
+        ])->validate();
+
         $contacte = Contacte::where('id', $id)->with('empresa')->firstOrFail();
         $contacte->nom = $request->nom;
         $contacte->cognoms = $request->cognoms;

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
+
 
 use App\Models\Empresa;
 use App\Models\Contacte;
@@ -172,16 +175,24 @@ class CollaboracioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $year = date("Y") + 1;
 
-        $request->validate([
+        $rules = [
             'empresa_id' => ['required'],
             'contacte_id' => ['required'],
             'cicle_id' => ['required'],
             'any' => ['required', 'before_or_equal:'.$year],
-        ]);
+        ];
+
+        Validator::make($request->all(), $rules, $messages = [
+            'empresa_id.required' => 'Selecciona una empresa.',
+            'contacte_id.required' => 'Selecciona un contacte.',
+            'cicle_id.required' => 'Selecciona un cicle.',
+            'any.required' => 'Selecciona l\'any de l\'estada.',            
+            'any.before_or_equal' => 'L\'any ha de ser anterior a l\'any actual.',
+        ])->validate();
 
         $collaboracio = new Collaboracio;
         $collaboracio->empresa_id = $request->empresa_id;
@@ -216,17 +227,24 @@ class CollaboracioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id) : RedirectResponse
     {
 
         $year = date("Y") + 1;
-
-        $request->validate([
+        $rules = [
             'empresa_id' => ['required'],
             'contacte_id' => ['required'],
             'cicle_id' => ['required'],
             'any' => ['required', 'before_or_equal:'.$year],
-        ]);
+        ];
+
+        Validator::make($request->all(), $rules, $messages = [
+            'empresa_id.required' => 'Selecciona una empresa.',
+            'contacte_id.required' => 'Selecciona un contacte.',
+            'cicle_id.required' => 'Selecciona un cicle.',
+            'any.required' => 'Selecciona l\'any de l\'estada.',            
+            'any.before_or_equal' => 'L\'any ha de ser anterior a l\'any actual.',
+        ])->validate();
 
         $collaboracio = Collaboracio::find($id);
         $collaboracio->any = $request->any;

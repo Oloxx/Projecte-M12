@@ -84,5 +84,14 @@
     "El nom de l'empresa ha de tenir com a mínim un caràcter." : "El nombre de la empresa debe tener mínimo un carácter.",
     "El nom de l'empresa ha de tenir com a màxim 60 caràcters." : "El nombre de la empresa debe tener como máximo 60 carácteres",
     "Aquest correu és incorrecte." : "El correo es incorrecto.",
-    "Aquesta URL és incorrecta." : "La URL es incorrecta."
+    "Aquesta URL és incorrecta." : "La URL es incorrecta.",
+    "El número del telèfon ha de tenir un mínim de 9 dígits": "El número de teléfono debe tener un mínimo de 9 dígitos",
+    "El camp telèfon ha de ser de caràcter numèric.": "El número de telèfono debe ser numérico.",
+    "El camp telèfon ha de contenir 9 dígits." : "El número de telèfono debe contener 9 dígitos",
+    "El nom del contacte és obligatori." : "El nombre del contacto es obligatorio.",
+    "Els cognoms del contacte són obligatoris." : "Los apellidos del contacto son obligatorios.",
+    "El nom del contacte ha de tenir com a màxim 30 caràcters." : "El nombre del contacto debe tener un máximo de 30 carácteres.",
+    "El nom del contacte ha de tenir com a màxim 60 caràcters." : "Los apellidos del contacto deben tener un máximo de 60 carácteres.",
+    "L'assignació d'empresa és obligatoria.": "La assignación de empresa es obligatoria."
+
 }

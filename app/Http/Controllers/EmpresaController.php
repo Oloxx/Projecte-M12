@@ -126,8 +126,8 @@ class EmpresaController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $rules = [
-            'nom' => 'bail|required|min:1|max:255',
-            'telefon' => 'required',
+            'nom' => 'required|min:1|max:255',
+            'telefon' => 'required|numeric|digits_between:9,9',
             'email' => 'nullable|email',
             'web' => 'nullable|url',
             'poblacio_id' => 'required',
@@ -139,14 +139,13 @@ class EmpresaController extends Controller
             'required' => 'El camp :attribute és obligatori.',
             'nom.required' => 'El nom de l\'empresa és obligatori.',
             'telefon.required' => 'El camp telèfon és obligatori.',
-            'poblacio_id.required' => 'El camp població és obligatori.',
-            'categoria_id.required' => 'El camp categoria és obligatori.',
-            'sector_id.required' => 'El camp sector és obligatori.',
-            'min' => 'El nom de l\'empresa ha de tenir com a mínim un caràcter.',
-            'max' => 'El nom de l\'empresa ha de tenir com a màxim 60 caràcters.',
+            'telefon.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
+            'telefon.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
+            'min' => 'El nom de l\'empresa ha de tenir com a mínim :min caràcters.',
+            'max' => 'El nom de l\'empresa ha de tenir com a màxim :man caràcters.',
             'email' => 'Aquest correu és incorrecte.',
             'url' => 'Aquesta URL és incorrecta.',
-        ])->validate();
+        ])->validate();   
 
         $empresa = new Empresa;
         $empresa->nom = $request->nom;
@@ -225,9 +224,10 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
+       
         $rules = [
-            'nom' => 'bail|required|min:1|max:255',
-            'telefon' => 'required',
+            'nom' => 'required|min:1|max:255',
+            'telefon' => 'required|numeric|digits_between:9,9',
             'email' => 'nullable|email',
             'web' => 'nullable|url',
             'poblacio_id' => 'required',
@@ -239,12 +239,14 @@ class EmpresaController extends Controller
             'required' => 'El camp :attribute és obligatori.',
             'nom.required' => 'El nom de l\'empresa és obligatori.',
             'telefon.required' => 'El camp telèfon és obligatori.',
+            'telefon.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
+            'telefon.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
             'min' => 'El nom de l\'empresa ha de tenir com a mínim :min caràcters.',
             'max' => 'El nom de l\'empresa ha de tenir com a màxim :man caràcters.',
             'email' => 'Aquest correu és incorrecte.',
             'url' => 'Aquesta URL és incorrecta.',
-        ])->validate();
-        
+        ])->validate();   
+
         $empresa = Empresa::find($id);
         $empresa->nom = $request->nom;
         $empresa->telefon = $request->telefon;

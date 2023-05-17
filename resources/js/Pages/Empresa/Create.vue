@@ -2,11 +2,12 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SearchSelect from "@/Components/SearchSelect.vue";
 import { useI18n } from "vue-i18n";
+
 
 /**
  *  Data received from the controller
@@ -52,7 +53,7 @@ const schema = Yup.object().shape({
     poblacio_id: Yup.number().required("La població és obligatoria"),
     categoria_id: Yup.number().required("La categoria és obligatoria"),
     sector_id: Yup.number().required("El sector és obligatori"),
-}); 
+});  
 
 
 /**
@@ -231,3 +232,13 @@ async function onSubmit() {
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.serverError{
+    color: rgb(202, 8, 8);
+    background-color: rgb(252, 239, 183);
+    border-radius: 5px;
+    padding: 20px 20px 5px 10px;
+    margin-bottom: 20px;
+}
+</style>

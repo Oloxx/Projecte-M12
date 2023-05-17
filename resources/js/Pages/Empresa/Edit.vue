@@ -27,7 +27,11 @@ const props = defineProps({
     sectors: {
         type: Object,
         required: true,
-    }
+    },
+    errors: {
+        type: Object,
+        required: false,
+    },
 });
 
 const { t } = useI18n();
@@ -42,13 +46,20 @@ const state = reactive({
  */
 const schema = Yup.object().shape({
     nom: Yup.string().min(1, 'El nom ha de contenir mínim un caràcter').max(60, 'El nom ha de contenir màxim 60 caràcters').required("El nom de l'empresa és obligatori"),
-    telefon: Yup.string().matches(
+    telefon: Yup.string('').matches(
         /^[0-9]{9}/,
         "El número de telèfon ha d'estar compost per nomès 9 números."
-    ),
-    email: Yup.string().email("El E-mail introduït és invàlid"),
+    ).required("El telèfon de l'empresa és obligatori"),
+    web: Yup.string('').matches(
+        /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/,
+        "El format de la web és incorrecte. Ha de coincidir amb els següents formats: https://www.something.com/ , http://www.something.com/ . https://www.something.edu.co.in, http://www.url-with-path.com/path, https://www.url-with-querystring.com/?url=has-querystring, http://url-without-www-subdomain.com/, https://mail.google.com."
+    ).notRequired(),
+    email: Yup.string().email("El E-mail introduït és invàlid").notRequired(),
+    poblacio_id: Yup.number().required("La població és obligatoria"),
+    categoria_id: Yup.number().required("La categoria és obligatoria"),
+    sector_id: Yup.number().required("El sector és obligatori"),
 });
-
+ 
 /**
  * Inputs from the controller
  */
@@ -86,10 +97,24 @@ function checkLogo() {
     }
 }
 
+
+async function scrollTop() {
+    window.scroll({
+        top: 100,
+        behavior: "smooth",
+    });
+}
+
 // Request form  
 async function onSubmit(values) {
     let id = props.empresa.id;
+
     router.post(`/empresa/update/${id}`, form)
+
+    if(Object.keys(props.errors).length > 0){
+        scrollTop();
+    }
+
 }
 </script>
 
@@ -99,6 +124,13 @@ async function onSubmit(values) {
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Empresa") }}</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5" method="PUT">
             <div class="form-row">
+                <div class = "serverError" v-if="Object.keys(props.errors).length > 0">
+                    <ol>
+                        <li v-for="item in props.errors">
+                            {{ $t(item) }}
+                        </li>
+                    </ol>
+                </div>
                 <!--Nom empresa -->
                 <div class="form-group col">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
@@ -132,13 +164,8 @@ async function onSubmit(values) {
                 <!--Població empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Població") }}</label>
-                    <SearchSelect
-                    name="poblacio_id"
-                    v-model="form.poblacio_id"
-                    :options="poblacions"
-                    label="nom"
-                    trackBy="id"
-                    />
+                    <SearchSelect name="poblacio_id" v-model="form.poblacio_id" :options="poblacions" label="nom"
+                        trackBy="id" />
                 </div>
                 <!--Categoria empresa -->
                 <div class="form-group col mt-3">
@@ -166,14 +193,17 @@ async function onSubmit(values) {
                 <!--Logo empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Logo") }}</label>
-                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': state.logo }" v-model="form.logo" @change="onFileChange"/>
+                    <Field name="logo" type="file" class="form-control" :class="{ 'is-invalid': state.logo }"
+                        v-model="form.logo" @change="onFileChange" />
                     <div class="invalid-feedback">
                         {{ state.logo }}
                     </div>
                     <div class="mt-2" v-if="state.url">
                         <label for="preview">Preview:</label><br>
-                        <img id="preview" :src="state.url" width="100"/><br>
-                        <Link v-if="empresa.logo" :href="route('empresa.removeLogo', empresa.id)" method="post" as="button" class="btn btn-danger mt-2" preserve-scroll @success="checkLogo">{{ $t("Esborrar Logo") }}</Link>
+                        <img id="preview" :src="state.url" width="100" /><br>
+                        <Link v-if="empresa.logo" :href="route('empresa.removeLogo', empresa.id)" method="post" as="button"
+                            class="btn btn-danger mt-2" preserve-scroll @success="checkLogo">{{ $t("Esborrar Logo") }}
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -182,8 +212,19 @@ async function onSubmit(values) {
                 <button type="submit" class="btn btn-primary mr-1 me-3">
                     {{ $t("Editar Empresa") }}
                 </button>
-                <Link :href="route('empresa.index')" as="button" class="btn btn-secondary mr-1 me-3">{{ $t("Cancel·la") }}</Link>
+                <Link :href="route('empresa.index')" as="button" class="btn btn-secondary mr-1 me-3">{{ $t("Cancel·la") }}
+                </Link>
             </div>
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.serverError{
+    color: rgb(202, 8, 8);
+    background-color: rgb(252, 239, 183);
+    border-radius: 5px;
+    padding: 20px 20px 5px 10px;
+    margin-bottom: 20px;
+}
+</style>

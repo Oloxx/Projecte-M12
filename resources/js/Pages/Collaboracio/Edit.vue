@@ -33,6 +33,10 @@ var props = defineProps({
     year: {
         type: Number,
         required: true,
+    },
+    errors: {
+        type: Object,
+        required: false,
     }
 });
 
@@ -47,7 +51,7 @@ const schema = Yup.object().shape({
     comentaris: Yup.string().required(
         "S'ha d'afegir un comentari."
     ),
-});
+}); 
 
 /**
  * Inputs from the controller
@@ -61,9 +65,20 @@ const form = reactive({
     comentaris: props.collaboracio.comentaris,
 });
 
+async function scrollTop() {
+    window.scroll({
+        top: 100,
+        behavior: "smooth",
+    });
+}
+
 // Request form
 async function onSubmit(values) {
     router.put(`/collaboracio/update/${props.collaboracio.id}`, form, );
+
+    if(Object.keys(props.errors).length > 0){
+        scrollTop();
+    }
 }
 
 var contactesFiltrats = reactive([]);
@@ -81,6 +96,8 @@ async function ChargeContactes(empresa) {
     return contactesFiltrats;
 }
 
+ChargeContactes(form.empresa_id);
+
 var anys = reactive([]);
 
 function carregarAny() {
@@ -90,11 +107,12 @@ function carregarAny() {
         anys.push(index);
     }
 
+    anys = anys.reverse();
+
     return anys;
 }
 
 carregarAny();
-
 </script>
 
 <template>
@@ -102,11 +120,18 @@ carregarAny();
         <h1 class="mt-5 ms-5 mb-4">Editar estada</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
+                <div class = "serverError" v-if="Object.keys(props.errors).length > 0">
+                    <ol>
+                        <li v-for="item in props.errors">
+                            {{ $t(item) }}
+                        </li>
+                    </ol>
+                </div>
                 <!-- Empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Empresa</label>
                     <Field name="empresa_id" as="select" class="form-select" :class="{ 'is-invalid': errors.empresa_id }"
-                        v-model="form.empresa_id" @change="ChargeContactes(form.empresa_id)">
+                        v-model="form.empresa_id">
                         <option v-for="empresa in empreses" :value="empresa.id">
                             {{ empresa.nom }}
                         </option>
@@ -176,3 +201,13 @@ carregarAny();
         </Form><br><br><br>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.serverError{
+    color: rgb(202, 8, 8);
+    background-color: rgb(252, 239, 183);
+    border-radius: 5px;
+    padding: 20px 20px 5px 10px;
+    margin-bottom: 20px;
+}
+</style>
