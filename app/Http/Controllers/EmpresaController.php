@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 use App\Models\Categoria;
 use App\Models\Collaboracio;
@@ -13,7 +15,6 @@ use App\Models\Empresa;
 use App\Models\Poblacio;
 use App\Models\Sector;
 use App\Models\Contacte;
-use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
 {
@@ -292,6 +293,44 @@ class EmpresaController extends Controller
             }
             $empresa->logo = null;
             $empresa->save();
+        }
+    }
+
+    public function importCSV(Request $request)
+    {
+        $request->validate([
+            'csv' => 'required|mimes:csv,txt',
+        ]);
+        if ($request->hasFile('csv')) {
+            try {
+                DB::beginTransaction();
+
+                $csv = $request->file('csv')->getRealPath();
+                $data = array_map('str_getcsv', file($csv));
+
+                foreach ($data as $row) {
+                    $empresa = new Empresa();
+                    $empresa->nom = $row[0];
+                    $empresa->telefon = $row[1];
+                    $empresa->web = $row[2] === '' ? null : $row[2];
+                    $empresa->email = $row[3];
+                    $empresa->logo = $row[4] === '' ? null : $row[4];
+                    $empresa->poblacio_id = $row[5];
+                    $empresa->categoria_id = $row[6];
+                    $empresa->sector_id = $row[7];
+
+                    $empresa->save();
+                }
+
+                DB::commit();
+
+                return redirect()->route('empresa.index')->with('status', 'Les dades s\'han importat correctament');
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                // Error occurred, no empresas were saved
+                return redirect()->route('profile.edit')->with('error', 'Error en importar empreses: '.$e->getMessage());
+            }
         }
     }
 }

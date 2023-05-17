@@ -33,6 +33,8 @@
     "Cognoms": "Last name",
     "Email": "Email",
     "Desa": "Save",
+    "Importar CSV": "Import CSV",
+    "Afegir empreses a la base de dades mitjançant fitxer .CSV": "Add companies to the database using .CSV file",
     "Actualitza la contrasenya": "Update password",
     "Assegureu-vos que el vostre compte utilitzi una contrasenya llarga i aleatòria per mantenir la seguretat.": "Make sure your account uses a long and random password to maintain security.",
     "Contrasenya Actual": "Current Password",
@@ -49,6 +51,7 @@
     "Informació de l'empresa": "Company information",
     "Encara no s'ha afegit cap contacte": "No contacts have been added yet",
     "Anar al Llistat": "Go to the listing",
+    "Afegir": "Add",
     "Afegir nova empresa": "Add new company",
     "Afegir contacte": "Add contact",
     "Crear Empresa": "Create Company",
@@ -92,6 +95,18 @@
     "Els cognoms del contacte són obligatoris." : "The contact's last name is required.",
     "El nom del contacte ha de tenir com a màxim 30 caràcters." : "Contact name must have a maximum of 30 characters.",
     "El nom del contacte ha de tenir com a màxim 60 caràcters." : "The contact's last name must have a maximum of 60 characters.",
-    "L'assignació d'empresa és obligatoria.": "The company assignment is obligatory."
-
+    "L'assignació d'empresa és obligatoria.": "The company assignment is obligatory.",
+    "Error, email no vàlid": "Error, invalid email",
+    "These credentials do not match our records.": "These credentials do not match our records.",
+    "The current password field is required.": "The current password field is required.",
+    "The password field is required.": "The password field is required.",
+    "The password is incorrect.": "The password is incorrect.",
+    "The password field must be at least 8 characters.": "The password field must be at least 8 characters.",
+    "The password field confirmation does not match.": "The password field confirmation does not match.",
+    "The csv field must be a file of type: csv, txt.": "The csv field must be a file of type: csv, txt.",
+    "The csv failed to upload.": "The csv failed to upload.",
+    "The csv field is required.": "The csv field is required.",
+    "Your account is disabled.": "Your account is disabled.",
+    "Previous": "Previous",
+    "Next": "Next"
 }

@@ -24,7 +24,7 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
         const user = props.initialPage.props.auth.user;
-        const appLang = user ? user.language : props.initialPage.props.local;
+        const appLang = user ? user.language : 'ca';
 
         const i18n = createI18n({
             locale: appLang,

@@ -39,7 +39,10 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
-            'toast' => session('status'),
+            'toast' => [
+                'status' => session('status'),
+                'error' => session('error')
+            ],
             'locale' => app()->getLocale(),
         ]);
     }

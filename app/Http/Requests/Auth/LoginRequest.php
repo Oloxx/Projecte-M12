@@ -49,6 +49,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Check if the user is disabled
+        $user = $this->user();
+        if ($user->disabled) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => trans('Your account is disabled.'),
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
