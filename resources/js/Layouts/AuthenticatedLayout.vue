@@ -4,6 +4,7 @@ import { Link, usePage } from "@inertiajs/vue3";
 import Footer from "@/Components/Footer.vue";
 import BToast from "@/Components/BToast.vue";
 import LanguageSelector from "@/Components/LanguageSelector.vue"
+import BToastError from "@/Components/BToastError.vue";
 
 const page = usePage();
 
@@ -74,6 +75,7 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
     </transition>
 
     <BToast />
+    <BToastError />
     <Footer class="footer"></Footer>
 </template>
 
