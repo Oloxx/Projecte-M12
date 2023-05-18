@@ -69,7 +69,7 @@ async function onSubmit(values) {
 </script>
 
 <template>
-    <Head :title="$t(`Col·laboracions`)" />
+    <Head :title="$t(`Estades`)" />
     <AuthenticatedLayout>
         <section class="section-list-companies">
             <div v-if="status" class="alert alert-success">

@@ -44,13 +44,13 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
                             <li>
                                 <DropdownLink class="dropdown-item" :href="route('profile.edit')">
                                     <i class="bi bi-person"></i>
-                                    Perfil
+                                    {{ $t("Perfil") }}
                                 </DropdownLink>
                             </li>
                         <li v-if="user.rol_id == 1">
                             <DropdownLink class="dropdown-item" :href="route('register')">
                                 <i class="bi bi-check2-circle"></i>
-                                Registrar usuari
+                                {{ $t("Registrar usuari") }}
                             </DropdownLink>
                         </li>
                             <li>
@@ -59,7 +59,7 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
                             <li>
                                 <DropdownLink class="dropdown-item" :href="route('logout')" method="post" as="button">
                                     <i class="bi bi-box-arrow-right"></i>
-                                    Surt
+                                    {{ $t("Surt") }}
                                 </DropdownLink>
                             </li>
                         </ul>

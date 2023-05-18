@@ -25,7 +25,6 @@ const props = defineProps({
     },
     search: {
         type: Boolean,
-        required: true,
     }
 });
 
@@ -67,8 +66,8 @@ function deleteUser(row, name) {
             registre = t("Contacte {name} eliminat!", { name: row.nom });
             break;
         default:
-            txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar la col·laboració amb l'empresa")} <b>${row.empresa.nom}</b>?</p>`;
-            registre = t("Col·laboració {name} eliminada!", { name: row.empresa.nom });
+            txt = `</br><h2>${t("AVÍS DE CONFIRMACIÓ")}</h2></br><p>${t("Realment vols eliminar l'estada amb l'empresa")} <b>${row.empresa.nom}</b>?</p>`;
+            registre = t("Estada {name} eliminada!", { name: row.empresa.nom });
             break;
     }
 

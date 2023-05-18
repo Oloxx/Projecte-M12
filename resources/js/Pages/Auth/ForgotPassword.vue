@@ -30,13 +30,13 @@ const submit = () => {
                     <h1 class="text-center m-4">
                         Regenera la teva contrasenya
                     </h1>
-                    <div
-                        v-if="status"
-                        class="mb-4 font-medium text-sm text-green-600"
-                    >
-                        {{ status }}
-                    </div>
                     <form @submit.prevent="submit" style="max-width:650px" class="mx-auto">
+                        <div
+                            v-if="status"
+                            class="mb-4 font-medium text-sm text-success"
+                        >
+                            {{ status }}
+                        </div>
                         <div class="form-outline mb-4">
                             <InputLabel
                                 for="email"
@@ -66,7 +66,7 @@ const submit = () => {
                                 :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing"
                             >
-                                Email Password Reset Link
+                                Envia correu de recuperació
                             </PrimaryButton>
                         </div>
                     </form>

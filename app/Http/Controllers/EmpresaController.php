@@ -130,7 +130,7 @@ class EmpresaController extends Controller
             'nom' => 'required|min:1|max:255',
             'telefon' => 'required|numeric|digits_between:9,9',
             'email' => 'nullable|email',
-            'web' => 'nullable|url',
+            'web' => 'nullable|regex:/^[a-zA-Z]+\.[a-zA-Z]/',
             'poblacio_id' => 'required',
             'categoria_id' => 'required',
             'sector_id' => 'required',
@@ -145,8 +145,8 @@ class EmpresaController extends Controller
             'min' => 'El nom de l\'empresa ha de tenir com a mínim :min caràcters.',
             'max' => 'El nom de l\'empresa ha de tenir com a màxim :man caràcters.',
             'email' => 'Aquest correu és incorrecte.',
-            'url' => 'Aquesta URL és incorrecta.',
-        ])->validate();   
+            'web' => 'Aquesta URL és incorrecta.',
+        ])->validate();
 
         $empresa = new Empresa;
         $empresa->nom = $request->nom;
@@ -225,12 +225,12 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
-       
+
         $rules = [
             'nom' => 'required|min:1|max:255',
             'telefon' => 'required|numeric|digits_between:9,9',
             'email' => 'nullable|email',
-            'web' => 'nullable|url',
+            'web' => 'nullable|regex:/^[a-zA-Z]+\.[a-zA-Z]/',
             'poblacio_id' => 'required',
             'categoria_id' => 'required',
             'sector_id' => 'required',
@@ -245,7 +245,7 @@ class EmpresaController extends Controller
             'min' => 'El nom de l\'empresa ha de tenir com a mínim :min caràcters.',
             'max' => 'El nom de l\'empresa ha de tenir com a màxim :man caràcters.',
             'email' => 'Aquest correu és incorrecte.',
-            'url' => 'Aquesta URL és incorrecta.',
+            'web' => 'Aquesta URL és incorrecta.',
         ])->validate();   
 
         $empresa = Empresa::find($id);

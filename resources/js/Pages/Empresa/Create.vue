@@ -2,7 +2,7 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SearchSelect from "@/Components/SearchSelect.vue";
@@ -25,6 +25,9 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    errors: {
+        type: Object
+    }
 });
 
 const { t } = useI18n();
@@ -42,15 +45,14 @@ const state = reactive({
 const schema = Yup.object().shape({
     nom: Yup.string().min(1, 'El nom ha de contenir mínim un caràcter').max(60, 'El nom ha de contenir màxim 60 caràcters').required("El nom de l'empresa és obligatori"),
     telefon: Yup.string('').matches(
-         /^[0-9]{9}/,
-         "El número de telèfon ha d'estar compost per nomès 9 números."
-     ).required("El telèfon de l'empresa és obligatori"),  
+        /^[0-9]{9}/,
+        "El número de telèfon ha d'estar compost per nomès 9 números."
+    ).required("El telèfon de l'empresa és obligatori"),  
     web: Yup.string('').matches(
-        /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/,
-        "El format de la web és incorrecte. Ha de coincidir amb els següents formats: https://www.something.com/ , http://www.something.com/ . https://www.something.edu.co.in, http://www.url-with-path.com/path, https://www.url-with-querystring.com/?url=has-querystring, http://url-without-www-subdomain.com/, https://mail.google.com."
+        /^[a-zA-Z]+\.[a-zA-Z]/,
+        "La Web introduïda no és valida"
     ).notRequired(),
-    email: Yup.string().email("El E-mail introduït és invàlid").notRequired(),
-    poblacio_id: Yup.number().required("La població és obligatoria"),
+    email: Yup.string('').email("El E-mail introduït és invàlid").notRequired(),
     categoria_id: Yup.number().required("La categoria és obligatoria"),
     sector_id: Yup.number().required("El sector és obligatori"),
 });  
@@ -108,35 +110,34 @@ async function scrollTop() {
     });
 }
 
-// Request form  
-async function onSubmit() {
+function checkPoblacio() {
     if (state.poblacioSelected && !state.logo) {
-        let url = route('empresa.store');
-        axios.post(url, form).catch(error => {
-            serverError.error = error.response.data;
-            let count = 0;
-            serverError.message = [];
-            for (const key in serverError.error.errors) {
-                serverError.message[count] = serverError.error.errors[key][0];
-                count++;
-            }
-            console.log(serverError.message);
-            scrollTop();
-        });
+        return true;
     } else {
         state.showPoblacioError = true;
+        return false;
+    }
+}
+
+// Request form  
+async function onSubmit() {
+    if (checkPoblacio()) {
+        router.post("/empresa/store", form);
+
+        if (Object.keys(props.errors).length > 0) {
+            scrollTop();
+        }
     }
 }
 </script>
 
 <template>
     <Head :title="$t(`Crear Empresa`)" />
-
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Nova Empresa") }}</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
-                 <div class="serverError" v-if="serverError.error">
+                <div class="serverError" v-if="serverError.error">
                     <ol>
                         <li v-for="item in serverError.message">
                             {{ $t(item) }}
@@ -162,7 +163,8 @@ async function onSubmit() {
                 <!--Web empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Web") }}</label>
-                    <Field name="web" type="url" class="form-control" v-model="form.web"/>
+                    <Field name="web" type="url" class="form-control" :class="{ 'is-invalid': errors.web }" v-model="form.web" />
+                    <div class="invalid-feedback">{{ errors.web }}</div>
                 </div>
                 <!--E-mail empresa -->
                 <div class="form-group col mt-3">

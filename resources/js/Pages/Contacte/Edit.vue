@@ -2,7 +2,7 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -64,6 +64,7 @@ async function onSubmit(values) {
 </script>
 
 <template>
+    <Head :title="$t(`Editar Contacte`)" />
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Contacte") }}:</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
@@ -85,7 +86,7 @@ async function onSubmit(values) {
                     </div>
                 </div>
                 <!--Congoms contacte -->
-                <div class="form-group col">
+                <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Cognoms") }}</label>
                     <Field name="cognoms" type="text" class="form-control" :class="{ 'is-invalid': errors.cognoms }"
                         v-model="form.cognoms" />

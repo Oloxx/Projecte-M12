@@ -51,15 +51,14 @@ const schema = Yup.object().shape({
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ).required("El telèfon de l'empresa és obligatori"),
     web: Yup.string('').matches(
-        /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/,
-        "El format de la web és incorrecte. Ha de coincidir amb els següents formats: https://www.something.com/ , http://www.something.com/ . https://www.something.edu.co.in, http://www.url-with-path.com/path, https://www.url-with-querystring.com/?url=has-querystring, http://url-without-www-subdomain.com/, https://mail.google.com."
+        /^[a-zA-Z]+\.[a-zA-Z]/,
+        "La Web introduïda no és valida"
     ).notRequired(),
     email: Yup.string().email("El E-mail introduït és invàlid").notRequired(),
-    poblacio_id: Yup.number().required("La població és obligatoria"),
     categoria_id: Yup.number().required("La categoria és obligatoria"),
     sector_id: Yup.number().required("El sector és obligatori"),
 });
- 
+
 /**
  * Inputs from the controller
  */
@@ -152,7 +151,8 @@ async function onSubmit(values) {
                 <!--Web empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Web") }}</label>
-                    <Field name="web" type="text" class="form-control" v-model="form.web" />
+                    <Field name="web" type="url" class="form-control" v-model="form.web" :class="{ 'is-invalid': errors.web }" />
+                    <div class="invalid-feedback">{{ errors.web }}</div>
                 </div>
                 <!--E-mail empresa -->
                 <div class="form-group col mt-3">

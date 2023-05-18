@@ -27,7 +27,7 @@ const props = defineProps({
 /**
  * Inputs from the controller
  */
- const form = reactive({
+const form = reactive({
     nomContacte: null,
     cognoms: null,
     empresaContacte: null

@@ -2,7 +2,7 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { router } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { reactive } from 'vue';
 
@@ -116,8 +116,9 @@ carregarAny();
 </script>
 
 <template>
+    <Head :title="$t(`Editar Estada`)" />
     <AuthenticatedLayout>
-        <h1 class="mt-5 ms-5 mb-4">Editar estada</h1>
+        <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Estada") }}</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
                 <div class="serverError" v-if="Object.keys(props.errors).length > 0">
@@ -129,7 +130,7 @@ carregarAny();
                 </div>
                 <!-- Empresa -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Empresa</label>
+                    <label class="mb-2">{{ $t("Empresa") }}</label>
                     <Field name="empresa_id" as="select" class="form-select" :class="{ 'is-invalid': errors.empresa_id }"
                         v-model="form.empresa_id">
                         <option v-for="empresa in empreses" :value="empresa.id">
@@ -140,11 +141,11 @@ carregarAny();
                 </div>
                 <!-- Contacte -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Contacte</label>
+                    <label class="mb-2">{{ $t("Contacte") }}</label>
                     <Field name="contacte_id" as="select" class="form-select" :class="{ 'is-invalid': errors.contacte_id }"
                         v-model="form.contacte_id">
-                        <template v-if="form.empresa_id == null">
-                            <option value="">Selecciona una empresa</option>
+                        <template v-if="form.empresa_id === null">
+                            <option value="">{{ $t("Selecciona una empresa") }}</option>
                         </template>
                         <template v-else-if="contactesFiltrats.length > 0">
                             <option v-for="contactef of contactesFiltrats" :value="contactef.id">
@@ -152,14 +153,14 @@ carregarAny();
                             </option>
                         </template>
                         <template v-else>
-                            <option value="">Encara no hi ha contactes assignats a aquesta empresa</option>
+                            <option value="">{{ $t("Encara no hi ha contactes assignats a aquesta empresa") }}</option>
                         </template>
                     </Field>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
                 <!-- Cicle -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Cicle</label>
+                    <label class="mb-2">{{ $t("Cicle") }}</label>
                     <Field name="cicle_id" id="cicle_id" as="select" class="form-select"
                         :class="{ 'is-invalid': errors.cicle_id }" v-model="form.cicle_id">
                         <option v-for="cicle in cicles" :value="cicle.id">
@@ -170,7 +171,7 @@ carregarAny();
                 </div>
                 <!-- Any -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Any</label>
+                    <label class="mb-2">{{ $t("Any") }}</label>
                     <Field name="any" id="any" as="select" class="form-select" :class="{ 'is-invalid': errors.any }"
                         v-model="form.any">
                         <option v-for="any in anys" :value="any">
@@ -183,7 +184,7 @@ carregarAny();
                 <Field name="user" type="text" class="form-control" v-model="form.user" hidden />
                 <!-- Comentaris -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Comentaris</label>
+                    <label class="mb-2">{{ $t("Comentaris") }}</label>
                     <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }"
                         v-model="form.comentaris">
                     </Field>
@@ -195,9 +196,9 @@ carregarAny();
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary mr-1 me-3">
-                    Editar Estada
+                    {{ $t("Editar Estada") }}
                 </button>
-                <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">Cancel·lar</Link>
+                <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>
             </div>
         </Form><br><br><br>
     </AuthenticatedLayout>

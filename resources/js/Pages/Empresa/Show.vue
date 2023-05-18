@@ -75,14 +75,14 @@ async function onSubmitCollaboracio() {
                     {{ $t("Afegir contacte") }}
                 </button>
             </div>
-            <h1 class="mb-4">Llistat d'estades</h1>
+            <h1 class="mb-4">{{ $t("Llistat d'Estades") }}</h1>
             <DataTable v-if="props.collaboracions.total != 0" :columns="columnsCollaboracio" :rows="collaboracions" :options="true"
                 name="collaboracio">
             </DataTable>
-            <span v-else> Encara no s'ha afegit cap estada.</span>
+            <span v-else>{{ $t("Encara no s'ha afegit cap estada") }}</span>
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="button" @click="onSubmitCollaboracio()" class="btn btn-primary mr-1 me-3">
-                    Afegir Estada
+                    {{ $t("Afegir estada") }}
                 </button>
             </div><br>
         </div>

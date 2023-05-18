@@ -117,11 +117,11 @@ function interpolarIdControlAdaptabilitat() {
                     <li class="nav-item"><a href="#contacte" class="nav-link link-light px-2">Contacte</a></li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0" role="search">
-                    <li class="nav-item"><a href="/main/main.html" class="nav-link link-light px-2">
-                            <Link :href="route('login')"
-                                class="font-semibold hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                            Entrar</Link>
-                        </a></li>
+                    <li class="nav-item">
+                        <Link :href="route('login')" class="nav-link link-light px-2">
+                            Entrar
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -303,7 +303,7 @@ function interpolarIdControlAdaptabilitat() {
         <div class=" container div-form-section">
             <h1 id="contacte">CONTACTA'NS</h1>
             <hr>
-            <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
+            <Form :validation-schema="schema" v-slot="{ errors }">
                 <div class="form-row">
                     <!--Nom contacte -->
                     <div class="form-group col">
@@ -346,7 +346,7 @@ function interpolarIdControlAdaptabilitat() {
                     <Link as="button" href="/" method="post" :data="form" type="submit" class="btn btn-primary mr-1 me-3" preserveScroll>Enviar</Link>
                 </div>
             </Form>
-            <div class="alert alert-success">
+            <div class="alert alert-success" v-if="status">
                 {{ status }}
             </div>
             <div class="textlegal">

@@ -2,7 +2,7 @@
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -64,8 +64,9 @@ async function onSubmit(values) {
 </script>
 
 <template>
+    <Head :title="$t(`Crear Contacte`)" />
     <AuthenticatedLayout>
-        <h1 class="mt-5 ms-5 mb-4">Crear contacte:</h1>
+        <h1 class="mt-5 ms-5 mb-4">{{ $t("Crear Contacte") }}:</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
                 <div class="serverError" v-if="Object.keys(props.errors).length > 0">
@@ -77,7 +78,7 @@ async function onSubmit(values) {
                 </div>
                 <!--Nom contacte -->
                 <div class="form-group col">
-                    <label class="mb-2">Nom</label>
+                    <label class="mb-2">{{ $t("Nom") }}</label>
                     <Field name="nom" type="text" class="form-control" :class="{ 'is-invalid': errors.nom }"
                         v-model="form.nom" />
                     <div class="invalid-feedback">
@@ -85,8 +86,8 @@ async function onSubmit(values) {
                     </div>
                 </div>
                 <!--Congoms contacte -->
-                <div class="form-group col">
-                    <label class="mb-2">Cognoms</label>
+                <div class="form-group col mt-3">
+                    <label class="mb-2">{{ $t("Cognoms") }}</label>
                     <Field name="cognoms" type="text" class="form-control" :class="{ 'is-invalid': errors.cognoms }"
                         v-model="form.cognoms" />
                     <div class="invalid-feedback">
@@ -95,7 +96,7 @@ async function onSubmit(values) {
                 </div>
                 <!--Mòvil contacte -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Telèfon</label>
+                    <label class="mb-2">{{ $t("Telèfon") }}</label>
                     <Field name="movil" type="text" class="form-control" :class="{ 'is-invalid': errors.movil }"
                         v-model="form.movil" />
                     <div class="invalid-feedback">
@@ -104,14 +105,14 @@ async function onSubmit(values) {
                 </div>
                 <!--E-mail contacte -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">E-mail</label>
+                    <label class="mb-2">{{ $t("Email") }}</label>
                     <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }"
                         v-model="form.email" />
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
                 <!-- Empresa contacte -->
                 <div class="form-group col mt-3">
-                    <label class="mb-2">Empresa</label>
+                    <label class="mb-2">{{ $t("Empresa") }}</label>
                     <Field name="empresa_id" as="select" class="form-select" :class="{ 'is-invalid': errors.empresa_id }"
                         v-model="form.empresa_id">
                         <option v-for="empresa in empreses" :value="empresa.id">
@@ -124,9 +125,9 @@ async function onSubmit(values) {
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary mr-1 me-3">
-                    Crear Contacte
+                    {{ $t("Crear Contacte") }}
                 </button>
-                <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">Cancel·lar</Link>
+                <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>
             </div>
         </Form><br><br><br>
     </AuthenticatedLayout>

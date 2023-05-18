@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nom');
             $table->integer('telefon');
             $table->string('web')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('logo')->nullable();
 
             $table->unsignedBigInteger('poblacio_id');
