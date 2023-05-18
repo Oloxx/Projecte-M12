@@ -19,6 +19,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('empresa.index');
+        return redirect()->route('empresa.index');
     }
 }
