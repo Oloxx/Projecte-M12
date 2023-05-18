@@ -1,6 +1,10 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue';
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
+import { router } from "@inertiajs/vue3";
+import { reactive } from 'vue';
 
 
 onMounted(() => {
@@ -23,7 +27,33 @@ defineProps({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+    },
 });
+
+// Send form
+
+/**
+ * Validations
+ */
+const schema = Yup.object().shape({
+    name: Yup.string().required("El nom de l'usuari és obligatori"),
+    lastname: Yup.string().required("Els cognoms de l'usuari són obligatoris"),
+    email: Yup.string().email("El E-mail introduït és invàlid").required("El mail és obligatori"),
+    message: Yup.string().required("S'ha 'incloure un missatge"),
+});
+
+/**
+ * Inputs from the controller
+ */
+const form = reactive({
+    name: null,
+    lastname: null,
+    email: null,
+    message: null
+})
+
 
 onUnmounted(() => {
     window.removeEventListener('scroll', logoAppear);
@@ -62,6 +92,7 @@ function interpolarIdControlAdaptabilitat() {
         elemAdaptabilitat2.setAttribute('id', 'adaptabilitat2');
         elemControl2.setAttribute('id', 'control2');
     }
+
 }
 
 </script>
@@ -105,6 +136,7 @@ function interpolarIdControlAdaptabilitat() {
             </a>
         </div>
     </header>
+
     <div class="containerimgdisco">
         <img src="../../img/disco.jpg" class="imgdisco" alt="Imagen de disco">
     </div>
@@ -271,18 +303,52 @@ function interpolarIdControlAdaptabilitat() {
         <div class=" container div-form-section">
             <h1 id="contacte">CONTACTA'NS</h1>
             <hr>
-            <form action="" method="post">
-                <div><label for="nom">Nom</label></div>
-                <div> <input type="text"></div>
-                <div> <label for="lastname">Cognoms</label></div>
-                <div> <input type="text"></div>
-                <div> <label for="mail">E-mail</label></div>
-                <div> <input type="text"></div>
-                <div> <label for="mail">Escriu-nos, atendrem la teva sol·licitud al més aviat possible</label></div>
-                <div> <textarea name="question" id="question" cols="30" rows="10"></textarea></div>
-                <button type="button" class="btn colorbutton">SEND</button><br><br>
-
-            </form>
+            <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
+                <div class="form-row">
+                    <!--Nom contacte -->
+                    <div class="form-group col">
+                        <label class="mb-2">Nom</label>
+                        <Field name="name" type="text" class="form-control" :class="{ 'is-invalid': errors.name }"
+                            v-model="form.name" />
+                        <div class="invalid-feedback">
+                            {{ errors.name }}
+                        </div>
+                    </div>
+                    <!--Congoms contacte -->
+                    <div class="form-group col">
+                        <label class="mb-2">Cognoms</label>
+                        <Field name="lastname" type="text" class="form-control" :class="{ 'is-invalid': errors.lastname }"
+                            v-model="form.lastname" />
+                        <div class="invalid-feedback">
+                            {{ errors.lastname }}
+                        </div>
+                    </div>
+                    <!--E-mail contacte -->
+                    <div class="form-group col mt-3">
+                        <label class="mb-2">E-mail</label>
+                        <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }"
+                            v-model="form.email" />
+                        <div class="invalid-feedback">{{ errors.email }}</div>
+                    </div>
+                    <!-- Comentaris -->
+                    <div class="form-group col mt-3">
+                        <label class="mb-2">Comentaris</label>
+                        <Field as="textarea" name="message" class="form-control" :class="{ 'is-invalid': errors.message }"
+                            v-model="form.message">
+                        </Field>
+                        <div class="invalid-feedback">
+                            {{ errors.message }}
+                        </div>
+                    </div>
+                </div>
+                <!--Submit-->
+                <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <Link as="button" href="/" method="post" :data="form" type="submit" class="btn btn-primary mr-1 me-3" preserveScroll>Enviar</Link>
+                </div>
+            </Form>
+            <div class="alert alert-success">
+                {{ status }}
+            </div>
             <div class="textlegal">
                 <div>
                     <p>(*) D'acord amb el que s'estableix en el Reglament (UE) 2016/679, de 27 d'abril de 2016,
@@ -322,45 +388,3 @@ function interpolarIdControlAdaptabilitat() {
     </footer>
 </template>
 
-<!-- <script>
-
-/* window.onload = function () {
-} */
-document.addEventListener('scroll', logoAppear);
-
-window.addEventListener('resize', interpolarIdControlAdaptabilitat);
-
-// Makes logo Labora appear when the user scrolls
-function logoAppear() {
-
-    let scrollY = window.scrollY;
-    let scrollX = window.scrollX;
-
-    //console.log(scrollY);
-    if (scrollY > 7) {
-        document.getElementById('linkLogo').setAttribute('style', 'display:flex');
-    } else {
-        document.getElementById('linkLogo').setAttribute('style', 'display:none');
-    }
-}
-
-// Change id of Adaptabilitat section and Control section 
-function interpolarIdControlAdaptabilitat() {
-    let width = window.innerWidth;
-    let elemAdaptabilitat = document.getElementById('adaptabilitat');
-    let elemControl = document.getElementById('control');
-    let elemAdaptabilitat2 = document.getElementById('adaptabilitat2');
-    let elemControl2 = document.getElementById('control2');
-    if (width <= 966) {
-        elemAdaptabilitat.setAttribute('id', 'adaptabilitat2');
-        elemControl.setAttribute('id', 'control2');
-        elemAdaptabilitat2.setAttribute('id', 'adaptabilitat');
-        elemControl2.setAttribute('id', 'control');
-    } else {
-        elemAdaptabilitat.setAttribute('id', 'adaptabilitat');
-        elemControl.setAttribute('id', 'control');
-        elemAdaptabilitat2.setAttribute('id', 'adaptabilitat2');
-        elemControl2.setAttribute('id', 'control2');
-    }
-}
-</script> -->

@@ -5,6 +5,8 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CollaboracioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TesterController;
+use App\Http\Controllers\WelcomeController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,14 +22,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+
+Route::match(['get', 'post'], '/', [WelcomeController::class, 'index'])->name('welcome.index');
+
+//Route::post('/', [WelcomeController::class, 'store'])->name('contact.us.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,7 +35,7 @@ Route::middleware('auth')->group(function () {
 
     // PATHS FOR ADDED CONTROLLERS
     // EMPRESA CONTROLLER
-    Route::match(['get', 'post'],'/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
+    Route::match(['get', 'post'], '/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
     Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa.create');
     Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa.store');
     Route::get('/empresa/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
@@ -48,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/removeLogo/{id}', [EmpresaController::class, 'removeLogo'])->name('empresa.removeLogo');
 
     // COL·LABORACIÓ CONTROLLER
-    Route::match(['get', 'post'],'/collaboracio', [CollaboracioController::class, 'index'])->name('collaboracio.index');
+    Route::match(['get', 'post'], '/collaboracio', [CollaboracioController::class, 'index'])->name('collaboracio.index');
     Route::get('/collaboracio/show', [CollaboracioController::class, 'show'])->name('collaboracio.show');
     Route::get('/collaboracio/create', [CollaboracioController::class, 'create'])->name('collaboracio.create');
     Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
@@ -58,7 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio.delete');
 
     // CONTACTE CONTROLLER
-    Route::match(['get', 'post'],'/contacte', [ContacteController::class, 'index'])->name('contacte.index');
+    Route::match(['get', 'post'], '/contacte', [ContacteController::class, 'index'])->name('contacte.index');
     Route::get('/contacte/show', [ContacteController::class, 'show'])->name('contacte.show');
     Route::get('/contacte/create/{id}', [ContacteController::class, 'create'])->name('contacte.create');
     Route::get('/contacte/createContacte', [ContacteController::class, 'createWithoutId'])->name('contacte.createWithoutId');
