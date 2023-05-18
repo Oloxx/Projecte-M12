@@ -44,7 +44,7 @@ const schema = Yup.object().shape({
     contacte_id: Yup.string().required("S'ha d'assignar un contacte a l'estada."),
     cicle_id: Yup.string().required("S'ha d'assignar un cicle a l'estada."),
     any: Yup.number("Assignar un any és obligatori."),
-}); 
+});
 
 async function scrollTop() {
     window.scroll({
@@ -69,7 +69,7 @@ const form = reactive({
 async function onSubmit(values) {
     router.post("/collaboracio/store", form);
 
-    if(Object.keys(props.errors).length > 0){
+    if (Object.keys(props.errors).length > 0) {
         scrollTop();
     }
 }
@@ -112,7 +112,7 @@ carregarAny();
         <h1 class="mt-5 ms-5 mb-4">Crear nova estada</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
-                <div class = "serverError" v-if="Object.keys(props.errors).length > 0">
+                <div class="serverError" v-if="Object.keys(props.errors).length > 0">
                     <ol>
                         <li v-for="item in props.errors">
                             {{ $t(item) }}
@@ -176,11 +176,12 @@ carregarAny();
                 <!-- Comentaris -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Comentaris</label>
-                    <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }" v-model="form.comentaris">
-                        <div class="invalid-feedback">
-                            {{ errors.comentaris }}
-                        </div>
+                    <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }"
+                        v-model="form.comentaris">
                     </Field>
+                    <div class="invalid-feedback">
+                        {{ errors.comentaris }}
+                    </div>
                 </div>
             </div>
             <!--Submit-->
@@ -195,7 +196,7 @@ carregarAny();
 </template>
 
 <style scoped>
-.serverError{
+.serverError {
     color: rgb(202, 8, 8);
     background-color: rgb(252, 239, 183);
     border-radius: 5px;

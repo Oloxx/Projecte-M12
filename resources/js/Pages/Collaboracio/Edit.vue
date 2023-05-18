@@ -51,7 +51,7 @@ const schema = Yup.object().shape({
     comentaris: Yup.string().required(
         "S'ha d'afegir un comentari."
     ),
-}); 
+});
 
 /**
  * Inputs from the controller
@@ -74,9 +74,9 @@ async function scrollTop() {
 
 // Request form
 async function onSubmit(values) {
-    router.put(`/collaboracio/update/${props.collaboracio.id}`, form, );
+    router.put(`/collaboracio/update/${props.collaboracio.id}`, form,);
 
-    if(Object.keys(props.errors).length > 0){
+    if (Object.keys(props.errors).length > 0) {
         scrollTop();
     }
 }
@@ -120,7 +120,7 @@ carregarAny();
         <h1 class="mt-5 ms-5 mb-4">Editar estada</h1>
         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
             <div class="form-row">
-                <div class = "serverError" v-if="Object.keys(props.errors).length > 0">
+                <div class="serverError" v-if="Object.keys(props.errors).length > 0">
                     <ol>
                         <li v-for="item in props.errors">
                             {{ $t(item) }}
@@ -184,11 +184,12 @@ carregarAny();
                 <!-- Comentaris -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">Comentaris</label>
-                    <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }" v-model="form.comentaris">
-                        <div class="invalid-feedback">
-                            {{ errors.comentaris }}
-                        </div>
+                    <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }"
+                        v-model="form.comentaris">
                     </Field>
+                    <div class="invalid-feedback">
+                        {{ errors.comentaris }}
+                    </div>
                 </div>
             </div>
             <!--Submit-->
@@ -203,7 +204,7 @@ carregarAny();
 </template>
 
 <style scoped>
-.serverError{
+.serverError {
     color: rgb(202, 8, 8);
     background-color: rgb(252, 239, 183);
     border-radius: 5px;
