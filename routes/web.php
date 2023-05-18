@@ -46,7 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
     Route::match(['get', 'post'], '/empresa/search', [EmpresaController::class, 'search'])->name('empresa.search');
     Route::post('/removeLogo/{id}', [EmpresaController::class, 'removeLogo'])->name('empresa.removeLogo');
-    Route::post('/importCSV', [EmpresaController::class, 'importCSV'])->name('empresa.importCSV');
 
     // COL·LABORACIÓ CONTROLLER
     Route::match(['get', 'post'],'/collaboracio', [CollaboracioController::class, 'index'])->name('collaboracio.index');
@@ -69,6 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte.update');
     Route::delete('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte.delete');
 });
+
+Route::group(['middleware' => 'admin'],function () {
+    Route::post('/importCSV', [EmpresaController::class, 'importCSV'])->name('empresa.importCSV');
+});
+
 Route::get('/test', [TesterController::class, 'test'])->name('test');
 
 require __DIR__ . '/auth.php';
