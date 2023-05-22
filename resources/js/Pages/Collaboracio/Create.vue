@@ -92,9 +92,7 @@ async function ChargeContactes(empresa) {
 }
 
 async function valueEmpresa_id(){
-    if(props.empreses){
-        form.empresa_id = null;
-    } else if(props.empresa){
+    if(props.empresa){
         form.empresa_id= props.empresa.id;
         ChargeContactes(props.empresa.id);
     }
@@ -170,7 +168,7 @@ carregarAny();
                             <option value="">Encara no hi ha contactes assignats a aquesta empresa</option>
                         </template>
                     </Field>
-                    <Link v-if="contactesFiltrats.length == 0" :href="route('contacte.create', empresa.id)" as="button" class="btn btn-primary mt-3">{{ $t("Crear Contacte") }}</Link>
+                    <Link v-if="contactesFiltrats.length == 0 && form.empresa_id" :href="route('contacte.create', form.empresa_id)" as="button" class="btn btn-primary mt-3">{{ $t("Crear Contacte") }}</Link>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
                 <!-- Cicle -->
