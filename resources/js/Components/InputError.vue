@@ -7,17 +7,12 @@ defineProps({
     },
 });
 
-const { t } = useI18n();
-
-function translate(msg) {
-    return msg ? t(msg) : null
-}
 </script>
 
 <template>
-    <div v-show="message">
+    <div v-if="message">
         <p class="text-danger">
-            {{ translate(message) }}
+            {{ $t(message) }}
         </p>
     </div>
 </template>
