@@ -15,7 +15,8 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
 
 <template>
     <div class="p-3 bg-light">
-        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona" width="350"/>
+        <Link :href="route('empresa.index')" class="nav-link px-2 link-light"><img src="../../img/logo/logo_IES.png"
+            alt="Logo IES Carles Vallbona" width="350" /></Link>
     </div>
     <header class="p-3 p-e-5 mb-3 border-bottom colorvb">
         <div class="container-flex">
@@ -47,12 +48,12 @@ const profile = `https://ui-avatars.com/api/?name=${user.name}+${user.cognoms.ch
                                     {{ $t("Perfil") }}
                                 </DropdownLink>
                             </li>
-                        <li v-if="user.rol_id == 1">
-                            <DropdownLink class="dropdown-item" :href="route('register')">
-                                <i class="bi bi-check2-circle"></i>
-                                {{ $t("Registrar usuari") }}
-                            </DropdownLink>
-                        </li>
+                            <li v-if="user.rol_id == 1">
+                                <DropdownLink class="dropdown-item" :href="route('register')">
+                                    <i class="bi bi-check2-circle"></i>
+                                    {{ $t("Registrar usuari") }}
+                                </DropdownLink>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
