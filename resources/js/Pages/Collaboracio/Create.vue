@@ -12,7 +12,9 @@ import { reactive } from 'vue';
 var props = defineProps({
     empreses: {
         type: Object,
-        required: true,
+    },
+    empresa: {
+        type: Object,
     },
     contactes: {
         type: Object,
@@ -89,6 +91,17 @@ async function ChargeContactes(empresa) {
     return contactesFiltrats;
 }
 
+async function valueEmpresa_id(){
+    if(props.empreses){
+        form.empresa_id = null;
+    } else if(props.empresa){
+        form.empresa_id= props.empresa.id;
+        ChargeContactes(props.empresa.id);
+    }
+}
+
+valueEmpresa_id();
+
 var anys = reactive([]);
 
 function carregarAny() {
@@ -123,12 +136,21 @@ carregarAny();
                 <!-- Empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
-                    <Field name="empresa_id" as="select" class="form-select" :class="{ 'is-invalid': errors.empresa_id }"
-                        v-model="form.empresa_id" @change="ChargeContactes(form.empresa_id)">
-                        <option v-for="empresa in empreses" :value="empresa.id">
-                            {{ empresa.nom }}
-                        </option>
-                    </Field>
+                    <template v-if="empreses">
+                        <Field name="empresa_id" as="select" class="form-select"
+                            :class="{ 'is-invalid': errors.empresa_id }" v-model="form.empresa_id"
+                            @change="ChargeContactes(form.empresa_id)">
+                            <option v-for="empresa in empreses" :value="empresa.id">
+                                {{ empresa.nom }}
+                            </option>
+                        </Field>
+                    </template>
+                    <template v-else-if="empresa">
+                        <!-- Empresa -->
+                        <div class="form-group col">
+                            <Field name="empresa_id" type="text" class="form-control" :value="empresa.nom" disabled/>
+                        </div>
+                    </template>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
                 <!-- Contacte -->
@@ -148,6 +170,7 @@ carregarAny();
                             <option value="">Encara no hi ha contactes assignats a aquesta empresa</option>
                         </template>
                     </Field>
+                    <Link v-if="contactesFiltrats.length == 0" :href="route('contacte.create', empresa.id)" as="button" class="btn btn-primary mt-3">{{ $t("Crear Contacte") }}</Link>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
                 <!-- Cicle -->

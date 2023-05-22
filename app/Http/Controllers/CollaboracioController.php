@@ -142,17 +142,25 @@ class CollaboracioController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(int $id)
     {
-        $empreses = Empresa::all();
         $contactes = Contacte::all();
         $cicles = Cicle::all();
         $user = Auth::user();
         $year = date("Y") + 1;
 
-        return Inertia::render('Collaboracio/Create', [
-            'empreses' => $empreses, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
-        ]);
+        if($id){
+            $empresa = Empresa::where('id', $id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
+            return Inertia::render('Collaboracio/Create', [
+                'empresa' => $empresa, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
+            ]);
+        }else{
+            $empreses = Empresa::all();
+            return Inertia::render('Collaboracio/Create', [
+                'empreses' => $empreses, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
+            ]);
+        }
+
     }
 
     /**
