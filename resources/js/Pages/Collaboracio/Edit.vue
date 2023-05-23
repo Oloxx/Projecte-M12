@@ -1,5 +1,6 @@
 <script setup>
 import { Form, Field } from "vee-validate";
+import vue3StarRatings from "vue3-star-ratings";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
@@ -63,6 +64,7 @@ const form = reactive({
     any: props.collaboracio.any,
     user: props.collaboracio.user,
     comentaris: props.collaboracio.comentaris,
+    stars: props.collaboracio.stars,
 });
 
 async function scrollTop() {
@@ -191,6 +193,11 @@ carregarAny();
                     <div class="invalid-feedback">
                         {{ errors.comentaris }}
                     </div>
+                </div>
+                <br>
+                <div class="mx-auto p-2" style="width: 200px;">
+                    <vue3-star-ratings :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false" v-model="form.stars"/><br>
+                    <br>
                 </div>
             </div>
             <!--Submit-->
