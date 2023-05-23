@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 use App\Models\Cicle;
 
@@ -38,7 +40,7 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'cognoms' => 'required|string|max:255',
             'cicle_id' => 'required',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()]
         ]);
 
@@ -50,6 +52,19 @@ class RegisteredUserController extends Controller
             'rol_id' => 2,
             'cicle_id' => $request->cicle_id
         ]);
+
+        // Send e-mail to new user:
+
+        $email = $request->email;
+
+        $data = ([
+            'name' => $request->name,
+            'cognoms' => $request->cognoms,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        Mail::to($email)->send(new WelcomeMail($data));
 
         event(new Registered($user));
 
