@@ -100,7 +100,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        if ($user->default_password === 1) {
+        if ($user->default_password === 0) {
             return redirect()->route('empresa.index');
         }
 

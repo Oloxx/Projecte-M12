@@ -7,7 +7,6 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import messages from '@intlify/unplugin-vue-i18n/messages';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import vue3StarRatings from "vue3-star-ratings";
 
 
 import 'bootstrap/dist/js/bootstrap';
@@ -38,7 +37,6 @@ createInertiaApp({
             .use(i18n)
             .use(ZiggyVue, Ziggy)
             .use(VueSweetalert2)
-            .use(vue3StarRatings)
             .mount(el);
     },
     progress: {
