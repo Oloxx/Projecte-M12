@@ -115,7 +115,7 @@ function deleteUser(row, name) {
                     </template>
                     <td v-if="row.stars > 0">
                         <vue3-star-ratings starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
-                            v-model="row.stars" /><br>
+                            v-model="row.stars" :disableClick="true"/><br>
                     </td>
                     <td v-if="options">
                         <EditButton :url="route(name + '.edit', row.id)" />
@@ -132,7 +132,7 @@ function deleteUser(row, name) {
                     </Link>
                     <td v-if="row.stars > 0">
                         <vue3-star-ratings starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
-                            v-model="row.stars" /><br>
+                            v-model="row.stars" :disableClick="true"/><br>
                     </td>
                     <td v-if="options">
                         <EditButton :url="route(name + '.edit', row.id)" />
