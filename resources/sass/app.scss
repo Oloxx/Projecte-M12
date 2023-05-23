@@ -435,7 +435,6 @@ button:hover {
 
     table {
         table-layout: fixed;
-
         thead {
             tr {
                 td {
@@ -448,7 +447,6 @@ button:hover {
                     white-space: nowrap !important;
                     text-overflow: ellipsis;
                     overflow: hidden;
-
                 }
 
                 .colab {
@@ -486,7 +484,7 @@ button:hover {
 }
 
 
-@media screen and (max-width: 1453px) {
+@media screen and (max-width: 1345px) {
 
     table {
         thead {

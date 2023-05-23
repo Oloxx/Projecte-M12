@@ -34,6 +34,7 @@
         "vue-multiselect": "^3.0.0-beta.1",
         "vue-paginate": "^3.6.0",
         "vue-sweetalert2": "^5.0.5",
+        "vue3-star-ratings": "^2.0.5",
         "yup": "^1.1.1"
     }
 }
