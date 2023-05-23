@@ -113,8 +113,8 @@ function deleteUser(row, name) {
                             v-html="fieldValue(row, column)" class="align-middle" preserve-scroll>
                         </Link>
                     </template>
-                    <td v-if="row.stars > 0">
-                        <vue3-star-ratings starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
+                    <td v-if="row.stars > 0" class="py-0 pt-4">
+                        <vue3-star-ratings  starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
                             v-model="row.stars" :disableClick="true"/><br>
                     </td>
                     <td v-if="options">
@@ -130,7 +130,7 @@ function deleteUser(row, name) {
                     <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
                         v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
                     </Link>
-                    <td v-if="row.stars > 0">
+                    <td v-if="row.stars > 0" class="py-0 pt-4">
                         <vue3-star-ratings starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
                             v-model="row.stars" :disableClick="true"/><br>
                     </td>
