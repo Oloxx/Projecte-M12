@@ -1,7 +1,6 @@
 <script setup>
 import EditButton from "@/Components/EditButton.vue";
 import Pagination from "@/Components/Pagination.vue";
-import vue3StarRatings from "vue3-star-ratings";
 import { Link } from "@inertiajs/vue3";
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3';
@@ -91,60 +90,47 @@ function deleteUser(row, name) {
 </script>
 
 <template>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th v-if="columns[0].label === 'Logo'" width=60></th>
-                    <th v-for="column in filteredColumns()">{{ $t(column.label) }}</th>
-                    <th v-if="name == 'collaboracio'">{{ $t("Valoració") }}</th>
-                    <th v-if="options">{{ $t("Opcions") }}</th>
-                </tr>
-            </thead>
-            <tbody v-if="rows.data">
-                <tr v-for="row in rows.data" :key="row.id">
-                    <template v-if="name == 'empresa'">
-                        <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
-                            v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
-                        </Link>
-                    </template>
-                    <template v-else>
-                        <Link :href="route(name + '.index')" as="td" v-for="column in columns"
-                            v-html="fieldValue(row, column)" class="align-middle" preserve-scroll>
-                        </Link>
-                    </template>
-                    <td v-if="row.stars > 0">
-                        <vue3-star-ratings starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
-                            v-model="row.stars" /><br>
-                    </td>
-                    <td v-if="options">
-                        <EditButton :url="route(name + '.edit', row.id)" />
-                        <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-            <tbody v-else>
-                <tr v-for="row in rows" :key="row.id">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th v-if="columns[0].label === 'Logo'" width=60></th>
+                <th v-for="column in filteredColumns()">{{ $t(column.label) }}</th>
+                <th v-if="options">{{ $t("Opcions") }}</th>
+            </tr>
+        </thead>
+        <tbody v-if="rows.data">
+            <tr v-for="row in rows.data" :key="row.id">
+                <template v-if="name == 'empresa'">
                     <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
                         v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
                     </Link>
-                    <td v-if="row.stars > 0">
-                        <vue3-star-ratings starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false"
-                            v-model="row.stars" /><br>
-                    </td>
-                    <td v-if="options">
-                        <EditButton :url="route(name + '.edit', row.id)" />
-                        <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+                </template>
+                <template v-else>
+                    <Link :href="route(name + '.index')" as="td" v-for="column in columns"
+                        v-html="fieldValue(row, column)" class="align-middle" preserve-scroll>
+                    </Link>
+                </template>
+                <td v-if="options">
+                    <EditButton :url="route(name + '.edit', row.id)" />
+                    <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <tbody v-else>
+            <tr v-for="row in rows" :key="row.id">
+                <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
+                    v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
+                </Link>
+                <td v-if="options">
+                    <EditButton :url="route(name + '.edit', row.id)" />
+                    <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <Pagination :data="rows" :search="props.search" />
 </template>
-

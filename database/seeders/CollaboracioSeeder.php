@@ -22,8 +22,7 @@ class CollaboracioSeeder extends Seeder
                 "contacte_id" => $data['2'],
                 "cicle_id" => $data['3'],
                 "user_id" => $data['4'],
-                "stars" => $data['5'],
-                "comentaris" => $data['6'],
+                "comentaris" => $data['5'],
                 "created_at" => NULL,
                 "updated_at" => NULL
             ]);

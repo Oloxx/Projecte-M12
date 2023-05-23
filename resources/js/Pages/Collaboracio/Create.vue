@@ -1,6 +1,5 @@
 <script setup>
 import { Form, Field } from "vee-validate";
-import vue3StarRatings from "vue3-star-ratings";
 import * as Yup from "yup";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
@@ -66,7 +65,6 @@ const form = reactive({
     any: null,
     user: props.user,
     comentaris: null,
-    stars: null,
 });
 
 // Request form
@@ -93,9 +91,9 @@ async function ChargeContactes(empresa) {
     return contactesFiltrats;
 }
 
-async function valueEmpresa_id() {
-    if (props.empresa) {
-        form.empresa_id = props.empresa.id;
+async function valueEmpresa_id(){
+    if(props.empresa){
+        form.empresa_id= props.empresa.id;
         ChargeContactes(props.empresa.id);
     }
 }
@@ -148,7 +146,7 @@ carregarAny();
                     <template v-else-if="empresa">
                         <!-- Empresa -->
                         <div class="form-group col">
-                            <Field name="empresa_id" type="text" class="form-control" :value="empresa.nom" disabled />
+                            <Field name="empresa_id" type="text" class="form-control" :value="empresa.nom" disabled/>
                         </div>
                     </template>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
@@ -170,9 +168,7 @@ carregarAny();
                             <option value="">Encara no hi ha contactes assignats a aquesta empresa</option>
                         </template>
                     </Field>
-                    <Link v-if="contactesFiltrats.length == 0 && form.empresa_id"
-                        :href="route('contacte.create', form.empresa_id)" as="button" class="btn btn-primary mt-3">{{
-                            $t("Crear Contacte") }}</Link>
+                    <Link v-if="contactesFiltrats.length == 0 && form.empresa_id" :href="route('contacte.create', form.empresa_id)" as="button" class="btn btn-primary mt-3">{{ $t("Crear Contacte") }}</Link>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
                 <!-- Cicle -->
@@ -208,12 +204,6 @@ carregarAny();
                     <div class="invalid-feedback">
                         {{ errors.comentaris }}
                     </div>
-                </div>
-                <!-- Valoració  -->
-                <div class="mx-auto p-2" style="width: 200px;">
-                    <br>
-                    <vue3-star-ratings :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false" v-model="form.stars"/><br>
-                    <br>
                 </div>
             </div>
             <!--Submit-->
