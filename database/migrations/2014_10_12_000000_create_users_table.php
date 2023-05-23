@@ -21,6 +21,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('language')->default('ca');
             $table->boolean('disabled')->default(false);
+            $table->boolean('default_password')->default(true);
             
             $table->timestamps();
         });

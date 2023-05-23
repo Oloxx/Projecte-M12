@@ -7,9 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TesterController;
 use App\Http\Controllers\WelcomeController;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +25,7 @@ Route::match(['get', 'post'], '/', [WelcomeController::class, 'index'])->name('w
 
 //Route::post('/', [WelcomeController::class, 'store'])->name('contact.us.store');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'default.password'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -69,6 +67,11 @@ Route::middleware('auth')->group(function () {
 
 Route::group(['middleware' => 'admin'],function () {
     Route::post('/importCSV', [EmpresaController::class, 'importCSV'])->name('empresa.importCSV');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/updatePassword', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+    Route::patch('/updatePassword', [ProfileController::class, 'updateDefaultPassword'])->name('profile.updateDefaultPassword');
 });
 
 Route::get('/test', [TesterController::class, 'test'])->name('test');

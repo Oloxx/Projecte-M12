@@ -22,7 +22,7 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }
-    // This will be removed when we add i18n (translations)
+
     public function messages()
     {
         return [
