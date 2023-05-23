@@ -215,7 +215,8 @@ class CollaboracioController extends Controller
 
         $collaboracio->save();
 
-        return redirect()->route('collaboracio.index')->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' desada!');
+        return redirect()->route('empresa.show', ['id' => $collaboracio->empresa_id])->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' desada!');
+
     }
 
     /**
@@ -269,7 +270,8 @@ class CollaboracioController extends Controller
 
         $collaboracio->save();
 
-        return redirect()->route('collaboracio.index')->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' modificada!');
+        return redirect()->route('empresa.show', ['id' => $collaboracio->empresa_id])->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' modificada!');
+
     }
 
     /**
