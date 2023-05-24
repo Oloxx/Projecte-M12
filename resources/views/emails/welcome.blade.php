@@ -15,6 +15,8 @@
         <b>Contrasenya: </b><span>{{$data['password']}}</span><br>
 
         <p>Aquesta contrasenya només serà vàlida per al primer accés a l'aplicació. Després, haurà de ser modificada.</p>
+
+        <p>Accedeix a l'aplicació fent clic aquí: <a href="laborasql.tech">LaboraSQL</a></p>
     </body>
 
     </html>
