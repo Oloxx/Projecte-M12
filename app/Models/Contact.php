@@ -13,18 +13,19 @@ class Contact extends Model
     use HasFactory;
 
     public $fillable = ['name', 'lastname', 'email', 'message'];
-  
+
     /**
      * Write code on Method
      *
      * @return response()
      */
-    public static function boot() {
-  
+    public static function boot()
+    {
+
         parent::boot();
-  
+
         static::created(function ($item) {
-                
+
             $adminEmail = "elena_bermudezdiaz@iescarlesvallbona.cat";
             Mail::to($adminEmail)->send(new ContactMail($item));
         });

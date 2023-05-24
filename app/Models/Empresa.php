@@ -41,7 +41,7 @@ class Empresa extends Model
 
     public static function searchByName($nomEmpresa)
     {
-        return Empresa::where('nom', 'LIKE', '%' . $nomEmpresa . '%')->with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);
+        return Empresa::where('nom', 'LIKE', '%' . $nomEmpresa . '%')->with('poblacio', 'categoria', 'sector')->orderBy('id', 'desc')->paginate(5);
     }
 
     public static function searchByPoblacio($nomPoblacio)
@@ -49,7 +49,7 @@ class Empresa extends Model
         return Empresa::join('poblacions', 'empreses.poblacio_id', '=', 'poblacions.id')
             ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')->with('poblacio', 'categoria', 'sector')
             ->select('empreses.*')
-            ->orderBy('empreses.nom')->paginate(5);
+            ->orderBy('empreses.id', 'desc')->paginate(5);
     }
 
     public static function searchBySector($nomSector)
@@ -57,7 +57,7 @@ class Empresa extends Model
         return Empresa::join('sectors', 'empreses.sector_id', '=', 'sectors.id')
             ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')->with('poblacio', 'categoria', 'sector')
             ->select('empreses.*')
-            ->orderBy('empreses.nom')->paginate(5);
+            ->orderBy('empreses.id', 'desc')->paginate(5);
     }
 
     public static function searchByNameAndPoblacio($nomEmpresa, $nomPoblacio)
@@ -67,7 +67,7 @@ class Empresa extends Model
             ->where('empreses.nom', 'LIKE', '%' . $nomEmpresa . '%')
             ->with('poblacio', 'categoria', 'sector')
             ->select('empreses.*')
-            ->orderBy('empreses.nom')->paginate(5);
+            ->orderBy('empreses.id', 'desc')->paginate(5);
     }
 
     public static function searchByNameAndSector($nomEmpresa, $nomSector)
@@ -77,7 +77,7 @@ class Empresa extends Model
             ->where('empreses.nom', 'LIKE', '%' . $nomEmpresa . '%')
             ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')
             ->with('poblacio', 'categoria', 'sector')
-            ->orderBy('empreses.nom')->paginate(5);
+            ->orderBy('empreses.id', 'desc')->paginate(5);
     }
 
     public static function searchByPoblacioAndSector($nomPoblacio, $nomSector)
@@ -88,7 +88,7 @@ class Empresa extends Model
             ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')
             ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')
             ->with('poblacio', 'categoria', 'sector')
-            ->orderBy('empreses.nom')->paginate(5);
+            ->orderBy('empreses.id', 'desc')->paginate(5);
     }
 
     public static function searchByAll($nomPoblacio, $nomSector, $nomEmpresa)
@@ -100,7 +100,7 @@ class Empresa extends Model
             ->where('poblacions.nom', 'LIKE', '%' . $nomPoblacio . '%')
             ->where('sectors.nom', 'LIKE', '%' . $nomSector . '%')
             ->with('poblacio', 'categoria', 'sector')
-            ->orderBy('empreses.nom')->paginate(5);
+            ->orderBy('empreses.id', 'desc')->paginate(5);
     }
 
     public static function filter($nomEmpresa, $nomPoblacio, $nomSector)

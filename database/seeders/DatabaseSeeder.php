@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'rol_id' => 1,
             'cicle_id' => 5,
             'language' => 'ca',
+            'default_password' => 0,
             'remember_token' => NULL,
             'created_at' => NULL,
             'updated_at' => NULL
