@@ -19,6 +19,15 @@ const props = defineProps({
     search: {
         type: Boolean,
         required: true,
+    },
+    nomEmpresa: {
+        type: String
+    },
+    nomPoblacio: {
+        type: String
+    },
+    nomSector: {
+        type: String
     }
 })
 
@@ -27,10 +36,11 @@ const props = defineProps({
  * Inputs from the controller
  */
 const form = reactive({
-    nom: null,
-    poblacio: null,
-    sector: null
+    nom: props.nomEmpresa ? props.nomEmpresa : null,
+    poblacio: props.nomPoblacio ? props.nomPoblacio : null,
+    sector: props.nomSector ? props.nomSector : null
 })
+
 
 // Request form  
 async function goIndex(values) {
@@ -39,10 +49,19 @@ async function goIndex(values) {
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/empresa', form, { preserveScroll: true })
-}
-</script>
 
+    let route = '/empresa';
+
+    form.nom ? route += `/${form.nom}` : route += `/%`;
+    form.poblacio ? route += `/${form.poblacio}` : route += `/%`;
+    form.sector ? route += `/${form.sector}` : route += `/%`;
+
+
+    // router.visit necessary to preserveScroll works
+    router.visit(route, { preserveScroll: true })
+}
+
+</script>
 
 <template>
     <Head :title="$t(`Empreses`)" />
@@ -53,26 +72,31 @@ async function onSubmit(values) {
             </div>
             <h1>{{ $t(`Llistat d'Empreses`) }}</h1>
             <!-- Filtres -->
-            <Form @input="onSubmit">
-                <!--Nom empresa -->
+            <Form @change="onSubmit" prevent-scroll>
                 <div class="d-flex p-2">
+                    <!--Nom empresa -->
                     <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
                         <Field name="nom" type="text" class="form-control" v-model="form.nom" />
                     </div>
+                    <!--Nom població -->
                     <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Població") }}</b></label>
                         <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
                     </div>
+                    <!--Nom sector -->
                     <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Sector") }}</b></label>
                         <Field name="sector" type="text" class="form-control" v-model="form.sector" />
                     </div>
-                </div>
-                <!--Submit-->
-                <div class="d-flex p-2 justify-content-md-end">
-                    <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
+                    <!--Clear button-->
+                    <div v-if="search" class="deleteSearch d-inline">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" >
+                            {{ $t("Netejar cerca") }}
+                        </button>
+                    </div>
+                    <div v-else class="deleteSearch d-inline">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" disabled>
                             {{ $t("Netejar cerca") }}
                         </button>
                     </div>
@@ -91,5 +115,8 @@ async function onSubmit(values) {
 .footer {
     bottom: 0;
 }
+.deleteSearch{
+    margin-top: 40px;
+    margin-left: 20px;
+}
 </style>
-

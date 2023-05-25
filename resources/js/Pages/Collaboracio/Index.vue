@@ -26,7 +26,21 @@ const props = defineProps({
     year: {
         type: Number,
         required: true,
-
+    },
+    cicleColab: {
+        type: String,
+    },
+    empresaColab: {
+        type: String,
+    },
+    anyColab: {
+        type: Number,
+    },
+    contacteColab: {
+        type: String,
+    },
+    usuariColab: {
+        type: String,
     }
 })
 
@@ -50,11 +64,11 @@ carregarAny();
  * Inputs from the controller
  */
 const form = reactive({
-    cicle: null,
-    any: null,
-    nom: null,
-    contacte: null,
-    usuari: null
+    cicle: props.cicleColab ? props.cicleColab : null,
+    any: props.anyColab ? props.anyColab : null,
+    nom: props.empresaColab ? props.empresaColab : null,
+    contacte: props.contacteColab ? props.contacteColab : null,
+    usuari: props.usuariColab ? props.usuariColab : null,
 })
 
 // Request form  
@@ -64,7 +78,15 @@ async function goIndex(values) {
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/collaboracio', form, { preserveScroll: true })
+    let route = '/collaboracio';
+
+    form.cicle ? route += `/${form.cicle}` : route += `/%`;
+    form.nom ? route += `/${form.nom}` : route += `/%`;
+    form.any ? route += `/${form.any}` : route += `/%`;
+    form.contacte ? route += `/${form.contacte}` : route += `/%`;
+    form.usuari ? route += `/${form.usuari}` : route += `/%`;
+
+    router.visit(route, { preserveScroll: true })
 }
 </script>
 
@@ -80,7 +102,7 @@ async function onSubmit(values) {
             </div>
             <h1>{{ $t("Llistat d'Estades") }}</h1>
             <!-- Filtres -->
-            <Form @input="onSubmit">
+            <Form @change="onSubmit">
                 <div class="d-flex p-2">
                     <!-- Cicle -->
                     <div class="d-inline p-2 form-group col">
@@ -96,7 +118,7 @@ async function onSubmit(values) {
                     <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Any") }}</b></label>
                         <Field name="any" id="any" as="select" class="form-select" v-model="form.any">
-                            <option :value="null" >Selecciona una opció</option>
+                            <option :value="null">Selecciona una opció</option>
                             <option v-for="any in anys" :value="any">
                                 {{ any }}
                             </option>
@@ -112,12 +134,14 @@ async function onSubmit(values) {
                         <label class="mb-2"><b>{{ $t("Usuari") }}</b></label>
                         <Field name="usuari" type="text" class="form-control" v-model="form.usuari" />
                     </div>
-                    
-                </div>
-                <!--Submit-->
-                <div class="d-flex p-2 justify-content-md-end">
-                    <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
+                    <!--Clear button-->
+                    <div v-if="search" class="deleteSearch d-inline">
                         <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
+                            {{ $t("Netejar cerca") }}
+                        </button>
+                    </div>
+                    <div v-else class="deleteSearch d-inline">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" disabled>
                             {{ $t("Netejar cerca") }}
                         </button>
                     </div>
@@ -131,3 +155,10 @@ async function onSubmit(values) {
         </section>
     </AuthenticatedLayout>
 </template>
+
+<style>
+.deleteSearch {
+    margin-top: 40px;
+    margin-left: 20px;
+}
+</style>

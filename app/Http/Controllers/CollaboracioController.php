@@ -24,108 +24,40 @@ class CollaboracioController extends Controller
         ["label" => "Contacte", "field" => "contacte.nom"],
         ["label" => "Usuari", "field" => "user.name"],
     ];
-    
+
 
     /**
      * Display a listing of the resource.
      */
 
-    public function index(Request $request)
+    public function index(String $cicle = '', String $empresa = '', String $any = '', String $contacte = '', String $usuari = '')
     {
         $year = date("Y") + 1;
-        $nomCicleEstada = $request->cicle;
-        $anyEstada = $request->any;
-        $nomEmpresaEstada = $request->nom;
-        $nomContacteEstada = $request->contacte;
-        $nomUsuariEstada = $request->usuari;
 
-        if ($request->isMethod('post')) {
+        if ($cicle == '%') $cicle = '';
+        if ($empresa == '%') $empresa = '';
+        if ($any == '%') $any = '';
+        if ($contacte == '%') $contacte = '';
+        if ($usuari == '%')  $usuari = '';
 
-            if ($nomCicleEstada || $anyEstada || $nomEmpresaEstada || $nomContacteEstada || $nomUsuariEstada) {
+        if ($cicle || $empresa || $any || $contacte || $usuari) {
 
-                if ($request->session()->exists('nomCicleEstada')) {
-                    $request->session()->forget('nomCicleEstada');
-                    session(['nomCicleEstada' => $nomCicleEstada]);
-                } else {
-                    session(['nomCicleEstada' => $nomCicleEstada]);
-                }
-
-                if ($request->session()->exists('anyEstada')) {
-                    $request->session()->forget('anyEstada');
-                    session(['anyEstada' => $anyEstada]);
-                } else {
-                    session(['anyEstada' => $anyEstada]);
-                }
-
-                if ($request->session()->exists('nomEmpresaEstada')) {
-                    $request->session()->forget('nomEmpresaEstada');
-                    session(['nomEmpresaEstada' => $nomEmpresaEstada]);
-                } else {
-                    session(['nomEmpresaEstada' => $nomEmpresaEstada]);
-                }
-
-                if ($request->session()->exists('nomContacteEstada')) {
-                    $request->session()->forget('nomContacteEstada');
-                    session(['nomContacteEstada' => $nomContacteEstada]);
-                } else {
-                    session(['nomContacteEstada' => $nomContacteEstada]);
-                }
-
-                if ($request->session()->exists('nomUsuariEstada')) {
-                    $request->session()->forget('nomUsuariEstada');
-                    session(['nomUsuariEstada' => $nomUsuariEstada]);
-                } else {
-                    session(['nomUsuariEstada' => $nomUsuariEstada]);
-                }
-
-                $search = true;
-                $estadesFiltre = Collaboracio::filter($nomCicleEstada, $anyEstada, $nomEmpresaEstada, $nomContacteEstada, $nomUsuariEstada);
-            
-            } else {
-                // Entra en el moment de paginar
-                $search = true;
-
-                $nomCicleEstada = $request->session()->get('nomCicleEstada');
-                $anyEstada = $request->session()->get('anyEstada');
-                $nomEmpresaEstada = $request->session()->get('nomEmpresaEstada');
-                $nomContacteEstada = $request->session()->get('nomContacteEstada');
-                $nomUsuariEstada = $request->session()->get('nomUsuariEstada');
-
-                $estadesFiltre = Collaboracio::filter($nomCicleEstada, $anyEstada, $nomEmpresaEstada, $nomContacteEstada, $nomUsuariEstada);
-            }
+            $search = true;
+            $estadesFiltre = Collaboracio::filter($cicle, $any, $empresa, $contacte, $usuari);
 
             return Inertia::render('Collaboracio/Index', [
                 'collaboracions' => $estadesFiltre,
                 'columns' => $this->columns,
                 'search' => $search,
-                'year' => $year
+                'year' => $year,
+                'cicleColab' => $cicle,
+                'empresaColab' => $empresa,
+                'anyColab' => $any,
+                'contacteColab' => $contacte,
+                'usuariColab' => $usuari,
             ]);
         } else {
 
-            if ($request->session()->exists('nomCicleEstada')) {
-                $request->session()->forget('nomCicleEstada');
-                session(['nomCicleEstada' => $nomCicleEstada]);
-            }
-
-            if ($request->session()->exists('anyEstada')) {
-                $request->session()->forget('anyEstada');
-                session(['anyEstada' => $anyEstada]);
-            }
-
-            if ($request->session()->exists('nomEmpresaEstada')) {
-                $request->session()->forget('nomEmpresaEstada');
-                session(['nomEmpresaEstada' => $nomEmpresaEstada]);
-            }
-
-            if ($request->session()->exists('nomContacteEstada')) {
-                $request->session()->forget('nomContacteEstada');
-                session(['nomContacteEstada' => $nomContacteEstada]);
-            }
-
-            if ($request->session()->exists('nomUsuariEstada')) {
-                $request->session()->forget('nomUsuariEstada');
-                session(['nomUsuariEstada' => $nomUsuariEstada]);
-            }
 
             $estades = Collaboracio::with('empresa', 'contacte', 'cicle', 'user')->orderBy('id', 'desc')->paginate(5);
             $search = false;
@@ -149,18 +81,17 @@ class CollaboracioController extends Controller
         $user = Auth::user();
         $year = date("Y") + 1;
 
-        if($id){
+        if ($id) {
             $empresa = Empresa::where('id', $id)->with('poblacio', 'categoria', 'sector')->firstOrFail();
             return Inertia::render('Collaboracio/Create', [
                 'empresa' => $empresa, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
             ]);
-        }else{
+        } else {
             $empreses = Empresa::all();
             return Inertia::render('Collaboracio/Create', [
                 'empreses' => $empreses, 'contactes' => $contactes, 'cicles' => $cicles, 'user' => $user, 'year' => $year
             ]);
         }
-
     }
 
     /**
@@ -191,14 +122,14 @@ class CollaboracioController extends Controller
             'empresa_id' => ['required'],
             'contacte_id' => ['required'],
             'cicle_id' => ['required'],
-            'any' => ['required', 'before_or_equal:'.$year],
+            'any' => ['required', 'before_or_equal:' . $year],
         ];
 
         Validator::make($request->all(), $rules, $messages = [
             'empresa_id.required' => 'Selecciona una empresa.',
             'contacte_id.required' => 'Selecciona un contacte.',
             'cicle_id.required' => 'Selecciona un cicle.',
-            'any.required' => 'Selecciona l\'any de l\'estada.',            
+            'any.required' => 'Selecciona l\'any de l\'estada.',
             'any.before_or_equal' => 'L\'any ha de ser anterior a l\'any actual.',
         ])->validate();
 
@@ -208,7 +139,7 @@ class CollaboracioController extends Controller
         $collaboracio->cicle_id = $request->cicle_id;
         $collaboracio->any = $request->any;
         $collaboracio->comentaris = $request->comentaris;
-        if($request->stars){
+        if ($request->stars) {
             $collaboracio->stars = $request->stars;
         }
         $collaboracio->user_id = $request->user()->id;
@@ -216,7 +147,6 @@ class CollaboracioController extends Controller
         $collaboracio->save();
 
         return redirect()->route('empresa.show', ['id' => $collaboracio->empresa_id])->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' desada!');
-
     }
 
     /**
@@ -239,7 +169,7 @@ class CollaboracioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id) : RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
 
         $year = date("Y") + 1;
@@ -247,14 +177,14 @@ class CollaboracioController extends Controller
             'empresa_id' => ['required'],
             'contacte_id' => ['required'],
             'cicle_id' => ['required'],
-            'any' => ['required', 'before_or_equal:'.$year],
+            'any' => ['required', 'before_or_equal:' . $year],
         ];
 
         Validator::make($request->all(), $rules, $messages = [
             'empresa_id.required' => 'Selecciona una empresa.',
             'contacte_id.required' => 'Selecciona un contacte.',
             'cicle_id.required' => 'Selecciona un cicle.',
-            'any.required' => 'Selecciona l\'any de l\'estada.',            
+            'any.required' => 'Selecciona l\'any de l\'estada.',
             'any.before_or_equal' => 'L\'any ha de ser anterior a l\'any actual.',
         ])->validate();
 
@@ -263,7 +193,7 @@ class CollaboracioController extends Controller
         $collaboracio->empresa_id = $request->empresa_id;
         $collaboracio->contacte_id = $request->contacte_id;
         $collaboracio->cicle_id = $request->cicle_id;
-        if($request->stars){
+        if ($request->stars) {
             $collaboracio->stars = $request->stars;
         }
         $collaboracio->comentaris = $request->comentaris;
@@ -271,7 +201,6 @@ class CollaboracioController extends Controller
         $collaboracio->save();
 
         return redirect()->route('empresa.show', ['id' => $collaboracio->empresa_id])->with('status', 'Estada a ' . $collaboracio->empresa->nom . ' modificada!');
-
     }
 
     /**

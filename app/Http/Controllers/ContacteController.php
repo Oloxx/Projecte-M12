@@ -26,67 +26,26 @@ class ContacteController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(Request $request)
+    public function index(String $nom = '', String $cognoms = '', String $empresa = '')
     {
+        if ($nom == '%') $nom = '';
+        if ($cognoms == '%')$cognoms = '';
+        if ($empresa == '%') $empresa = '';
+        
+        if ($nom || $cognoms || $empresa) {
 
-        if ($request->isMethod('post')) {
-
-            $nomContacte = $request->nomContacte;
-            $cognomsContacte = $request->cognoms;
-            $nomEmpresaContacte = $request->empresaContacte;
-
-            if ($nomContacte || $cognomsContacte || $nomEmpresaContacte) {
-
-                if ($request->session()->exists('nomContacte')) {
-                    $request->session()->forget('nomContacte');
-                    session(['nomContacte' => $nomContacte]);
-                } else {
-                    session(['nomContacte' => $nomContacte]);
-                }
-
-                if ($request->session()->exists('cognomsContacte')) {
-                    $request->session()->forget('cognomsContacte');
-                    session(['cognomsContacte' => $cognomsContacte]);
-                } else {
-                    session(['cognomsContacte' => $cognomsContacte]);
-                }
-
-                if ($request->session()->exists('nomEmpresaContacte')) {
-                    $request->session()->forget('nomEmpresaContacte');
-                    session(['nomEmpresaContacte' => $nomEmpresaContacte]);
-                } else {
-                    session(['nomEmpresaContacte' => $nomEmpresaContacte]);
-                }
-
-                $search = true;
-                $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
-            } else {
-                $search = true;
-                $nomContacte = $request->session()->get('nomContacte');
-                $cognomsContacte = $request->session()->get('cognomsContacte');
-                $nomEmpresaContacte = $request->session()->get('nomEmpresaContacte');
-
-                $contactesFiltre = Contacte::filter($nomContacte, $cognomsContacte, $nomEmpresaContacte);
-            }
+            $search = true;
+            $contactesFiltre = Contacte::filter($nom, $cognoms, $empresa);
 
             return Inertia::render('Contacte/Index', [
                 'contactes' => $contactesFiltre,
                 'columns' => $this->columns,
-                'search' => $search
+                'search' => $search,
+                'nom' => $nom,
+                'cognoms' => $cognoms,
+                'empresa' => $empresa,
             ]);
         } else {
-
-            if ($request->session()->exists('nomContacte')) {
-                $request->session()->forget('nomContacte');
-            }
-
-            if ($request->session()->exists('cognomsContacte')) {
-                $request->session()->forget('cognomsContacte');
-            }
-
-            if ($request->session()->exists('nomEmpresaContacte')) {
-                $request->session()->forget('nomEmpresaContacte');
-            }
 
             $contactes = Contacte::with('empresa')->orderBy('nom')->paginate(5);
             $search = false;
@@ -123,7 +82,7 @@ class ContacteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
 
         $rules = [
