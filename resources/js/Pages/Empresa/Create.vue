@@ -16,6 +16,7 @@ const props = defineProps({
     poblacions: {
         type: Object,
         required: true,
+        default: () => ({}), 
     },
     categories: {
         type: Object,
@@ -35,6 +36,8 @@ const { t } = useI18n();
 const state = reactive({
     poblacioSelected: false,
     showPoblacioError: false,
+    sectorSelected: false,
+    showSectorError: false,
     url: null,
     logo: null
 })
@@ -53,10 +56,36 @@ const schema = Yup.object().shape({
         "La Web introduïda no és valida"
     ).notRequired(),
     email: Yup.string('').email("El E-mail introduït és invàlid").notRequired(),
-    categoria_id: Yup.number().required("La categoria és obligatoria"),
-    sector_id: Yup.number().required("El sector és obligatori"),
+    categoria_id: Yup.number().required("La categoria és obligatòria"),
 });  
 
+function handleSelectPoblacio(selectedOption) {
+    if (selectedOption) {
+        form.poblacio_id = props.poblacions.find(x => x.nom == selectedOption).id;
+        state.poblacioSelected = true;
+        state.showPoblacioError = false;
+    }
+}
+
+function handleClosePoblacio() {
+    if (!state.poblacioSelected) {
+        state.showPoblacioError = true;
+    }
+}
+
+function handleSelectSector(selectedOption) {
+    if (selectedOption) {
+        form.sector_id = props.sectors.find(x => x.nom == selectedOption).id;
+        state.sectorSelected = true;
+        state.showSectorError = false;
+    }
+}
+
+function handleCloseSector() {
+    if (!state.sectorSelected) {
+        state.showSectorError = true;
+    }
+}
 
 /**
  * Inputs from the controller
@@ -71,19 +100,6 @@ const form = reactive({
     sector_id: null,
     logo: null
 })
-
-function handleSelect(selectedOption) {
-    if (selectedOption) {
-        state.poblacioSelected = true;
-        state.showPoblacioError = false;
-    }
-}
-
-function handleClose() {
-    if (!state.poblacioSelected) {
-        state.showPoblacioError = true;
-    }
-}
 
 function onFileChange(e) {
     if (e.target.files[0]) {
@@ -111,7 +127,7 @@ async function scrollTop() {
 }
 
 function checkPoblacio() {
-    if (state.poblacioSelected && !state.logo) {
+    if (state.poblacioSelected) {
         return true;
     } else {
         state.showPoblacioError = true;
@@ -119,11 +135,25 @@ function checkPoblacio() {
     }
 }
 
+function checkSector() {
+    if (state.sectorSelected) {
+        return true;
+    } else {
+        state.showSectorError = true;
+        return false;
+    }
+}
+
+function checks() {
+    checkPoblacio();
+    checkSector();
+}
+
 // Request form  
 async function onSubmit() {
-    if (checkPoblacio()) {
+    checks();
+    if (checkPoblacio() && checkSector() && !state.logo) {
         router.post("/empresa/store", form);
-
         if (Object.keys(props.errors).length > 0) {
             scrollTop();
         }
@@ -135,7 +165,7 @@ async function onSubmit() {
     <Head :title="$t(`Crear Empresa`)" />
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Nova Empresa") }}</h1>
-        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
+        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5 mb-5">
             <div class="form-row">
                 <div class="serverError" v-if="serverError.error">
                     <ol>
@@ -172,20 +202,16 @@ async function onSubmit() {
                     <Field name="email" type="email" class="form-control" :class="{ 'is-invalid': errors.email }" v-model="form.email"/>
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
-                <!--Població empresa -->
+                <!--Població empresa-->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Població") }}</label>
                     <SearchSelect
-                    name="poblacio_id"
-                    v-model="form.poblacio_id"
-                    :options="poblacions"
-                    label="nom"
-                    trackBy="id"
-                    @select="handleSelect"
-                    @close="handleClose"
+                    :values="props.poblacions"
+                    @select="handleSelectPoblacio"
+                    @close="handleClosePoblacio"
                     />
                     <div v-if="state.showPoblacioError" class="text-danger">
-                        La població és obligatoria
+                        {{ $t("La població és obligatòria") }}
                     </div>
                 </div>
                 <!--Categoria empresa -->
@@ -204,12 +230,14 @@ async function onSubmit() {
                 <!--Sector empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Sector") }}</label>
-                    <Field name="sector_id" as="select" class="form-select" :class="{ 'is-invalid': errors.sector_id }" v-model="form.sector_id">
-                        <option v-for="sector in sectors" :value="sector.id">
-                            {{ sector.nom }}
-                        </option>
-                    </Field>
-                    <div class="invalid-feedback">{{ errors.sector_id }}</div>
+                    <SearchSelect
+                    :values="props.sectors"
+                    @select="handleSelectSector"
+                    @close="handleCloseSector"
+                    />
+                    <div v-if="state.showSectorError" class="text-danger">
+                        {{ $t("El sector és obligatori") }}
+                    </div>
                 </div>
                 <!--Logo empresa -->
                 <div class="form-group col mt-3">
@@ -226,12 +254,12 @@ async function onSubmit() {
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
+                <button type="submit" class="btn btn-primary mr-1 me-3" @click="checks()">
                     {{ $t("Crear Empresa") }}
                 </button>
                 <Link :href="route('empresa.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·la") }}</Link>
-            </div>
-        </Form><br><br><br>
+            </div><br>
+        </Form>
     </AuthenticatedLayout>
 </template>
 

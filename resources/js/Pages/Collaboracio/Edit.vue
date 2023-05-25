@@ -196,16 +196,15 @@ carregarAny();
                 </div>
                 <br>
                 <div class="mx-auto p-2" style="width: 200px;">
-                    <vue3-star-ratings :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false" v-model="form.stars"/><br>
-                    <br>
-                </div>
+                    <vue3-star-ratings :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false" v-model="form.stars"/>
+                </div><br><br>
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary mr-1 me-3">
                     {{ $t("Editar Estada") }}
                 </button>
-                <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>
+                <Link :href="route('collaboracio.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>
             </div>
         </Form><br><br><br>
     </AuthenticatedLayout>

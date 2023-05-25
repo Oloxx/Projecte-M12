@@ -143,7 +143,7 @@ class ContacteController extends Controller
             'movil.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
             'movil.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
             'email' => 'Aquest correu és incorrecte.',
-            'empresa_id.required' => 'L\'assignació d\'empresa és obligatoria.',
+            'empresa_id.required' => 'L\'assignació d\'empresa és obligatòria.',
         ])->validate();
 
         $contacte = new Contacte;
@@ -194,7 +194,7 @@ class ContacteController extends Controller
             'movil.numeric' => 'El camp telèfon ha de ser de caràcter numèric.',
             'movil.digits_between' => 'El camp telèfon ha de contenir 9 dígits.',
             'email' => 'Aquest correu és incorrecte.',
-            'empresa_id.required' => 'L\'assignació d\'empresa és obligatoria.',
+            'empresa_id.required' => 'L\'assignació d\'empresa és obligatòria.',
         ])->validate();
 
         $contacte = Contacte::where('id', $id)->with('empresa')->firstOrFail();

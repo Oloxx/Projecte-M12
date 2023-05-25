@@ -96,7 +96,7 @@ class EmpresaController extends Controller
                 $request->session()->forget('nomSector');
             }
 
-            $empreses = Empresa::with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);
+            $empreses = Empresa::with('poblacio', 'categoria', 'sector')->orderBy('id', 'desc')->paginate(5);
             $search = false;
 
             return Inertia::render('Empresa/Index', [
@@ -155,7 +155,7 @@ class EmpresaController extends Controller
         $empresa->telefon = $request->telefon;
         $empresa->web = $request->web;
         $empresa->email = $request->email;
-        $empresa->poblacio_id = $request->poblacio_id['id'];
+        $empresa->poblacio_id = $request->poblacio_id;
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
         if ($request->hasFile('logo')) {
@@ -256,7 +256,7 @@ class EmpresaController extends Controller
         $empresa->email = $request->email;
         $empresa->poblacio_id = $request->poblacio_id['id'];
         $empresa->categoria_id = $request->categoria_id;
-        $empresa->sector_id = $request->sector_id;
+        $empresa->sector_id = $request->sector_id['id'];
         if ($request->hasFile('logo')) {
             $empresa->logo = $this->uploadLogo($request->logo);;
         }

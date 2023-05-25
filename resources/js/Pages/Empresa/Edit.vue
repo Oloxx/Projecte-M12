@@ -55,8 +55,7 @@ const schema = Yup.object().shape({
         "La Web introduïda no és valida"
     ).notRequired(),
     email: Yup.string().email("El E-mail introduït és invàlid").notRequired(),
-    categoria_id: Yup.number().required("La categoria és obligatoria"),
-    sector_id: Yup.number().required("El sector és obligatori"),
+    categoria_id: Yup.number().required("La categoria és obligatòria"),
 });
 
 /**
@@ -70,10 +69,13 @@ const form = reactive({
     email: props.empresa.email,
     poblacio_id: props.poblacions.find(x => x.id == props.empresa.poblacio_id),
     categoria_id: props.empresa.categoria_id,
-    sector_id: props.empresa.sector_id,
+    sector_id: props.sectors.find(x => x.id == props.empresa.sector_id),
     logo: null
 })
 
+/**
+ * Upload logo validations
+ */
 function onFileChange(e) {
     if (e.target.files[0]) {
         const file = e.target.files[0];
@@ -89,13 +91,18 @@ function onFileChange(e) {
         state.url = null;
     }
 }
-
 function checkLogo() {
     if (!props.empresa.logo && !form.logo) {
         state.url = null;
     }
 }
 
+function handleSelectPoblacio(selectedOption) {
+    form.poblacio_id = props.poblacions.find(x => x.nom == selectedOption);
+}
+function handleSelectSector(selectedOption) {
+    form.sector_id = props.sectors.find(x => x.nom == selectedOption);
+}
 
 async function scrollTop() {
     window.scroll({
@@ -164,8 +171,11 @@ async function onSubmit(values) {
                 <!--Població empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Població") }}</label>
-                    <SearchSelect name="poblacio_id" v-model="form.poblacio_id" :options="poblacions" label="nom"
-                        trackBy="id" />
+                    <SearchSelect 
+                    :values="props.poblacions" 
+                    :value="form.poblacio_id.nom"
+                    @select="handleSelectPoblacio"
+                    />
                 </div>
                 <!--Categoria empresa -->
                 <div class="form-group col mt-3">
@@ -182,12 +192,11 @@ async function onSubmit(values) {
                 <!--Sector empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Sector") }}</label>
-                    <Field name="sector_id" as="select" class="form-select" :class="{ 'is-invalid': errors.sector_id }"
-                        v-model="empresa.sector_id">
-                        <option v-for="sector in sectors" :value="sector.id" :selected="sector.id == form.sector_id">
-                            {{ sector.nom }}
-                        </option>
-                    </Field>
+                    <SearchSelect 
+                    :values="props.sectors" 
+                    :value="form.sector_id.nom"
+                    @select="handleSelectSector"
+                    />
                     <div class="invalid-feedback">{{ errors.sector_id }}</div>
                 </div>
                 <!--Logo empresa -->

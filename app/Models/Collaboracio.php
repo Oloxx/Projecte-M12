@@ -53,7 +53,7 @@ class Collaboracio extends Model
             ->where('contactes.nom', 'LIKE', '%' . $nomContacteEstada . '%')
             ->where('users.name', 'LIKE', '%' . $nomUsuariEstada . '%')
             ->with('empresa', 'contacte', 'cicle', 'user')
-            ->orderBy('cicles.nom');
+            ->orderBy('collaboracions.id', 'desc');
 
         if ($anyEstada) {
             $query = $query->where('collaboracions.any', '=', $anyEstada)->paginate(5);
