@@ -31,7 +31,7 @@ const schema = Yup.object().shape({
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
-    empresa_id: Yup.number().required("L'empresa és obligatoria"),
+    empresa_id: Yup.number().required("L'empresa és obligatòria"),
 }); 
 
 /**
