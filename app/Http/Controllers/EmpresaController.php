@@ -32,67 +32,27 @@ class EmpresaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(String $empresa = '', String $poblacio = '', String $sector = '')
     {
 
-        if ($request->isMethod('post')) {
+        if ($empresa == '%')$empresa = '';
+        if ($poblacio == '%') $poblacio = '';
+        if ($sector == '%') $sector = '';
+       
+        if ($empresa || $poblacio || $sector) {
 
-            $nomEmpresa = $request->nom;
-            $nomPoblacio = $request->poblacio;
-            $nomSector = $request->sector;
-
-            if ($nomEmpresa || $nomPoblacio || $nomSector) {
-
-                if ($request->session()->exists('nomEmpresa')) {
-                    $request->session()->forget('nomEmpresa');
-                    session(['nomEmpresa' => $nomEmpresa]);
-                } else {
-                    session(['nomEmpresa' => $nomEmpresa]);
-                }
-
-                if ($request->session()->exists('nomPoblacio')) {
-                    $request->session()->forget('nomPoblacio');
-                    session(['nomPoblacio' => $nomPoblacio]);
-                } else {
-                    session(['nomPoblacio' => $nomPoblacio]);
-                }
-
-                if ($request->session()->exists('nomSector')) {
-                    $request->session()->forget('nomSector');
-                    session(['nomSector' => $nomSector]);
-                } else {
-                    session(['nomSector' => $nomSector]);
-                }
-
-                $search = true;
-                $empresesFiltre = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
-            } else {
-                $search = true;
-                $nomEmpresa = $request->session()->get('nomEmpresa');
-                $nomPoblacio = $request->session()->get('nomPoblacio');
-                $nomSector = $request->session()->get('nomSector');
-
-                $empresesFiltre = Empresa::filter($nomEmpresa, $nomPoblacio, $nomSector);
-            }
+            $search = true;
+            $empresesFiltre = Empresa::filter($empresa, $poblacio, $sector);
 
             return Inertia::render('Empresa/Index', [
                 'empreses' => $empresesFiltre,
                 'columns' => $this->columns,
-                'search' => $search
+                'search' => $search,
+                'nomEmpresa' => $empresa,
+                'nomPoblacio' => $poblacio,
+                'nomSector' => $sector
             ]);
         } else {
-
-            if ($request->session()->exists('nomEmpresa')) {
-                $request->session()->forget('nomEmpresa');
-            }
-
-            if ($request->session()->exists('nomPoblacio')) {
-                $request->session()->forget('nomPoblacio');
-            }
-
-            if ($request->session()->exists('nomSector')) {
-                $request->session()->forget('nomSector');
-            }
 
             $empreses = Empresa::with('poblacio', 'categoria', 'sector')->orderBy('nom')->paginate(5);
             $search = false;

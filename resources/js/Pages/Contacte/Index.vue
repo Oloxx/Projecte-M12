@@ -21,6 +21,15 @@ const props = defineProps({
     search: {
         type: Boolean,
         required: true,
+    },
+    nom: {
+        type: String,
+    },
+    cognoms: {
+        type: String,
+    },
+    empresa: {
+        type: String,
     }
 })
 
@@ -28,9 +37,9 @@ const props = defineProps({
  * Inputs from the controller
  */
 const form = reactive({
-    nomContacte: null,
-    cognoms: null,
-    empresaContacte: null
+    nom: props.nom ? props.nom : null,
+    cognoms: props.cognoms ? props.cognoms : null,
+    empresa: props.empresa ? props.empresa : null
 })
 
 // Request form  
@@ -40,12 +49,19 @@ async function goIndex(values) {
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/contacte', form, { preserveScroll: true })
+    let route = '/contacte';
+
+    form.nom?route += `/${form.nom}`:route += `/%`;
+    form.cognoms?route += `/${form.cognoms}`:route += `/%`;
+    form.empresa?route += `/${form.empresa}`:route += `/%`;
+
+    router.visit(route, { preserveScroll: true })
 }
 </script>
 
 <template>
     <Head :title="$t(`Contactes`)" />
+    {{ form.nomContacte }} {{ form.cognoms }} {{ form.empresaContacte }}
     <AuthenticatedLayout>
         <section class="section-list-companies">
             <div v-if="status" class="alert alert-success">
@@ -56,12 +72,12 @@ async function onSubmit(values) {
             </div>
             <h1>{{ $t("Llistat de Contactes") }}</h1>
             <!-- Filtres -->
-            <Form @input="onSubmit">
+            <Form @change="onSubmit">
                 <div class="d-flex p-2">
                     <!-- Nom -->
                     <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
-                        <Field name="nomContacte" type="text" class="form-control" v-model="form.nomContacte" />
+                        <Field name="nom" type="text" class="form-control" v-model="form.nom" />
                     </div>
                     <!-- Cognom -->
                     <div class="d-inline p-2 form-group col">
@@ -71,7 +87,7 @@ async function onSubmit(values) {
                     <!-- Empresa-->
                     <div class="d-inline p-2 form-group col">
                         <label class="mb-2"><b>{{ $t("Empresa") }}</b></label>
-                        <Field name="empresaContacte" type="text" class="form-control" v-model="form.empresaContacte" />
+                        <Field name="empresa" type="text" class="form-control" v-model="form.empresa" />
                     </div>
                 </div>
                 <!--Submit-->
