@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RolSeeder::class);
 
         DB::table('users')->insert([
-            'name' => 'Random',
-            'Cognoms' => 'Random',
-            'email' => 'random@gmail.com',
+            'name' => 'Francesc',
+            'Cognoms' => 'Peralta',
+            'email' => 'francesc.peralta@iescarlesvallbona.cat',
             'email_verified_at' => NULL,
             'password' => '$2y$10$ZaOY70N1hPdSD0s2GsnpIuXxG0PlCm0SLBIzzjgDJtS6UHMEZjPiO',
             'rol_id' => 1,

@@ -1,3 +1,5 @@
+
+<img src="../../img/logo/Logo_LaboraSQL.png" alt="Logo LaboraSQL"><br>
 <h2>Formulari de contacte LaboralSQL</h2> 
 <br>
     
