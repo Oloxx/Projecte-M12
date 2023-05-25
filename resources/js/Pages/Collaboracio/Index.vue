@@ -80,11 +80,11 @@ async function goIndex(values) {
 async function onSubmit(values) {
     let route = '/collaboracio';
 
-    form.cicle ? route += `/${form.cicle}` : route += `/%`;
-    form.nom ? route += `/${form.nom}` : route += `/%`;
-    form.any ? route += `/${form.any}` : route += `/%`;
-    form.contacte ? route += `/${form.contacte}` : route += `/%`;
-    form.usuari ? route += `/${form.usuari}` : route += `/%`;
+    form.cicle ? route += `/${form.cicle}` : route += `/%25`;
+    form.nom ? route += `/${form.nom}` : route += `/%25`;
+    form.any ? route += `/${form.any}` : route += `/%25`;
+    form.contacte ? route += `/${form.contacte}` : route += `/%25`;
+    form.usuari ? route += `/${form.usuari}` : route += `/%25`;
 
     router.visit(route, { preserveScroll: true })
 }

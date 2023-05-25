@@ -51,9 +51,9 @@ async function goIndex(values) {
 async function onSubmit(values) {
     let route = '/contacte';
 
-    form.nom?route += `/${form.nom}`:route += `/%`;
-    form.cognoms?route += `/${form.cognoms}`:route += `/%`;
-    form.empresa?route += `/${form.empresa}`:route += `/%`;
+    form.nom?route += `/${form.nom}`:route += `/%25`;
+    form.cognoms?route += `/${form.cognoms}`:route += `/%25`;
+    form.empresa?route += `/${form.empresa}`:route += `/%25`;
 
     router.visit(route, { preserveScroll: true })
 }
