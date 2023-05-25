@@ -37,9 +37,9 @@ class EmpresaController extends Controller
     public function index(String $empresa = '', String $poblacio = '', String $sector = '')
     {
 
-        if ($empresa == '%02%03')$empresa = '';
-        if ($poblacio == '%02%03') $poblacio = '';
-        if ($sector == '%02%03') $sector = '';
+        if ($empresa == '%')$empresa = '';
+        if ($poblacio == '%') $poblacio = '';
+        if ($sector == '%') $sector = '';
        
         if ($empresa || $poblacio || $sector) {
 

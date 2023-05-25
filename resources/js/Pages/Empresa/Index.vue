@@ -52,9 +52,9 @@ async function onSubmit(values) {
 
     let route = '/empresa';
 
-    form.nom ? route += `/${form.nom}` : route += `/%02%03`;
-    form.poblacio ? route += `/${form.poblacio}` : route += `/%02%03`;
-    form.sector ? route += `/${form.sector}` : route += `/%02%03`;
+    form.nom ? route += `/${form.nom}` : route += `/%25`;
+    form.poblacio ? route += `/${form.poblacio}` : route += `/%25`;
+    form.sector ? route += `/${form.sector}` : route += `/%25`;
 
 
     // router.visit necessary to preserveScroll works
