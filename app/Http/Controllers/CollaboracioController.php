@@ -127,7 +127,7 @@ class CollaboracioController extends Controller
                 session(['nomUsuariEstada' => $nomUsuariEstada]);
             }
 
-            $estades = Collaboracio::with('empresa', 'contacte', 'cicle', 'user')->paginate(5);
+            $estades = Collaboracio::with('empresa', 'contacte', 'cicle', 'user')->orderBy('id', 'desc')->paginate(5);
             $search = false;
 
             return Inertia::render('Collaboracio/Index', [
