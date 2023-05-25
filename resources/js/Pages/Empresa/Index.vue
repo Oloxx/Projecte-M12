@@ -89,11 +89,14 @@ async function onSubmit(values) {
                         <label class="mb-2"><b>{{ $t("Sector") }}</b></label>
                         <Field name="sector" type="text" class="form-control" v-model="form.sector" />
                     </div>
-                </div>
-                <!--Submit-->
-                <div class="d-flex p-2 justify-content-md-end">
-                    <div v-if="search" class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
+                    <!--Clear button-->
+                    <div v-if="search" class="deleteSearch d-inline">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" >
+                            {{ $t("Netejar cerca") }}
+                        </button>
+                    </div>
+                    <div v-else class="deleteSearch d-inline">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" disabled>
                             {{ $t("Netejar cerca") }}
                         </button>
                     </div>
@@ -111,5 +114,9 @@ async function onSubmit(values) {
 <style scoped>
 .footer {
     bottom: 0;
+}
+.deleteSearch{
+    margin-top: 40px;
+    margin-left: 20px;
 }
 </style>
