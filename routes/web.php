@@ -33,18 +33,18 @@ Route::middleware(['auth', 'default.password'])->group(function () {
 
     // PATHS FOR ADDED CONTROLLERS
     // EMPRESA CONTROLLER
-    Route::match(['get', 'post'], '/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
-    Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa.create');
     Route::post('/empresa/store', [EmpresaController::class, 'store'])->name('empresa.store');
-    Route::get('/empresa/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
+    Route::get('/empresa/show/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
     Route::get('/empresa/edit/{id}', [EmpresaController::class, 'edit'])->name('empresa.edit');
     Route::put('/empresa/update/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
     Route::delete('/empresa/delete/{id}', [EmpresaController::class, 'delete'])->name('empresa.delete');
     Route::match(['get', 'post'], '/empresa/search', [EmpresaController::class, 'search'])->name('empresa.search');
-    Route::post('/removeLogo/{id}', [EmpresaController::class, 'removeLogo'])->name('empresa.removeLogo');
+    Route::post('/removeLogo/{id}', [EmpresaController::class, 'removeLogo'])->name('empresa.removeLogo');    
+    Route::get('/empresa/create', [EmpresaController::class, 'create'])->name('empresa.create');
+    Route::match(['get', 'post'],'/empresa/{empresa?}/{poblacio?}/{sector?}', [EmpresaController::class, 'index'])->name('empresa.index');
+
 
     // COL·LABORACIÓ CONTROLLER
-    Route::match(['get', 'post'], '/collaboracio', [CollaboracioController::class, 'index'])->name('collaboracio.index');
     Route::get('/collaboracio/show', [CollaboracioController::class, 'show'])->name('collaboracio.show');
     Route::get('/collaboracio/create/{id?}', [CollaboracioController::class, 'create'])->name('collaboracio.create');
     Route::post('/collaboracio/getcontactes', [CollaboracioController::class, 'getContactes'])->name('collaboracio.getcontactes');
@@ -52,9 +52,9 @@ Route::middleware(['auth', 'default.password'])->group(function () {
     Route::get('/collaboracio/edit/{id}', [CollaboracioController::class, 'edit'])->name('collaboracio.edit');
     Route::put('/collaboracio/update/{id}', [CollaboracioController::class, 'update'])->name('collaboracio.update');
     Route::delete('/collaboracio/delete/{id}', [CollaboracioController::class, 'delete'])->name('collaboracio.delete');
+    Route::match(['get', 'post'], '/collaboracio/{cicle?}/{empresa?}/{any?}/{contacte?}/{usuari?}', [CollaboracioController::class, 'index'])->name('collaboracio.index');
 
     // CONTACTE CONTROLLER
-    Route::match(['get', 'post'], '/contacte', [ContacteController::class, 'index'])->name('contacte.index');
     Route::get('/contacte/show', [ContacteController::class, 'show'])->name('contacte.show');
     Route::get('/contacte/create/{id}', [ContacteController::class, 'create'])->name('contacte.create');
     Route::get('/contacte/createContacte', [ContacteController::class, 'createWithoutId'])->name('contacte.createWithoutId');
@@ -63,6 +63,8 @@ Route::middleware(['auth', 'default.password'])->group(function () {
     Route::get('/contacte/edit/{id}', [ContacteController::class, 'edit'])->name('contacte.edit');
     Route::put('/contacte/update/{id}', [ContacteController::class, 'update'])->name('contacte.update');
     Route::delete('/contacte/delete/{id}', [ContacteController::class, 'delete'])->name('contacte.delete');
+    Route::match(['get', 'post'], '/contacte/{nom?}/{cognoms?}/{empresa?}', [ContacteController::class, 'index'])->name('contacte.index');
+
 });
 
 Route::group(['middleware' => 'admin'],function () {
