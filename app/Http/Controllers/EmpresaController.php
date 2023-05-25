@@ -16,6 +16,8 @@ use App\Models\Poblacio;
 use App\Models\Sector;
 use App\Models\Contacte;
 
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 class EmpresaController extends Controller
 {
     private $columns = [
@@ -157,8 +159,7 @@ class EmpresaController extends Controller
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
         if ($request->hasFile('logo')) {
-            $logo = Storage::url($request->file('logo')->store('public/logos'));
-            $empresa->logo = $logo;
+            $empresa->logo = $this->uploadLogo($request->logo);;
         }
 
         $empresa->save();
@@ -257,15 +258,9 @@ class EmpresaController extends Controller
         $empresa->categoria_id = $request->categoria_id;
         $empresa->sector_id = $request->sector_id;
         if ($request->hasFile('logo')) {
-            if ($empresa->logo) {
-                $path = str_replace('/storage', 'public', $empresa->logo);
-                if (Storage::exists($path)) {
-                    Storage::delete($path);
-                }
-            }
-            $logo = Storage::url($request->file('logo')->store('public/logos'));
-            $empresa->logo = $logo;
+            $empresa->logo = $this->uploadLogo($request->logo);;
         }
+        
 
         $empresa->save();
 
@@ -281,6 +276,13 @@ class EmpresaController extends Controller
         $empresa->delete();
 
         return redirect()->route('empresa.index')->with('status', 'Empresa ' . $empresa->nom . ' eliminada!');
+    }
+
+    private function uploadLogo($logo)
+    {
+        $uploadedFileUrl = Cloudinary::upload($logo->getRealPath())->getSecurePath();
+
+        return $uploadedFileUrl;
     }
 
     public function removeLogo(int $id)
