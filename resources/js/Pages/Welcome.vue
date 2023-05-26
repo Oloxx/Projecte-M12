@@ -1,10 +1,8 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import { onMounted, onUnmounted } from 'vue';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { onMounted, onUnmounted, reactive } from 'vue';
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { router } from "@inertiajs/vue3";
-import { reactive } from 'vue';
 
 
 onMounted(() => {
@@ -54,7 +52,6 @@ const form = reactive({
     message: null
 })
 
-
 onUnmounted(() => {
     window.removeEventListener('scroll', logoAppear);
     window.removeEventListener('resize', interpolarIdControlAdaptabilitat);
@@ -64,7 +61,6 @@ onUnmounted(() => {
 function logoAppear() {
 
     let scrollY = window.scrollY;
-    let scrollX = window.scrollX;
 
     //console.log(scrollY);
     if (scrollY > 7) {
@@ -92,9 +88,12 @@ function interpolarIdControlAdaptabilitat() {
         elemAdaptabilitat2.setAttribute('id', 'adaptabilitat2');
         elemControl2.setAttribute('id', 'control2');
     }
-
 }
 
+// Request form  
+function onSubmit() {
+    router.post("/", form, { preserveScroll: true });
+}
 </script>
 
 <template>
@@ -116,7 +115,7 @@ function interpolarIdControlAdaptabilitat() {
                     <li class="nav-item"><a href="#serveis" class="nav-link link-light px-2">Serveis</a></li>
                     <li class="nav-item"><a href="#contacte" class="nav-link link-light px-2">Contacte</a></li>
                 </ul>
-                <ul class="navbar-nav mb-2 mb-lg-0" role="search">
+                <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
                         <Link :href="route('login')" class="nav-link link-light px-2">
                             Entrar
@@ -303,13 +302,17 @@ function interpolarIdControlAdaptabilitat() {
         <div class=" container div-form-section">
             <h1 id="contacte">CONTACTA'NS</h1>
             <hr>
-            <Form :validation-schema="schema" v-slot="{ errors }">
+            <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
                 <div class="form-row">
                     <!--Nom contacte -->
                     <div class="form-group col">
                         <label class="mb-2">Nom</label>
-                        <Field name="name" type="text" class="form-control" :class="{ 'is-invalid': errors.name }"
-                            v-model="form.name" />
+                        <Field 
+                        name="name" 
+                        type="text" 
+                        class="form-control" 
+                        :class="{ 'is-invalid': errors.name }"
+                        v-model="form.name" />
                         <div class="invalid-feedback">
                             {{ errors.name }}
                         </div>
@@ -317,8 +320,12 @@ function interpolarIdControlAdaptabilitat() {
                     <!--Congoms contacte -->
                     <div class="form-group col">
                         <label class="mb-2">Cognoms</label>
-                        <Field name="lastname" type="text" class="form-control" :class="{ 'is-invalid': errors.lastname }"
-                            v-model="form.lastname" />
+                        <Field 
+                        name="lastname" 
+                        type="text" 
+                        class="form-control" 
+                        :class="{ 'is-invalid': errors.lastname }"
+                        v-model="form.lastname" />
                         <div class="invalid-feedback">
                             {{ errors.lastname }}
                         </div>
@@ -326,15 +333,23 @@ function interpolarIdControlAdaptabilitat() {
                     <!--E-mail contacte -->
                     <div class="form-group col mt-3">
                         <label class="mb-2">E-mail</label>
-                        <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }"
-                            v-model="form.email" />
+                        <Field 
+                        name="email" 
+                        type="text" 
+                        class="form-control" 
+                        :class="{ 'is-invalid': errors.email }"
+                        v-model="form.email" />
                         <div class="invalid-feedback">{{ errors.email }}</div>
                     </div>
                     <!-- Comentaris -->
                     <div class="form-group col mt-3">
                         <label class="mb-2">Comentaris</label>
-                        <Field as="textarea" name="message" class="form-control" :class="{ 'is-invalid': errors.message }"
-                            v-model="form.message">
+                        <Field 
+                        as="textarea" 
+                        name="message" 
+                        class="form-control" 
+                        :class="{ 'is-invalid': errors.message }"
+                        v-model="form.message">
                         </Field>
                         <div class="invalid-feedback">
                             {{ errors.message }}
@@ -343,7 +358,9 @@ function interpolarIdControlAdaptabilitat() {
                 </div>
                 <!--Submit-->
                 <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                    <Link as="button" href="/" method="post" :data="form" type="submit" class="btn btn-primary mr-1 me-3" preserveScroll>Enviar</Link>
+                    <button type="submit" class="btn btn-primary mr-1 me-3">
+                        Enviar
+                    </button>
                 </div>
             </Form>
             <div class="alert alert-success" v-if="status">
@@ -356,7 +373,7 @@ function interpolarIdControlAdaptabilitat() {
                         a la protecció de les persones físiques quant al tractament de dades personals i a la lliure
                         circulació d'aquestes dades (***RGPD), l'informem que les dades facilitades seran
                         incorporats en
-                        els fitxers titularitat de *Autotech SL amb la finalitat de gestionar i atendre
+                        els fitxers titularitat de *LaboraSQL SL amb la finalitat de gestionar i atendre
                         la seva consulta o sol·licitud. La base legal per al tractament de les dades és la
                         legitimació
                         per consentiment de l'interessat. Les seves dades no se cediran a tercers excepte en els
@@ -369,9 +386,9 @@ function interpolarIdControlAdaptabilitat() {
                         per a
                         l'enviament de comunicacions comercials enviant un correu electrònic a info@rocavila.com o
                         bé
-                        dirigint la seva sol·licitud per escrit a *Autotech SL adjuntant còpia del seu DNI.</p>
+                        dirigint la seva sol·licitud per escrit a *LaboraSQL SL adjuntant còpia del seu DNI.</p>
 
-                    <p>Li ho informa especialment que *Autotech SL no pren decisions automatitzades
+                    <p>Li ho informa especialment que *LaboraSQL SL no pren decisions automatitzades
                         sobre aquesta mena de dades. Així mateix, ho informem que vostè té dret a presentar una
                         reclamació davant l'Agència Espanyola de Protecció de Dades (AEPD) en www.aepd.es</p>
                     <br>
@@ -383,7 +400,7 @@ function interpolarIdControlAdaptabilitat() {
     </section>
     <footer class="footer mt-auto py-3">
         <div class="container text-center">
-            <span>© 2023 AUTOTECH SL.</span>
+            <span>© 2023 LaboraSQL SL.</span>
         </div>
     </footer>
 </template>
