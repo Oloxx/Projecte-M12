@@ -433,7 +433,7 @@ button:hover {
         margin-bottom: 2vh;
     }
 
-    table {
+   table {
         table-layout: fixed;
         thead {
             tr {
@@ -480,13 +480,36 @@ button:hover {
 
     ul {
         justify-content: flex-end;
-    }
+    } 
 }
 
 
-@media screen and (max-width: 1345px) {
 
-    table {
+
+
+ @media screen and (max-width: 1345px) {
+
+    .tableContent {
+        thead {
+            tr {
+                th:nth-child(8) {
+                    display: none;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td:nth-child(8) {
+                    display: none;
+                }
+            }
+        }
+    }
+} 
+
+@media screen and (max-width: 1324px) {
+
+    .tableContent {
         thead {
             tr {
                 th:nth-child(7) {
@@ -494,6 +517,7 @@ button:hover {
                 }
             }
         }
+
         tbody {
             tr {
                 td:nth-child(7) {
@@ -502,11 +526,12 @@ button:hover {
             }
         }
     }
+
 }
 
-@media screen and (max-width: 1324px) {
+@media screen and (max-width: 1085px) {
 
-    table {
+    .tableContent {
         thead {
             tr {
                 th:nth-child(6) {
@@ -523,27 +548,7 @@ button:hover {
             }
         }
     }
-}
 
-@media screen and (max-width: 1085px) {
-
-    table {
-        thead {
-            tr {
-                th:nth-child(5) {
-                    display: none;
-                }
-            }
-        }
-
-        tbody {
-            tr {
-                td:nth-child(5) {
-                    display: none;
-                }
-            }
-        }
-    }
 }
 
 @media screen and (max-width: 984px) {
@@ -568,7 +573,28 @@ button:hover {
 
 @media screen and (max-width: 880px) {
 
-    table {
+    .tableContent {
+        thead {
+            tr {
+                th:nth-child(5) {
+                    display: none;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                td:nth-child(5) {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 654px) {
+
+    .tableContent {
         thead {
             tr {
                 th:nth-child(4) {
@@ -585,27 +611,7 @@ button:hover {
             }
         }
     }
-}
 
-@media screen and (max-width: 654px) {
-
-    table {
-        thead {
-            tr {
-                th:nth-child(3) {
-                    display: none;
-                }
-            }
-        }
-
-        tbody {
-            tr {
-                td:nth-child(3) {
-                    display: none;
-                }
-            }
-        }
-    }
 }
 
 @media screen and (max-width: 500px) {
@@ -623,7 +629,7 @@ button:hover {
             }
         }
 
-        table {
+        .tableContent {
             thead {
 
                 tr {
@@ -631,7 +637,7 @@ button:hover {
                         width: 50px;
                     }
 
-                    th:nth-child(2) {
+                    th:nth-child(3) {
                         display: none;
                     }
                 }
@@ -644,11 +650,12 @@ button:hover {
 
                     }
 
-                    td:nth-child(2) {
+                    td:nth-child(3) {
                         display: none;
                     }
                 }
             }
         }
+
     }
-}
+}   
