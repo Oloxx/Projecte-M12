@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en-US">
 
     <head>
@@ -6,7 +6,7 @@
     </head>
 
     <body>
-        <img src="../../img/logo/logo_IES.png" alt="Logo IES Carles Vallbona" width=300><br>
+        <img src="https://res.cloudinary.com/dbk8ddf4n/image/upload/v1685037945/q8asgbo6pyjbelvvup0s.png" alt="Logo LaboraSQL" width="300px"><br>
         <p>Hola {{$data['name']}},</p>
         <p>Benvingut a l'aplicació per a gestionar els contactes de la borsa de treball de l'IES Carles Vallbona! Aquí tens les dades de registre: </p>
         <b>Nom:</b><span>{{$data['name']}}</span><br>
@@ -19,4 +19,4 @@
         <p>Accedeix a l'aplicació fent clic aquí: <a href="laborasql.tech">LaboraSQL</a></p>
     </body>
 
-    </html>
+</html>

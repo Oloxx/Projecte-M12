@@ -36,9 +36,9 @@ const props = defineProps({
  * Inputs from the controller
  */
 const form = reactive({
-    nom: props.nomEmpresa ? props.nomEmpresa : null,
-    poblacio: props.nomPoblacio ? props.nomPoblacio : null,
-    sector: props.nomSector ? props.nomSector : null
+    nom: props.nomEmpresa ?? null,
+    poblacio: props.nomPoblacio ?? null,
+    sector: props.nomSector ?? null
 })
 
 
@@ -72,36 +72,31 @@ async function onSubmit(values) {
             </div>
             <h1>{{ $t(`Llistat d'Empreses`) }}</h1>
             <!-- Filtres -->
-            <Form @change="onSubmit" prevent-scroll>
-                <div class="d-flex p-2">
+            <Form @change="onSubmit" class="mb-4">
+                <div class="d-flex flex-wrap p-2">
                     <!--Nom empresa -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
                         <Field name="nom" type="text" class="form-control" v-model="form.nom" />
                     </div>
                     <!--Nom població -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Població") }}</b></label>
                         <Field name="poblacio" type="text" class="form-control" v-model="form.poblacio" />
                     </div>
                     <!--Nom sector -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Sector") }}</b></label>
                         <Field name="sector" type="text" class="form-control" v-model="form.sector" />
                     </div>
                     <!--Clear button-->
-                    <div v-if="search" class="deleteSearch d-inline">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" >
-                            {{ $t("Netejar cerca") }}
-                        </button>
-                    </div>
-                    <div v-else class="deleteSearch d-inline">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" disabled>
+                    <div class="deleteSearch ms-2">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" :disabled="!search">
                             {{ $t("Netejar cerca") }}
                         </button>
                     </div>
                 </div>
-            </Form><br>
+            </Form>
             <DataTable :columns=columns :rows=empreses :options=true name="empresa" :search=search>
                 <template #confirmDelete>
                     {{ $t("Aquesta acció eliminarà TOTS els contactes de l'empresa") }}
@@ -112,11 +107,9 @@ async function onSubmit(values) {
 </template>
 
 <style scoped>
-.footer {
-    bottom: 0;
-}
-.deleteSearch{
-    margin-top: 40px;
-    margin-left: 20px;
+@media only screen and (min-width: 768px) {
+    .deleteSearch{
+        margin-top: 40px;
+    }
 }
 </style>

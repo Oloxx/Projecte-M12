@@ -37,9 +37,9 @@ const props = defineProps({
  * Inputs from the controller
  */
 const form = reactive({
-    nom: props.nom ? props.nom : null,
-    cognoms: props.cognoms ? props.cognoms : null,
-    empresa: props.empresa ? props.empresa : null
+    nom: props.nom ?? null,
+    cognoms: props.cognoms ?? null,
+    empresa: props.empresa ?? null
 })
 
 // Request form  
@@ -61,7 +61,6 @@ async function onSubmit(values) {
 
 <template>
     <Head :title="$t(`Contactes`)" />
-    {{ form.nomContacte }} {{ form.cognoms }} {{ form.empresaContacte }}
     <AuthenticatedLayout>
         <section class="section-list-companies">
             <div v-if="status" class="alert alert-success">
@@ -72,36 +71,31 @@ async function onSubmit(values) {
             </div>
             <h1>{{ $t("Llistat de Contactes") }}</h1>
             <!-- Filtres -->
-            <Form @change="onSubmit">
-                <div class="d-flex p-2">
+            <Form @change="onSubmit" class="mb-4">
+                <div class="d-flex flex-wrap p-2">
                     <!-- Nom -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Nom") }}</b></label>
                         <Field name="nom" type="text" class="form-control" v-model="form.nom" />
                     </div>
                     <!-- Cognom -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Cognoms") }}</b></label>
                         <Field name="cognoms" type="text" class="form-control" v-model="form.cognoms" />
                     </div>
                     <!-- Empresa-->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Empresa") }}</b></label>
                         <Field name="empresa" type="text" class="form-control" v-model="form.empresa" />
                     </div>
                     <!--Clear button-->
-                    <div v-if="search" class="deleteSearch d-inline">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
-                            {{ $t("Netejar cerca") }}
-                        </button>
-                    </div>
-                    <div v-else class="deleteSearch d-inline">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" disabled>
+                    <div class="deleteSearch ms-2">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" :disabled="!search">
                             {{ $t("Netejar cerca") }}
                         </button>
                     </div>
                 </div>
-            </Form><br>
+            </Form>
             <DataTable :columns=columns :rows=contactes :options=true name="contacte" :search=search>
                 <template #confirmDelete>
                     {{ $t("Aquesta acció eliminarà el contacte.") }}
@@ -112,8 +106,9 @@ async function onSubmit(values) {
 </template>
 
 <style>
-.deleteSearch {
-    margin-top: 40px;
-    margin-left: 20px;
+@media only screen and (min-width: 768px) {
+    .deleteSearch{
+        margin-top: 40px;
+    }
 }
 </style>

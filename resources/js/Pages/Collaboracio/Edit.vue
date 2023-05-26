@@ -49,9 +49,6 @@ const schema = Yup.object().shape({
     contacte_id: Yup.string().required("S'ha d'assignar un contacte a l'estada."),
     cicle_id: Yup.string().required("S'ha d'assignar un cicle a l'estada."),
     any: Yup.number("Assignar un any és obligatori."),
-    comentaris: Yup.string().required(
-        "S'ha d'afegir un comentari."
-    ),
 });
 
 /**
@@ -190,9 +187,6 @@ carregarAny();
                     <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }"
                         v-model="form.comentaris">
                     </Field>
-                    <div class="invalid-feedback">
-                        {{ errors.comentaris }}
-                    </div>
                 </div>
                 <br>
                 <div class="mx-auto p-2" style="width: 200px;">

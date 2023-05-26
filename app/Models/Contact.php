@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Mail;
 use App\Mail\ContactMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 
 class Contact extends Model
@@ -26,7 +26,7 @@ class Contact extends Model
 
         static::created(function ($item) {
 
-            $adminEmail = "elena_bermudezdiaz@iescarlesvallbona.cat";
+            $adminEmail = ["elena_bermudezdiaz@iescarlesvallbona.cat", "alexandre_rodriguezartells@iescarlesvallbona.cat"];
             Mail::to($adminEmail)->send(new ContactMail($item));
         });
     }

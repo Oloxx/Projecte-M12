@@ -64,11 +64,11 @@ carregarAny();
  * Inputs from the controller
  */
 const form = reactive({
-    cicle: props.cicleColab ? props.cicleColab : null,
-    any: props.anyColab ? props.anyColab : null,
-    nom: props.empresaColab ? props.empresaColab : null,
-    contacte: props.contacteColab ? props.contacteColab : null,
-    usuari: props.usuariColab ? props.usuariColab : null,
+    cicle: props.cicleColab ?? null,
+    any: props.anyColab ?? null,
+    nom: props.empresaColab ?? null,
+    contacte: props.contacteColab ?? null,
+    usuari: props.usuariColab ?? null,
 })
 
 // Request form  
@@ -102,20 +102,20 @@ async function onSubmit(values) {
             </div>
             <h1>{{ $t("Llistat d'Estades") }}</h1>
             <!-- Filtres -->
-            <Form @change="onSubmit">
-                <div class="d-flex p-2">
+            <Form @change="onSubmit" class="mb-4">
+                <div class="d-flex flex-wrap p-2">
                     <!-- Cicle -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 col-md-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Cicle") }}</b></label>
                         <Field name="cicle" type="text" class="form-control" v-model="form.cicle" />
                     </div>
                     <!-- Empresa -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 col-md-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Empresa") }}</b></label>
                         <Field name="nom" type="text" class="form-control" v-model="form.nom" />
                     </div>
                     <!-- Any -->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 col-md-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Any") }}</b></label>
                         <Field name="any" id="any" as="select" class="form-select" v-model="form.any">
                             <option :value="null">Selecciona una opció</option>
@@ -125,28 +125,23 @@ async function onSubmit(values) {
                         </Field>
                     </div>
                     <!-- Contacte-->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 col-md-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Contacte") }}</b></label>
                         <Field name="contacte" type="text" class="form-control" v-model="form.contacte" />
                     </div>
                     <!-- Usuari-->
-                    <div class="d-inline p-2 form-group col">
+                    <div class="p-2 col-md-2 flex-fill form-group">
                         <label class="mb-2"><b>{{ $t("Usuari") }}</b></label>
                         <Field name="usuari" type="text" class="form-control" v-model="form.usuari" />
                     </div>
                     <!--Clear button-->
-                    <div v-if="search" class="deleteSearch d-inline">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3">
-                            {{ $t("Netejar cerca") }}
-                        </button>
-                    </div>
-                    <div v-else class="deleteSearch d-inline">
-                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" disabled>
+                    <div class="deleteSearch ms-2">
+                        <button type="button" @click="goIndex();" class="btn btn-primary mr-1 me-3" :disabled="!search">
                             {{ $t("Netejar cerca") }}
                         </button>
                     </div>
                 </div>
-            </Form><br>
+            </Form>
             <DataTable :columns=columns :rows=collaboracions :options=true name="collaboracio" :search=search>
                 <template #confirmDelete>
                     {{ $t("Aquesta acció eliminarà la col·laboració.") }}
@@ -157,8 +152,9 @@ async function onSubmit(values) {
 </template>
 
 <style>
-.deleteSearch {
-    margin-top: 40px;
-    margin-left: 20px;
+@media only screen and (min-width: 498px) {
+    .deleteSearch{
+        margin-top: 40px;
+    }
 }
 </style>
