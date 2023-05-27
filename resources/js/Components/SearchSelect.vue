@@ -8,7 +8,7 @@ const props = defineProps({
         required: true,
     },
     value:{
-        type: String,
+        type: Object,
         default: null
     }
 });
@@ -21,10 +21,9 @@ function removeDiacritics(text) {
 
 function normalizedContains(needle, haystack) {
     const regExp = new RegExp(removeDiacritics(needle), 'gi');
-    return regExp.test(removeDiacritics(haystack));
+    return regExp.test(removeDiacritics(haystack.nom));
 }
-
-const fullOptions = Object.values(props.values).map((item) => item.nom);;
+const fullOptions = props.values;
 const filteredOptions = ref(fullOptions);
 
 const searchChange = (search) => {
@@ -43,6 +42,7 @@ const searchChange = (search) => {
     selectedLabel=""
     deselectLabel=""
     placeholder=""
+    label="nom"
     v-model="options"
     :options="filteredOptions" 
     :internal-search="false"

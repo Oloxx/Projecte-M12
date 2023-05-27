@@ -61,7 +61,7 @@ const schema = Yup.object().shape({
 
 function handleSelectPoblacio(selectedOption) {
     if (selectedOption) {
-        form.poblacio_id = props.poblacions.find(x => x.nom == selectedOption).id;
+        form.poblacio_id = selectedOption.id;
         state.poblacioSelected = true;
         state.showPoblacioError = false;
     }
@@ -75,7 +75,7 @@ function handleClosePoblacio() {
 
 function handleSelectSector(selectedOption) {
     if (selectedOption) {
-        form.sector_id = props.sectors.find(x => x.nom == selectedOption).id;
+        form.sector_id = selectedOption.id;
         state.sectorSelected = true;
         state.showSectorError = false;
     }

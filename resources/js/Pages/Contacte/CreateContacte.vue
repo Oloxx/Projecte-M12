@@ -5,6 +5,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import SearchSelect from "@/Components/SearchSelect.vue";
 
 /**
  *  Data received from the controller
@@ -31,7 +32,6 @@ const schema = Yup.object().shape({
         "El número de telèfon ha d'estar compost per nomès 9 números."
     ),
     email: Yup.string().email("El E-mail introduït és invàlid"),
-    empresa_id: Yup.number().required("L'empresa és obligatòria"),
 }); 
 
 /**
@@ -52,13 +52,43 @@ async function scrollTop() {
     });
 }
 
+const state = reactive({
+    empresaSelected: false,
+    showEmpresaError: false,
+})
+
+function handleSelectEmpresa(selectedOption) {
+    if (selectedOption) {
+        form.empresa_id = selectedOption.id;
+        state.empresaSelected = true;
+        state.showEmpresaError = false;
+    }
+}
+
+function handleCloseEmpresa() {
+    if (!state.empresaSelected) {
+        state.showEmpresaError = true;
+    }
+}
+
+function checkEmpresa() {
+    if (state.empresaSelected) {
+        return true;
+    } else {
+        state.showEmpresaError = true;
+        return false;
+    }
+}
+
 
 // Request form  
 async function onSubmit(values) {
-    router.post('/contacte/store', form);
+    if (checkEmpresa()){
+        router.post('/contacte/store', form);
 
-    if (Object.keys(props.errors).length > 0) {
-        scrollTop();
+        if (Object.keys(props.errors).length > 0) {
+            scrollTop();
+        }
     }
 }
 </script>
@@ -113,12 +143,14 @@ async function onSubmit(values) {
                 <!-- Empresa contacte -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
-                    <Field name="empresa_id" as="select" class="form-select" :class="{ 'is-invalid': errors.empresa_id }"
-                        v-model="form.empresa_id">
-                        <option v-for="empresa in empreses" :value="empresa.id">
-                            {{ empresa.nom }}
-                        </option>
-                    </Field>
+                    <SearchSelect
+                    :values="props.empreses"
+                    @select="handleSelectEmpresa"
+                    @close="handleCloseEmpresa"
+                    />
+                    <div v-if="state.showEmpresaError" class="text-danger">
+                        {{ $t("La empresa és obligatòria") }}
+                    </div>
                     <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
             </div>

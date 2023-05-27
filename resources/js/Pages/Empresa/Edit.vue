@@ -98,10 +98,10 @@ function checkLogo() {
 }
 
 function handleSelectPoblacio(selectedOption) {
-    form.poblacio_id = props.poblacions.find(x => x.nom == selectedOption);
+    form.poblacio_id = selectedOption;
 }
 function handleSelectSector(selectedOption) {
-    form.sector_id = props.sectors.find(x => x.nom == selectedOption);
+    form.sector_id = selectedOption;
 }
 
 async function scrollTop() {
@@ -173,7 +173,7 @@ async function onSubmit(values) {
                     <label class="mb-2">{{ $t("Població") }}</label>
                     <SearchSelect 
                     :values="props.poblacions" 
-                    :value="form.poblacio_id.nom"
+                    :value="form.poblacio_id"
                     @select="handleSelectPoblacio"
                     />
                 </div>
@@ -194,7 +194,7 @@ async function onSubmit(values) {
                     <label class="mb-2">{{ $t("Sector") }}</label>
                     <SearchSelect 
                     :values="props.sectors" 
-                    :value="form.sector_id.nom"
+                    :value="form.sector_id"
                     @select="handleSelectSector"
                     />
                     <div class="invalid-feedback">{{ errors.sector_id }}</div>
@@ -209,7 +209,7 @@ async function onSubmit(values) {
                     <div class="mt-2" v-if="state.url">
                         <label for="preview">Preview:</label><br>
                         <img id="preview" :src="state.url" width="100" /><br>
-                        <Link v-if="empresa.logo" :href="route('empresa.removeLogo', empresa.id)" method="post" as="button"
+                        <Link v-if="empresa.logo" :href="route('empresa.removeLogo', empresa.id)" method="post" as="button" type="button"
                             class="btn btn-danger mt-2" preserve-scroll @success="checkLogo">{{ $t("Esborrar Logo") }}
                         </Link>
                     </div>

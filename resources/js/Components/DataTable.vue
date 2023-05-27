@@ -91,10 +91,10 @@ function deleteUser(row, name) {
 </script>
 
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid tabl">
         <div class="row">
             <!--content table-->
-            <div class="col">
+            <div class="col" style="padding-right: 0;">
                 <div class="table-responsive tableContent">
                     <table class="table table-hover">
                         <thead>
@@ -140,9 +140,9 @@ function deleteUser(row, name) {
                 </div>
             </div>
             <!-- buttons table -->
-            <div class="col col-xs-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 text-center">
-                <div class="table-responsive tableButtons">
-                    <table class="table table-responsive table-hover optionsTable">
+            <div class="col col-xs-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 text-center" style="padding-left: 0;">
+                <div class="tableButtons">
+                    <table class="table optionsTable">
                         <thead class="center">
                             <tr>
                                 <th v-if="options">{{ $t("Opcions") }}</th>
@@ -150,9 +150,9 @@ function deleteUser(row, name) {
                         </thead>
                         <tbody v-if="rows.data">
                             <tr v-for="row in rows.data" :key="row.id">
-                                <td v-if="options" style="display:ruby-base-container">
-                                    <EditButton :url="route(name + '.edit', row.id)" />
-                                    <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
+                                <td v-if="options" style="display:ruby-base-container; padding-bottom: 5px;">
+                                    <EditButton :url="route(name + '.edit', row.id)" aria-label="Edit" />
+                                    <button class="btn btn-danger mx-1" aria-label="Delete" @click="deleteUser(row, name)">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -160,9 +160,9 @@ function deleteUser(row, name) {
                         </tbody>
                         <tbody v-else>
                             <tr v-for="row in rows" :key="row.id">
-                                <td v-if="options">
-                                    <EditButton :url="route(name + '.edit', row.id)" />
-                                    <button class="btn btn-danger mx-1" @click="deleteUser(row, name)">
+                                <td v-if="options" style="padding-bottom: 5px;" >
+                                    <EditButton :url="route(name + '.edit', row.id)" aria-label="Edit" />
+                                    <button class="btn btn-danger mx-1" aria-label="Delete" @click="deleteUser(row, name)">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -184,5 +184,12 @@ function deleteUser(row, name) {
 
 td {
     height: 53px;
+}
+
+@media only screen and (max-width: 498px) {
+    .tabl {
+        padding-left: 10px !important;
+        padding-right: 0px !important;
+    }
 }
 </style>

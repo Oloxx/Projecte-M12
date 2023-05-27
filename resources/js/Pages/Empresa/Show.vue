@@ -62,7 +62,8 @@ async function onSubmitCollaboracio() {
             </div>
             <h1 class="mb-4">{{ $t("Informació de l'empresa") }}: {{ empresa.nom }}</h1>
             <DataList :items="items" />
-            <h1 class="mb-4">{{ $t("Llistat de Contactes") }}</h1>
+        </div>
+            <h1 class="mb-4 mx-5">{{ $t("Llistat de Contactes") }}</h1>
             <DataTable v-if="props.contactes.total != 0" :columns="columnsContacte" :rows="contactes" :options="true"
                 name="contacte">
                 <template #confirmDelete>
@@ -70,21 +71,20 @@ async function onSubmitCollaboracio() {
                 </template>
             </DataTable>
             <span v-else>{{ $t("Encara no s'ha afegit cap contacte") }}</span>
-            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="form-group mt-3 mb-3 mx-5 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="button" @click="onSubmitContacte()" class="btn btn-primary mr-1 me-3">
                     {{ $t("Afegir contacte") }}
                 </button>
             </div>
-            <h1 class="mb-4">{{ $t("Llistat d'Estades") }}</h1>
+            <h1 class="mb-4 mx-5">{{ $t("Llistat d'Estades") }}</h1>
             <DataTable v-if="props.collaboracions.total != 0" :columns="columnsCollaboracio" :rows="collaboracions" :options="true"
                 name="collaboracio">
             </DataTable>
             <span v-else>{{ $t("Encara no s'ha afegit cap estada") }}</span>
-            <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="form-group mt-3 mb-5 mx-5 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="button" @click="onSubmitCollaboracio()" class="btn btn-primary mr-1 me-3">
                     {{ $t("Afegir estada") }}
                 </button>
-            </div><br>
-        </div>
+            </div><br><br>
     </AuthenticatedLayout>
 </template>
