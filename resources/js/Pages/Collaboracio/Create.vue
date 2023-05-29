@@ -66,7 +66,7 @@ const form = reactive({
     any: null,
     user: props.user,
     comentaris: null,
-    stars: null,
+    stars: 0,
 });
 
 

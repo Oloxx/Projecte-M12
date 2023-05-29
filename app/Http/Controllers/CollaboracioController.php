@@ -139,9 +139,7 @@ class CollaboracioController extends Controller
         $collaboracio->cicle_id = $request->cicle_id;
         $collaboracio->any = $request->any;
         $collaboracio->comentaris = $request->comentaris;
-        if ($request->stars) {
-            $collaboracio->stars = $request->stars;
-        }
+        $collaboracio->stars = $request->stars;
         $collaboracio->user_id = $request->user()->id;
 
         $collaboracio->save();
@@ -193,9 +191,7 @@ class CollaboracioController extends Controller
         $collaboracio->empresa_id = $request->empresa_id['id'];
         $collaboracio->contacte_id = $request->contacte_id;
         $collaboracio->cicle_id = $request->cicle_id;
-        if ($request->stars) {
-            $collaboracio->stars = $request->stars;
-        }
+        $collaboracio->stars = $request->stars;
         $collaboracio->comentaris = $request->comentaris;
 
         $collaboracio->save();
