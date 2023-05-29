@@ -122,11 +122,13 @@ function deleteUser(row, name) {
                             <tr v-for="row in rows.data" :key="row.id">
                                 <template v-if="name === 'empresa'" class="d-sm-none">
                                     <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
-                                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;" :title="title(row, column)">
+                                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;"
+                                        :title="title(row, column)">
                                     </Link>
                                 </template>
                                 <template v-else class="d-sm-none">
-                                    <td v-for="column in columns" v-html="fieldValue(row, column)" class="align-middle" :title="title(row, column)"></td>
+                                    <td v-for="column in columns" v-html="fieldValue(row, column)" class="align-middle"
+                                        :title="title(row, column)"></td>
                                 </template>
                                 <td v-if="row.stars >= 0">
                                     <vue3-star-ratings class="stars" starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD"
@@ -158,8 +160,8 @@ function deleteUser(row, name) {
                             </tr>
                         </thead>
                         <tbody v-if="rows.data">
-                            <tr v-for="row in rows.data" :key="row.id">
-                                <td v-if="options" style="display:ruby-base-container; padding-bottom: 5px;">
+                            <tr v-for="row in rows.data" :key="row.id" class="row">
+                                <td v-if="options" style="display:ruby-base-container; padding-bottom: 5px;" class="col">
                                     <EditButton :url="route(name + '.edit', row.id)" aria-label="Edit" />
                                     <button class="btn btn-danger mx-1" aria-label="Delete" @click="deleteUser(row, name)">
                                         <i class="bi bi-trash"></i>
@@ -168,8 +170,8 @@ function deleteUser(row, name) {
                             </tr>
                         </tbody>
                         <tbody v-else>
-                            <tr v-for="row in rows" :key="row.id">
-                                <td v-if="options" style="padding-bottom: 5px;" >
+                            <tr v-for="row in rows" :key="row.id" class="row">
+                                <td v-if="options" style="padding-bottom: 5px;" class="col">
                                     <EditButton :url="route(name + '.edit', row.id)" aria-label="Edit" />
                                     <button class="btn btn-danger mx-1" aria-label="Delete" @click="deleteUser(row, name)">
                                         <i class="bi bi-trash"></i>
@@ -191,8 +193,14 @@ function deleteUser(row, name) {
     margin-top: 6px;
 }
 
+tr {
+    height: 53px;
+    max-height: 53px !important;
+}
+
 td {
     height: 53px;
+    max-height: 53px !important;
 }
 
 @media only screen and (max-width: 498px) {
@@ -200,5 +208,6 @@ td {
         padding-left: 10px !important;
         padding-right: 0px !important;
     }
+
 }
 </style>
