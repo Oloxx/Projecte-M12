@@ -48,7 +48,10 @@ class Collaboracio extends Model
             ->join('cicles', 'collaboracions.cicle_id', '=', 'cicles.id')
             ->join('users', 'collaboracions.user_id', '=', 'users.id')
             ->select('collaboracions.*')
-            ->where('cicles.nom', 'LIKE', '%' . $nomCicleEstada . '%')
+            ->where(function ($query) use ($nomCicleEstada) {
+                $query->where('cicles.nom', 'LIKE', '%' . $nomCicleEstada . '%')
+                        ->orWhere('cicles.codi', 'LIKE', '%' . $nomCicleEstada . '%');
+            })            
             ->where('empreses.nom', 'LIKE', '%' . $nomEmpresaEstada . '%')
             ->where('contactes.nom', 'LIKE', '%' . $nomContacteEstada . '%')
             ->where('users.name', 'LIKE', '%' . $nomUsuariEstada . '%')

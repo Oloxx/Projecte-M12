@@ -190,7 +190,7 @@ class CollaboracioController extends Controller
 
         $collaboracio = Collaboracio::find($id);
         $collaboracio->any = $request->any;
-        $collaboracio->empresa_id = $request->empresa_id;
+        $collaboracio->empresa_id = $request->empresa_id['id'];
         $collaboracio->contacte_id = $request->contacte_id;
         $collaboracio->cicle_id = $request->cicle_id;
         if ($request->stars) {

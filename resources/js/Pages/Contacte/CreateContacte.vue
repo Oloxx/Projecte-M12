@@ -149,14 +149,13 @@ async function onSubmit(values) {
                     @close="handleCloseEmpresa"
                     />
                     <div v-if="state.showEmpresaError" class="text-danger">
-                        {{ $t("La empresa és obligatòria") }}
+                        {{ $t("L'assignació d'empresa és obligatòria.") }}
                     </div>
-                    <div class="invalid-feedback">{{ errors.empresa_id }}</div>
                 </div>
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
+                <button type="submit" class="btn btn-primary mr-1 me-lg-3" @click="handleCloseEmpresa()">
                     {{ $t("Crear Contacte") }}
                 </button>
                 <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>

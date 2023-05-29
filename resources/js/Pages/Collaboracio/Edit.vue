@@ -6,6 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { reactive } from 'vue';
+import SearchSelect from "@/Components/SearchSelect.vue";
 
 /**
  *  Data received from the controller
@@ -45,7 +46,6 @@ var props = defineProps({
  * Validations
  */
 const schema = Yup.object().shape({
-    empresa_id: Yup.string().required("S'ha d'assignar una empresa a l'estada."),
     contacte_id: Yup.string().required("S'ha d'assignar un contacte a l'estada."),
     cicle_id: Yup.string().required("S'ha d'assignar un cicle a l'estada."),
     any: Yup.number("Assignar un any és obligatori."),
@@ -55,7 +55,7 @@ const schema = Yup.object().shape({
  * Inputs from the controller
  */
 const form = reactive({
-    empresa_id: props.collaboracio.empresa_id,
+    empresa_id: props.empreses.find(x => x.id == props.collaboracio.empresa_id),
     contacte_id: props.collaboracio.contacte_id,
     cicle_id: props.collaboracio.cicle_id,
     any: props.collaboracio.any,
@@ -80,6 +80,18 @@ async function onSubmit(values) {
     }
 }
 
+function handleSelectEmpresa(selectedOption) {
+    form.empresa_id = selectedOption;
+    form.contacte_id = null;
+
+    contactesFiltrats.length = 0;
+    for (const contacte of props.contactes) {
+        if (contacte.empresa_id == selectedOption.id) {
+            contactesFiltrats.push(contacte);
+        }
+    }
+}
+
 var contactesFiltrats = reactive([]);
 
 // Load contacts
@@ -95,7 +107,7 @@ async function ChargeContactes(empresa) {
     return contactesFiltrats;
 }
 
-ChargeContactes(form.empresa_id);
+ChargeContactes(form.empresa_id.id);
 
 var anys = reactive([]);
 
@@ -118,7 +130,7 @@ carregarAny();
     <Head :title="$t(`Editar Estada`)" />
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Estada") }}</h1>
-        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
+        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5 mb-5">
             <div class="form-row">
                 <div class="serverError" v-if="Object.keys(props.errors).length > 0">
                     <ol>
@@ -130,13 +142,11 @@ carregarAny();
                 <!-- Empresa -->
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
-                    <Field name="empresa_id" as="select" class="form-select" :class="{ 'is-invalid': errors.empresa_id }"
-                        v-model="form.empresa_id">
-                        <option v-for="empresa in empreses" :value="empresa.id">
-                            {{ empresa.nom }}
-                        </option>
-                    </Field>
-                    <div class="invalid-feedback">{{ errors.empresa_id }}</div>
+                    <SearchSelect
+                    :values="props.empreses"
+                    :value="form.empresa_id"
+                    @select="handleSelectEmpresa"
+                    />
                 </div>
                 <!-- Contacte -->
                 <div class="form-group col mt-3">
@@ -182,25 +192,25 @@ carregarAny();
                 <!-- User -->
                 <Field name="user" type="text" class="form-control" v-model="form.user" hidden />
                 <!-- Comentaris -->
-                <div class="form-group col mt-3">
+                <div class="form-group col mt-3 mb-4">
                     <label class="mb-2">{{ $t("Comentaris") }}</label>
                     <Field as="textarea" name="comentaris" class="form-control" :class="{ 'is-invalid': errors.comentaris }"
                         v-model="form.comentaris">
                     </Field>
                 </div>
-                <br>
-                <div class="mx-auto p-2" style="width: 200px;">
+                <!-- Stars -->
+                <div class="mx-auto p-2 mb-5" style="width: 200px;">
                     <vue3-star-ratings :numberOfStars="5" inactiveColor="#DDDDDD" :showControl="false" v-model="form.stars"/>
-                </div><br><br>
+                </div>
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
+                <button type="submit" class="btn btn-primary mr-1 me-lg-3">
                     {{ $t("Editar Estada") }}
                 </button>
                 <Link :href="route('collaboracio.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>
             </div>
-        </Form><br><br><br>
+        </Form><br><br>
     </AuthenticatedLayout>
 </template>
 

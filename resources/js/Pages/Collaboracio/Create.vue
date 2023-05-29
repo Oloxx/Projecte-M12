@@ -6,6 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { reactive } from 'vue';
+import SearchSelect from "@/Components/SearchSelect.vue";
 
 /**
  *  Data received from the controller
@@ -43,7 +44,6 @@ var props = defineProps({
  * Validations
  */
 const schema = Yup.object().shape({
-    empresa_id: Yup.string().required("S'ha d'assignar una empresa a l'estada."),
     contacte_id: Yup.string().required("S'ha d'assignar un contacte a l'estada."),
     cicle_id: Yup.string().required("S'ha d'assignar un cicle a l'estada."),
     any: Yup.number("Assignar un any és obligatori."),
@@ -69,23 +69,51 @@ const form = reactive({
     stars: null,
 });
 
-// Request form
-async function onSubmit(values) {
-    router.post("/collaboracio/store", form);
 
-    if (Object.keys(props.errors).length > 0) {
-        scrollTop();
+const state = reactive({
+    empresaSelected: false,
+    showEmpresaError: false,
+})
+
+function handleSelectEmpresa(selectedOption) {
+    if (selectedOption) {
+        form.empresa_id = selectedOption.id;
+        state.empresaSelected = true;
+        state.showEmpresaError = false;
+    }
+
+    contactesFiltrats.length = 0;
+    for (const contacte of props.contactes) {
+        if (contacte.empresa_id == selectedOption.id) {
+            contactesFiltrats.push(contacte);
+        }
+    }
+}
+
+function handleCloseEmpresa() {
+    if (!state.empresaSelected) {
+        state.showEmpresaError = true;
+    }
+}
+
+function checkEmpresa() {
+    if (props.empresa) {
+        return true;
+    }
+    if (state.empresaSelected) {
+        return true;
+    } else {
+        state.showEmpresaError = true;
+        return false;
     }
 }
 
 var contactesFiltrats = reactive([]);
 
-// Load contacts
-
-async function ChargeContactes(empresa) {
+async function ChargeContactes() {
     contactesFiltrats.length = 0;
     for (const contacte of props.contactes) {
-        if (contacte.empresa_id == empresa) {
+        if (contacte.empresa_id == props.empresa.id) {
             contactesFiltrats.push(contacte);
         }
     }
@@ -96,7 +124,7 @@ async function ChargeContactes(empresa) {
 async function valueEmpresa_id() {
     if (props.empresa) {
         form.empresa_id = props.empresa.id;
-        ChargeContactes(props.empresa.id);
+        ChargeContactes();
     }
 }
 
@@ -118,6 +146,16 @@ function carregarAny() {
 
 carregarAny();
 
+// Request form
+async function onSubmit(values) {
+    if (checkEmpresa()) {
+        router.post("/collaboracio/store", form);
+
+        if (Object.keys(props.errors).length > 0) {
+            scrollTop();
+        }
+    }
+}
 </script>
 
 <template>
@@ -137,13 +175,14 @@ carregarAny();
                 <div class="form-group col mt-3">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
                     <template v-if="empreses">
-                        <Field name="empresa_id" as="select" class="form-select"
-                            :class="{ 'is-invalid': errors.empresa_id }" v-model="form.empresa_id"
-                            @change="ChargeContactes(form.empresa_id)">
-                            <option v-for="empresa in empreses" :value="empresa.id">
-                                {{ empresa.nom }}
-                            </option>
-                        </Field>
+                        <SearchSelect
+                        :values="props.empreses"
+                        @select="handleSelectEmpresa"
+                        @close="handleCloseEmpresa"
+                        />
+                        <div v-if="state.showEmpresaError" class="text-danger">
+                            {{ $t("L'assignació d'empresa és obligatòria.") }}
+                        </div>
                     </template>
                     <template v-else-if="empresa">
                         <!-- Empresa -->
@@ -158,7 +197,7 @@ carregarAny();
                     <label class="mb-2">{{ $t("Contacte") }}</label>
                     <Field name="contacte_id" as="select" class="form-select" :class="{ 'is-invalid': errors.contacte_id }"
                         v-model="form.contacte_id">
-                        <template v-if="form.empresa_id == null">
+                        <template v-if="form.empresa_id === null">
                             <option value="">{{ $t("Selecciona una empresa") }}</option>
                         </template>
                         <template v-else-if="contactesFiltrats.length > 0">
@@ -167,7 +206,7 @@ carregarAny();
                             </option>
                         </template>
                         <template v-else>
-                            <option value="">Encara no hi ha contactes assignats a aquesta empresa</option>
+                            <option value="">{{ $t("Encara no hi ha contactes assignats a aquesta empresa") }}</option>
                         </template>
                     </Field>
                     <Link v-if="contactesFiltrats.length == 0 && form.empresa_id"
@@ -217,7 +256,7 @@ carregarAny();
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
+                <button type="submit" class="btn btn-primary mr-1 me-lg-3" @click="handleCloseEmpresa()">
                     {{ $t("Crear Estada") }}
                 </button>
                 <Link :href="route('collaboracio.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>

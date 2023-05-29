@@ -1,6 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 const props = defineProps({
@@ -30,25 +30,16 @@ const filteredLinks = computed(() => {
     return array;
 });
 
+const method = ref(props.search ? "post" : "get");
 </script>
 
 <template>
-    <template v-if="search">
-        <div v-if="data.links.length > 3" class="container-fluid d-flex justify-content-end mt-4 space-x-4 end-0">
-            <Link v-for="(link, index) in filteredLinks" as="button" method="post" :key="index" name="link"
-                class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
-                :class="{ 'bg-indigo-400 text-light': link.active }" :href="link.url !== null ? link.url : ''"
-                v-html="link.label" preserveScroll />
-        </div>
-    </template>
-    <template v-else>
-        <div v-if="data.links.length > 3" class="container-fluid d-flex justify-content-end mt-4 space-x-4 end-0">
-            <Link v-for="(link, index) in filteredLinks" as="button" method="get" :key="index" name="link"
-                class="linkPaginator px-3 py-2 text-sm leading-4 rounded hover:bg-white focus:text-indigo-500 hover:shadow"
-                :class="{ 'bg-indigo-400 text-light': link.active }" :href="link.url !== null ? link.url : ''"
-                v-html="link.label" preserveScroll />
-        </div>
-    </template>
+    <div v-if="data.links.length > 3" class="container-fluid d-flex justify-content-end mt-4 space-x-4 end-0">
+        <Link v-for="(link, index) in filteredLinks" as="button" :method="method" :key="index" name="link"
+            class="linkPaginator px-3 py-2 rounded"
+            :class="{ 'bg-primary text-light': link.active }" :href="link.url !== null ? link.url : ''"
+            v-html="link.label" preserveScroll />
+    </div>
 </template>
 
 
@@ -59,6 +50,10 @@ const filteredLinks = computed(() => {
     margin: 3px;
     text-decoration: none;
     border: none;
+}
+
+.linkPaginator:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (max-width: 850px) {

@@ -119,7 +119,7 @@ async function onSubmit(values) {
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
+                <button type="submit" class="btn btn-primary mr-1 me-lg-3">
                     {{ $t("Crear Contacte") }}
                 </button>
                 <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·lar") }}</Link>

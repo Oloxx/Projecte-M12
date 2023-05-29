@@ -106,9 +106,7 @@ async function onSubmit(values) {
 </template>
 
 <style>
-@media only screen and (min-width: 768px) {
-    .deleteSearch{
-        margin-top: 40px;
-    }
+.deleteSearch{
+    margin-top: 40px;
 }
 </style>

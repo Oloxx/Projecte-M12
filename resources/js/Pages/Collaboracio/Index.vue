@@ -34,7 +34,7 @@ const props = defineProps({
         type: String,
     },
     anyColab: {
-        type: Number,
+        type: String,
     },
     contacteColab: {
         type: String,
@@ -152,9 +152,7 @@ async function onSubmit(values) {
 </template>
 
 <style>
-@media only screen and (min-width: 498px) {
-    .deleteSearch{
-        margin-top: 40px;
-    }
+.deleteSearch{
+    margin-top: 40px;
 }
 </style>

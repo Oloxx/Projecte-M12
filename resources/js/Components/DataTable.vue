@@ -39,14 +39,24 @@ const fieldValue = (row, column) => {
         }
         if (row['logo'] !== null) {
             return `<div class="rounded-circle overflow-hidden" style="width: 36px; height: 36px; border: 1px solid #808080;">
-                    <img src='${row['logo']}' alt='Logo' style='width: 100%; height: 100%; object-fit: cover;' />
-                </div>`;
+                        <img src='${row['logo']}' alt='Logo' style='width: 100%; height: 100%; object-fit: cover;' />
+                    </div>`;
         }
         return `<span class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border: 1px solid #808080;">
-                        <i class="bi bi-briefcase"></i>
-                    </span>`;
+                    <i class="bi bi-briefcase"></i>
+                </span>`;
     }
 };
+
+const title = (row, column) => {
+    if (column.field.includes(".")) {
+        const [objectKey, propertyKey] = column.field.split(".");
+        return row[objectKey][propertyKey];
+    }
+    if (column.field !== 'logo') {
+        return row[column.field];
+    }
+}
 
 const filteredColumns = () => {
     return props.columns.filter(column => column.label !== 'Logo');
@@ -99,27 +109,26 @@ function deleteUser(row, name) {
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th v-if="columns[0].label === 'Logo'" width=60>
+                                <th v-if="columns[0].label === 'Logo'" width=60></th>
+                                <th v-for="column in filteredColumns()">
+                                    {{ $t(column.label) }}
                                 </th>
-                                <th v-for="column in filteredColumns()">{{
-                                    $t(column.label) }}</th>
-                                <th v-if="name == 'collaboracio'">{{
-                                    $t("Valoració") }}</th>
+                                <th v-if="name === 'collaboracio'">
+                                    {{ $t("Valoració") }}
+                                </th>
                             </tr>
                         </thead>
                         <tbody v-if="rows.data">
                             <tr v-for="row in rows.data" :key="row.id">
-                                <template v-if="name == 'empresa'" class="d-sm-none">
+                                <template v-if="name === 'empresa'" class="d-sm-none">
                                     <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
-                                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
+                                        v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;" :title="title(row, column)">
                                     </Link>
                                 </template>
                                 <template v-else class="d-sm-none">
-                                    <Link :href="route(name + '.index')" as="td" v-for="column in columns"
-                                        v-html="fieldValue(row, column)" class="align-middle" preserve-scroll>
-                                    </Link>
+                                    <td v-for="column in columns" v-html="fieldValue(row, column)" class="align-middle" :title="title(row, column)"></td>
                                 </template>
-                                <td v-if="row.stars > 0">
+                                <td v-if="row.stars >= 0">
                                     <vue3-star-ratings class="stars" starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD"
                                         :showControl="false" v-model="row.stars" :disableClick="true" /><br>
                                 </td>
@@ -130,7 +139,7 @@ function deleteUser(row, name) {
                                 <Link :href="route(name + '.show', row.id)" as="td" v-for="column in columns"
                                     v-html="fieldValue(row, column)" class="align-middle" style="cursor: pointer;">
                                 </Link>
-                                <td v-if="row.stars > 0">
+                                <td v-if="row.stars >= 0">
                                     <vue3-star-ratings class="stars" starSize=15 :numberOfStars="5" inactiveColor="#DDDDDD"
                                         :showControl="false" v-model="row.stars" :disableClick="true" /><br>
                                 </td>

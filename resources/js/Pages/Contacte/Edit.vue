@@ -67,7 +67,7 @@ async function onSubmit(values) {
     <Head :title="$t(`Editar Contacte`)" />
     <AuthenticatedLayout>
         <h1 class="mt-5 ms-5 mb-4">{{ $t("Editar Contacte") }}:</h1>
-        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5">
+        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="ms-5 me-5 mb-5">
             <div class="form-row">
                 <div class="serverError" v-if="Object.keys(props.errors).length > 0">
                     <ol>
@@ -111,7 +111,7 @@ async function onSubmit(values) {
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
                 <!-- Empresa contacte -->
-                <div class="form-group col mt-3">
+                <div class="form-group col mt-3 mb-5">
                     <label class="mb-2">{{ $t("Empresa") }}</label>
                     <Field name="empresa_id" type="text" class="form-control" :class="{ 'is-invalid': errors.empresa_id }"
                         :value="contacte.empresa.nom" disabled />
@@ -120,12 +120,12 @@ async function onSubmit(values) {
             </div>
             <!--Submit-->
             <div class="form-group mt-3 mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary mr-1 me-3">
+                <button type="submit" class="btn btn-primary mr-1 me-lg-3">
                     {{ $t("Editar Contacte") }}
                 </button>
                 <Link :href="route('contacte.index')" as="button" class="btn btn-secondary">{{ $t("Cancel·la") }}</Link>
             </div>
-        </Form><br><br><br>
+        </Form><br><br>
     </AuthenticatedLayout>
 </template>
 
