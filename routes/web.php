@@ -4,7 +4,6 @@ use App\Http\Controllers\ContacteController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CollaboracioController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TesterController;
 use App\Http\Controllers\WelcomeController;
 
 use Illuminate\Support\Facades\Route;
@@ -75,7 +74,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/updatePassword', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
     Route::patch('/updatePassword', [ProfileController::class, 'updateDefaultPassword'])->name('profile.updateDefaultPassword');
 });
-
-Route::get('/test', [TesterController::class, 'test'])->name('test');
 
 require __DIR__ . '/auth.php';
